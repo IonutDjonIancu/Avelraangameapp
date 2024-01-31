@@ -1,0 +1,114 @@
+<template>
+  <div @click="playSound(props.sound)" class="av-btn" tabindex="-1">
+    <img
+      :class="`av-icon-${props.size}`"
+      :src="getComputedImage"
+      :title="props.title"
+    />
+    <p>{{ props.name }}</p>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { defineProps, computed, ref, onMounted } from "vue";
+import { Howl } from "howler";
+
+const click: any = new Howl({
+  src: require("@/assets/sound_button_click.mp3"),
+  volume: 1,
+  loop: false,
+});
+
+const back: any = new Howl({
+  src: require("@/assets/sound_button_click_back.mp3"),
+  volume: 1,
+  loop: false,
+});
+
+const canPlaySounds = ref<string>("");
+
+const getComputedImage = computed((): string => {
+  return require(`@/assets/${props.source}.png`);
+});
+
+const props = defineProps({
+  size: {
+    type: String,
+    required: true,
+  },
+  source: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  sound: {
+    type: String,
+    required: true,
+  },
+});
+
+const playSound = (value: string): void => {
+  if (canPlaySounds.value !== "true") return;
+
+  if (value === "click") {
+    click.play();
+  } else {
+    back.play();
+  }
+};
+
+onMounted(() => {
+  canPlaySounds.value = localStorage.getItem("canPlaySounds");
+});
+</script>
+
+<style scoped>
+p {
+  margin: 5px;
+  text-align: center;
+}
+
+.av-btn {
+  width: 60px;
+  font-size: xx-small;
+  color: gray;
+  background-color: black;
+  border-width: 3px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 5px;
+  opacity: 0.6;
+  transition: opacity 0.1s; /* Add a transition for smooth opacity change */
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.av-icon-small {
+  width: 30px;
+  height: auto;
+}
+
+.av-icon-large {
+  width: 60px;
+  height: auto;
+}
+
+.av-btn:hover,
+.av-icon-small:hover,
+.av-icon-large:hover {
+  opacity: 1;
+  color: whitesmoke;
+}
+</style>
