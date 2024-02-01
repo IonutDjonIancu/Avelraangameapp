@@ -45,11 +45,9 @@ const updateAvAuth = () => {
   } else {
     isLoggedIn.value = "false";
   }
-
-  console.log(isLoggedIn.value);
 };
 
-// TODO: add back the clear player login to prevent refresh
+// TODO: add back the clear player login to prevent app refresh
 // const clearPlayerLogin = () => {
 //   localStorage.removeItem("playerName");
 //   localStorage.removeItem("playerToken");

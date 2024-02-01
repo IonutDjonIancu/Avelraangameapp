@@ -18,5 +18,6 @@ module.exports = {
     "prettier/prettier": ["error", { endOfLine: "auto" }],
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/no-explicit-any": "off",
   },
 };

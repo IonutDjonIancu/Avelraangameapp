@@ -93,7 +93,6 @@ const loginPlayer = (): void => {
     })
     .catch((err) => {
       updateAvText(err);
-      console.clear();
       return;
     });
 };

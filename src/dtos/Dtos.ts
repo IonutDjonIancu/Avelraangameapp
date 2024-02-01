@@ -16,6 +16,11 @@ export interface Player {
   characters: Character[];
 }
 
+export interface Players {
+  count: number;
+  playerNames: string[];
+}
+
 export interface PlayerIdentity {
   id: string;
   name: string;
@@ -34,7 +39,6 @@ export interface Character {
 
 export interface CharacterStub {
   playerId: string;
-
   entityLevel: number;
   statPoints: number;
   skillPoints: number;

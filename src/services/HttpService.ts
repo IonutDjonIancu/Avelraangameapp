@@ -1,53 +1,61 @@
 export class HttpService {
   // switch between local and prod for api calls
-  // private static baseURL: string = "https://localhost:5001/api/palantir/";
-  private static baseURL: string =
-    "https://avelraangame.azurewebsites.net/api/palantir/";
+  // prod vs development feature flag
+  private static targetProd = true;
 
+  // app URLs are provided below
+  private static baseURL =
+    HttpService.targetProd === true
+      ? "https://avelraangame.azurewebsites.net/api/palantir/"
+      : "https://localhost:5001/api/palantir/";
+
+  // GET
   public static async httpGet(url: string): Promise<Response> {
-    const response = await fetch(`${HttpService.baseURL}${url}`, {
-      method: "GET",
-      mode: "no-cors",
-    });
-
-    if (!response.ok) {
-      throw new Error(`GET request failed: ${response}`);
-    }
-
-    return response;
+    return fetch(`${HttpService.baseURL}${url}`)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   }
 
-  public static async httpPost(url: string, data: Object): Promise<Response> {
-    const response = await fetch(`${(HttpService.baseURL, url)}`, {
+  // POST
+  public static async httpPost(url: string, data: object): Promise<Response> {
+    return fetch(`${HttpService.baseURL}${url}`, {
       method: "POST",
-      mode: "no-cors",
       headers: {
+        accept: "*/*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error(`POST request failed: ${response}`);
-    }
-
-    return response;
+    })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   }
 
-  public static async httpPut(url: string, data: Object): Promise<Response> {
-    const response = await fetch(`${(HttpService.baseURL, url)}`, {
+  // PUT
+  public static async httpPut(url: string, data: object): Promise<Response> {
+    return fetch(`${HttpService.baseURL}${url}`, {
       method: "PUT",
-      mode: "no-cors",
       headers: {
+        accept: "*/*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error(`PUT request failed: ${response}`);
-    }
-
-    return response;
+    })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   }
 }

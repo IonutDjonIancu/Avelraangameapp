@@ -102,7 +102,6 @@ const rollCharacter = (): void => {
     })
     .catch((err) => {
       updateAvText(err);
-      console.clear();
       return;
     });
 };
