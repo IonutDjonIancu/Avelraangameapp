@@ -1,7 +1,7 @@
 export class HttpService {
   // switch between local and prod for api calls
   // prod vs development feature flag
-  private static targetProd = true;
+  private static targetProd = false;
 
   // app URLs are provided below
   private static baseURL =

@@ -1,5 +1,5 @@
 <template>
-  <div class="av-container column">
+  <div class="column">
     <div style="text-align: center">
       <p style="font-weight: bold">Character stub</p>
       <p :class="entityLevel > 1 ? 'meta' : 'normal'">
@@ -10,6 +10,7 @@
     </div>
     <div class="row">
       <AvButton
+        @click="saveCharacterStub"
         :size="'large'"
         :source="`ico_character_create_roll`"
         :title="'Continue to character traits'"
@@ -37,13 +38,14 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, ref } from "vue";
+import { defineProps, defineEmits, onMounted, inject, ref } from "vue";
 import { HttpService } from "@/services/HttpService";
 import { Howl } from "howler";
 import AvButton from "@/components/small/AvButton.vue";
 import { CharacterStub } from "@/dtos/Dtos";
 
 const updateAvText: any = inject("updateAvText");
+const emit = defineEmits(["on-character-stub-create"]);
 
 const entityLevel = ref<number>(1);
 const statPts = ref<number>(1);
@@ -101,9 +103,21 @@ const rollCharacter = (): void => {
       skillPts.value = res.skillPoints;
     })
     .catch((err) => {
-      updateAvText(err);
+      updateAvText(err.message);
       return;
     });
+};
+
+const saveCharacterStub = () => {
+  const stub: CharacterStub = {
+    entityLevel: entityLevel.value,
+    statPoints: statPts.value,
+    skillPoints: skillPts.value,
+  };
+
+  emit("on-character-stub-create", stub);
+
+  props.gotoSibling("traits");
 };
 
 onMounted(() => {
@@ -119,25 +133,3 @@ onMounted(() => {
   playCharacterCreateTheme();
 });
 </script>
-
-<style scoped>
-.column {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-.normal {
-  color: #2c3e50;
-}
-
-.meta {
-  color: #859c71;
-  font-weight: bold;
-}
-</style>

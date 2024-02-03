@@ -1,5 +1,5 @@
 <template>
-  <div class="av-container">
+  <div class="row">
     <AvButton
       @click="props.gotoSibling('create')"
       :size="'large'"

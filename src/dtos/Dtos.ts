@@ -37,8 +37,30 @@ export interface Character {
   mercenaries: Character[];
 }
 
+export interface CharacterTraits {
+  races: string[];
+  cultures: CharacterCultures;
+  traditions: string[];
+  classes: string[];
+}
+
+export interface CharacterRacialTraits {
+  race: string;
+  culture: string;
+  tradition: string;
+  class: string;
+  icon: number;
+}
+
+export interface CharacterCultures {
+  human: string[];
+  elf: string[];
+  dwarf: string[];
+  orc: string[];
+}
+
 export interface CharacterStub {
-  playerId: string;
+  playerId?: string;
   entityLevel: number;
   statPoints: number;
   skillPoints: number;

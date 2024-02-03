@@ -26,7 +26,6 @@ const props = defineProps({
 .av-says-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
 }
 
 .av-says-textarea {

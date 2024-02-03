@@ -92,7 +92,7 @@ const loginPlayer = (): void => {
       props.gotoSibling("");
     })
     .catch((err) => {
-      updateAvText(err);
+      updateAvText(err.message);
       return;
     });
 };

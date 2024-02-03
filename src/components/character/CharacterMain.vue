@@ -1,5 +1,5 @@
 <template>
-  <div class="av-container box">
+  <div class="column">
     <div class="characters">
       <AvCharacterButton
         v-for="character in characters"
@@ -9,9 +9,9 @@
     </div>
     <div>
       <AvButton
-        @click="props.gotoSibling('create')"
+        @click="props.gotoSibling('roll')"
         :size="'large'"
-        :source="`ico_character_create`"
+        :source="`ico_character_roll`"
         :title="'Create a new character'"
         :name="'Create'"
         :sound="'click'"
@@ -54,6 +54,10 @@ const getPlayer = (): void => {
       );
 
       characters.value = res.characters;
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
     });
 };
 
@@ -74,10 +78,5 @@ onMounted(() => {
   align-items: center;
   width: 90%;
   margin-bottom: 20px;
-}
-
-.box {
-  flex-direction: column;
-  width: 100%;
 }
 </style>

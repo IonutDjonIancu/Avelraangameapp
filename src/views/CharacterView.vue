@@ -4,10 +4,16 @@
       v-if="text === ''"
       :gotoSibling="gotoSibling"
     ></CharacterMain>
-    <CharacterCreate
-      v-else-if="text === 'create'"
+    <CharacterRoll
+      v-else-if="text === 'roll'"
+      v-on:on-character-stub-create="saveCharacterStub"
       :gotoSibling="gotoSibling"
-    ></CharacterCreate>
+    ></CharacterRoll>
+    <CharacterTraits
+      v-else-if="text === 'traits'"
+      :stub="characterStub"
+      :gotoSibling="gotoSibling"
+    ></CharacterTraits>
   </div>
 </template>
 
@@ -15,11 +21,14 @@
 import { inject, onMounted, ref } from "vue";
 import { Howl } from "howler";
 import CharacterMain from "@/components/character/CharacterMain.vue";
-import CharacterCreate from "@/components/character/CharacterCreate.vue";
+import CharacterRoll from "@/components/character/CharacterRoll.vue";
+import CharacterTraits from "@/components/character/CharacterTraits.vue";
+import { CharacterStub } from "@/dtos/Dtos";
 
 const updateAvImage: any = inject("updateAvImage");
 
 const text = ref<string>("");
+const characterStub = ref<CharacterStub>();
 const canPlaySounds = ref<string>("");
 
 const turnPage: any = new Howl({
@@ -35,6 +44,10 @@ const pageTurn = (): void => {
 
 const gotoSibling = (value: string) => {
   text.value = value;
+};
+
+const saveCharacterStub = (stub: CharacterStub): void => {
+  characterStub.value = stub;
 };
 
 onMounted(() => {

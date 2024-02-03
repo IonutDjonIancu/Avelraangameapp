@@ -91,6 +91,11 @@ input {
   text-align: center;
 }
 
+.av-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
 .av-nav-item {
   margin-right: 5px;
 }
@@ -100,6 +105,27 @@ input {
   justify-content: center;
   margin-top: 30px;
   align-items: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.normal {
+  color: #2c3e50;
+}
+
+.meta {
+  color: #859c71;
+  font-weight: bold;
 }
 
 .av-image {
