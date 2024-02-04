@@ -49,8 +49,8 @@ const getPlayer = (): void => {
 
       updateAvText(
         res.characters.length > 0
-          ? "These are your characters"
-          : "Create some characters"
+          ? `You have ${res.characters.length} playable characters out of 5 maximum alive.`
+          : "Create some characters..."
       );
 
       characters.value = res.characters;

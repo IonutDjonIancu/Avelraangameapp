@@ -118,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, onMounted, inject } from "vue";
+import { ref, defineProps, onMounted, inject, defineEmits } from "vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
 import {
@@ -129,6 +129,7 @@ import {
 } from "@/dtos/Dtos";
 
 const updateAvText: any = inject("updateAvText");
+const emit = defineEmits(["on-character-create"]);
 
 const races = ref<string[]>();
 const race = ref<string>("");
@@ -215,12 +216,14 @@ const saveCharacter = (): void => {
     characterTraits
   )
     .then((s) => s.json())
-    .then((res) => console.log(res))
+    .then((res) => {
+      console.log(res);
+      emit("on-character-create", res);
+      props.gotoSibling("finalize");
+    })
     .catch((err) => {
       updateAvText(err.message);
     });
-
-  console.log(characterTraits);
 };
 
 onMounted(() => {

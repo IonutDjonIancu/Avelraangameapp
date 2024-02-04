@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { defineProps, ref, inject, onMounted, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
-import { Authenticator, Players, SetQrCode } from "@/dtos/Dtos";
+import { Authenticator, PlayerData, Players, SetQrCode } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 
 const updateAvText: any = inject("updateAvText");
@@ -58,11 +58,11 @@ const createPlayer = (): void => {
     return;
   }
 
-  const data = {
-    name: playerName.value,
+  const data: PlayerData = {
+    playerName: playerName.value,
   };
 
-  HttpService.httpPost("player/createplayer", data)
+  HttpService.httpPost("Player/CreatePlayer", data)
     .then((s) => s.json())
     .then((res: Authenticator) => {
       const setQrCode: SetQrCode = {

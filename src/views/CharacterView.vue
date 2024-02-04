@@ -12,8 +12,19 @@
     <CharacterTraits
       v-else-if="text === 'traits'"
       :stub="characterStub"
+      v-on:on-character-create="saveCharacter"
       :gotoSibling="gotoSibling"
     ></CharacterTraits>
+    <CharacterShow
+      v-else-if="text === 'show'"
+      :character="character"
+      :gotoSibling="gotoSibling"
+    ></CharacterShow>
+    <CharacterFinalize
+      v-else-if="text === 'finalize'"
+      :character="character"
+      :gotoSibling="gotoSibling"
+    ></CharacterFinalize>
   </div>
 </template>
 
@@ -23,12 +34,15 @@ import { Howl } from "howler";
 import CharacterMain from "@/components/character/CharacterMain.vue";
 import CharacterRoll from "@/components/character/CharacterRoll.vue";
 import CharacterTraits from "@/components/character/CharacterTraits.vue";
-import { CharacterStub } from "@/dtos/Dtos";
+import CharacterShow from "@/components/character/CharacterShow.vue";
+import CharacterFinalize from "@/components/character/CharacterFinalize.vue";
+import { Character, CharacterStub } from "@/dtos/Dtos";
 
 const updateAvImage: any = inject("updateAvImage");
 
 const text = ref<string>("");
 const characterStub = ref<CharacterStub>();
+const character = ref<Character>();
 const canPlaySounds = ref<string>("");
 
 const turnPage: any = new Howl({
@@ -48,6 +62,10 @@ const gotoSibling = (value: string) => {
 
 const saveCharacterStub = (stub: CharacterStub): void => {
   characterStub.value = stub;
+};
+
+const saveCharacter = (chr: Character): void => {
+  character.value = chr;
 };
 
 onMounted(() => {

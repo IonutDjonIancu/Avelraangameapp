@@ -16,6 +16,11 @@ export interface Player {
   characters: Character[];
 }
 
+export interface PlayerData {
+  playerId?: string;
+  playerName: string;
+}
+
 export interface Players {
   count: number;
   playerNames: string[];
@@ -32,9 +37,57 @@ export interface Character {
   identity: CharacterIdentity;
   status: CharacterStatus;
   levelUp: any;
-  sheet: any;
-  inventory: any;
+  sheet: CharacterSheet;
+  inventory: CharacterInventory;
   mercenaries: Character[];
+}
+
+export interface CharacterSheet {
+  stats: CharacterStats;
+  assets: CharacterAssets;
+  skills: CharacterSkills;
+  specialSkills: SpecialSkill[];
+}
+
+export interface CharacterStats {
+  strength: number;
+  constitution: number;
+  agility: number;
+  perception: number;
+  willpower: number;
+  abstract: number;
+}
+
+export interface CharacterAssets {
+  actions: number;
+  actionsLeft: number;
+  defense: number;
+  defenseFinal: number;
+  harm: number;
+  mana: number;
+  manaLeft: number;
+  purge: number;
+  resolve: number;
+  resolveLeft: number;
+  spot: number;
+}
+
+export interface CharacterSkills {
+  apothecary: number;
+  arcane: number;
+  hide: number;
+  melee: number;
+  psionics: number;
+  sail: number;
+  social: number;
+  tactics: number;
+  traps: number;
+  travel: number;
+}
+
+export interface SpecialSkillIdentity {
+  id: string;
+  name: string;
 }
 
 export interface CharacterTraits {
@@ -71,6 +124,18 @@ export interface CharacterIdentity {
   playerId: string;
 }
 
+export interface CharacterInventory {
+  head: Item;
+  body: Item;
+  mainhand: Item;
+  offhand: Item;
+  ranged: Item;
+  shield: Item;
+  heraldry: Item[];
+  provisions: number;
+  supplies: Item[];
+}
+
 export interface CharacterStatus {
   name: string;
   entityLevel: number;
@@ -78,7 +143,7 @@ export interface CharacterStatus {
 
   traits: any;
   gameplay: any;
-  position: any;
+  position: Position;
 
   worth: number;
   wealth: number;
@@ -86,6 +151,52 @@ export interface CharacterStatus {
 
   nrOfQuestsFinished: number;
   questsFinished: string[];
+}
+
+export interface CharacterData {
+  playerId: string;
+  characterId: string;
+  characterName: string;
+}
+
+export interface Item {
+  identity: ItemIdentity;
+  inventoryLocations: string[];
+  sheet: CharacterSheet;
+  category: string;
+  description: string;
+  hasTaint: boolean;
+  level: number;
+  levelName: string;
+  lore: string;
+  name: string;
+  quality: string;
+  subcategory: string;
+  subtype: string;
+  type: string;
+  value: number;
+}
+
+export interface ItemIdentity {
+  id: string;
+  CharacterId: string;
+}
+
+export interface SpecialSkill {
+  identity: SpecialSkillIdentity;
+  description: number;
+  lore: string;
+  type: string;
+  subtype: string;
+  category: string;
+  dDeedsCost: number;
+}
+
+export interface Position {
+  region: string;
+  subregion: string;
+  land: string;
+  location: string;
 }
 
 // app
