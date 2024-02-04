@@ -2,6 +2,7 @@
   <div class="column">
     <div class="characters">
       <AvCharacterButton
+        @click="seeCharacterSheet(character.identity.id)"
         v-for="character in characters"
         :key="character.identity.id"
         :character="character"
@@ -21,13 +22,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, defineProps, inject } from "vue";
+import { onMounted, ref, defineProps, inject, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
 import { Character, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 import AvCharacterButton from "@/components/small/AvCharacterButton.vue";
 
 const updateAvText: any = inject("updateAvText");
+const updateAvImage: any = inject("updateAvImage");
+const emit = defineEmits(["on-character-sheet"]);
 
 const characters = ref<Character[]>([]);
 const playerName = ref<string>("");
@@ -61,9 +64,21 @@ const getPlayer = (): void => {
     });
 };
 
+const seeCharacterSheet = (charId: string): void => {
+  const character: Character = characters.value.find(
+    (s) => (s.identity.id = charId)
+  );
+
+  emit("on-character-sheet", character);
+
+  props.gotoSibling("sheet");
+};
+
 onMounted(() => {
   playerName.value = localStorage.getItem("playerName");
   playerToken.value = localStorage.getItem("playerToken");
+
+  updateAvImage("img_character");
 
   getPlayer();
 });

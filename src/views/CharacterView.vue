@@ -2,6 +2,7 @@
   <div class="av-container">
     <CharacterMain
       v-if="text === ''"
+      v-on:on-character-sheet="setCharacter"
       :gotoSibling="gotoSibling"
     ></CharacterMain>
     <CharacterRoll
@@ -25,20 +26,24 @@
       :character="character"
       :gotoSibling="gotoSibling"
     ></CharacterFinalize>
+    <CharacterSheet
+      v-else-if="text === 'sheet'"
+      :character="character"
+      :gotoSibling="gotoSibling"
+    ></CharacterSheet>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { Howl } from "howler";
 import CharacterMain from "@/components/character/CharacterMain.vue";
 import CharacterRoll from "@/components/character/CharacterRoll.vue";
 import CharacterTraits from "@/components/character/CharacterTraits.vue";
 import CharacterShow from "@/components/character/CharacterShow.vue";
 import CharacterFinalize from "@/components/character/CharacterFinalize.vue";
+import CharacterSheet from "@/components/character/CharacterSheet.vue";
 import { Character, CharacterStub } from "@/dtos/Dtos";
-
-const updateAvImage: any = inject("updateAvImage");
 
 const text = ref<string>("");
 const characterStub = ref<CharacterStub>();
@@ -68,9 +73,12 @@ const saveCharacter = (chr: Character): void => {
   character.value = chr;
 };
 
+const setCharacter = (chr: Character): void => {
+  character.value = chr;
+};
+
 onMounted(() => {
   canPlaySounds.value = localStorage.getItem("canPlaySounds")!;
-  updateAvImage("img_character");
 
   if (canPlaySounds.value === "true") {
     pageTurn();

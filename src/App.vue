@@ -117,6 +117,7 @@ input {
 .row {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
 }
 
 .normal {

@@ -142,7 +142,7 @@ export interface CharacterStatus {
   dateOfBirth: string;
 
   traits: any;
-  gameplay: any;
+  gameplay: CharacterGameplay;
   position: Position;
 
   worth: number;
@@ -151,6 +151,15 @@ export interface CharacterStatus {
 
   nrOfQuestsFinished: number;
   questsFinished: string[];
+}
+
+export interface CharacterGameplay {
+  isNpc: boolean;
+  isAlive: boolean;
+  isLocked: boolean;
+  isHidden: boolean;
+  battleboardId: string;
+  isGoodGuy: boolean;
 }
 
 export interface CharacterData {

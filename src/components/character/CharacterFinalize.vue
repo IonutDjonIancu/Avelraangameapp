@@ -103,6 +103,10 @@ const finalizeCharacter = (): void => {
   const playerName = localStorage.getItem("playerName");
   const playerToken = localStorage.getItem("playerToken");
 
+  if (name.value.length === 0) {
+    props.gotoSibling("");
+  }
+
   HttpService.httpPut(
     `Character/UpdateCharacterName?PlayerName=${playerName}&Token=${playerToken}`,
     data
