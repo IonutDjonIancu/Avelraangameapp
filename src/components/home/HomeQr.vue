@@ -5,12 +5,12 @@
       {{ props.name }}
     </p>
     <AvButton
-      @click="goBack"
+      @click="props.gotoSibling('login')"
       :size="'large'"
-      :source="'ico_back_arrow'"
-      :title="'Back to home'"
-      :name="'Back'"
-      :sound="'back'"
+      :source="'ico_login_player'"
+      :title="'Continue to login'"
+      :name="'Login'"
+      :sound="'click'"
     ></AvButton>
   </div>
 </template>
@@ -32,11 +32,6 @@ const props = defineProps({
     type: String,
   },
 });
-
-const goBack = (): void => {
-  updateAvText("Welcome back.");
-  props.gotoSibling("");
-};
 
 onMounted(() => {
   updateAvText("Scan the qr code with the Google authenticator app.");

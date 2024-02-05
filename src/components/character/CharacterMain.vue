@@ -1,7 +1,8 @@
 <template>
-  <div class="av-container box">
+  <div class="column">
     <div class="characters">
       <AvCharacterButton
+        @click="seeCharacterSheet(character.identity.id)"
         v-for="character in characters"
         :key="character.identity.id"
         :character="character"
@@ -9,9 +10,9 @@
     </div>
     <div>
       <AvButton
-        @click="props.gotoSibling('create')"
+        @click="props.gotoSibling('roll')"
         :size="'large'"
-        :source="`ico_character_create`"
+        :source="`ico_character_roll`"
         :title="'Create a new character'"
         :name="'Create'"
         :sound="'click'"
@@ -21,13 +22,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, defineProps, inject } from "vue";
+import { onMounted, ref, defineProps, inject, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
 import { Character, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 import AvCharacterButton from "@/components/small/AvCharacterButton.vue";
 
 const updateAvText: any = inject("updateAvText");
+const emit = defineEmits(["on-character-sheet"]);
 
 const characters = ref<Character[]>([]);
 const playerName = ref<string>("");
@@ -49,12 +51,26 @@ const getPlayer = (): void => {
 
       updateAvText(
         res.characters.length > 0
-          ? "These are your characters"
-          : "Create some characters"
+          ? `You have ${res.characters.length} playable characters out of 5 maximum alive.`
+          : "Create some characters..."
       );
 
       characters.value = res.characters;
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
     });
+};
+
+const seeCharacterSheet = (charId: string): void => {
+  let character: Character = characters.value.find(
+    (s) => s.identity.id === charId
+  );
+
+  emit("on-character-sheet", character);
+
+  props.gotoSibling("sheet");
 };
 
 onMounted(() => {
@@ -74,10 +90,5 @@ onMounted(() => {
   align-items: center;
   width: 90%;
   margin-bottom: 20px;
-}
-
-.box {
-  flex-direction: column;
-  width: 100%;
 }
 </style>

@@ -9,7 +9,7 @@
       :src="getComputedImage"
       :title="`${props.character.status.traits.race} ${props.character.status.traits.class}`"
     />
-    <p :style="{ color: hasLevelUp === true ? 'green' : 'white' }">
+    <p :style="{ color: hasLevelUp === true ? 'gold' : 'white' }">
       {{ props.character.status.name }}
     </p>
   </div>
@@ -18,6 +18,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, defineProps } from "vue";
 import { Howl } from "howler";
+import { Character } from "@/dtos/Dtos";
 
 const click: any = new Howl({
   src: require("@/assets/sound_button_click.mp3"),
@@ -49,7 +50,7 @@ const hasLevelUp = computed((): boolean => {
 
 const props = defineProps({
   character: {
-    type: Object,
+    type: Object as () => Character,
     require: false,
   },
 });
@@ -76,8 +77,9 @@ p {
 }
 
 .av-char-levelup {
-  color: darkgreen;
-  border-color: darkgreen;
+  color: #859c71;
+  border: 25px solid #859c71;
+  margin-bottom: 5px;
 }
 
 .av-char-btn {

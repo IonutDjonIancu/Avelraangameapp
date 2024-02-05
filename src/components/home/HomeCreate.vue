@@ -1,43 +1,39 @@
 <template>
-  <div class="av-container">
-    <form class="form">
-      <label style="margin-bottom: 5px; font-weight: bold" for="create"
-        >Player name</label
-      >
-      <input
-        v-model="playerName"
-        id="create"
-        name="create"
-        type="text"
-        maxlength="20"
-        autocomplete="off"
-      />
-      <div class="submit">
-        <AvButton
-          @click="createPlayer"
-          :size="'large'"
-          :source="'ico_create_player_submit'"
-          :title="'Creates this player'"
-          :name="'Submit'"
-          :sound="'click'"
-        ></AvButton>
-        <AvButton
-          @click="goBack"
-          :size="'large'"
-          :source="'ico_back_arrow'"
-          :title="'Back to home'"
-          :name="'Back'"
-          :sound="'back'"
-        ></AvButton>
-      </div>
-    </form>
-  </div>
+  <form class="form">
+    <label class="av-label" for="create">Player name</label>
+    <input
+      v-model="playerName"
+      id="create"
+      name="create"
+      type="text"
+      maxlength="20"
+      autocomplete="off"
+    />
+    <div class="submit">
+      <AvButton
+        @click="goBack"
+        :size="'large'"
+        :source="'ico_back_arrow'"
+        :title="'Back to home'"
+        :name="'Back'"
+        :sound="'back'"
+      ></AvButton>
+      <AvButton
+        @click="createPlayer"
+        :size="'large'"
+        :source="'ico_create_player_submit'"
+        :title="'Creates this player'"
+        :name="'Submit'"
+        :sound="'click'"
+      ></AvButton>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { defineProps, ref, inject, onMounted, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
-import { Authenticator, Players, SetQrCode } from "@/dtos/Dtos";
+import { Authenticator, PlayerData, Players, SetQrCode } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 
 const updateAvText: any = inject("updateAvText");
@@ -62,11 +58,11 @@ const createPlayer = (): void => {
     return;
   }
 
-  const data = {
-    name: playerName.value,
+  const data: PlayerData = {
+    playerName: playerName.value,
   };
 
-  HttpService.httpPost("player/createplayer", data)
+  HttpService.httpPost("Player/CreatePlayer", data)
     .then((s) => s.json())
     .then((res: Authenticator) => {
       const setQrCode: SetQrCode = {
@@ -79,7 +75,7 @@ const createPlayer = (): void => {
       props.gotoSibling("code");
     })
     .catch((err) => {
-      updateAvText(err);
+      updateAvText(err.message);
       return;
     });
 };
@@ -97,7 +93,7 @@ const getPlayers = async () => {
       );
     })
     .catch((err) => {
-      updateAvText(err);
+      updateAvText(err.message);
       return;
     });
 };
