@@ -10,12 +10,12 @@
     </div>
     <div class="row">
       <AvButton
-        @click="saveCharacterStub"
+        @click="props.gotoSibling('')"
         :size="'large'"
-        :source="`ico_character_create_roll`"
-        :title="'Continue to character traits'"
-        :name="'Proceed'"
-        :sound="'click'"
+        :source="`ico_back_arrow`"
+        :title="'Go to Character'"
+        :name="'Back'"
+        :sound="'back'"
       ></AvButton>
       <AvButton
         @click="rollCharacter"
@@ -26,12 +26,12 @@
         :sound="'click'"
       ></AvButton>
       <AvButton
-        @click="props.gotoSibling('')"
+        @click="saveCharacterStub"
         :size="'large'"
-        :source="`ico_back_arrow`"
-        :title="'Go to Character'"
-        :name="'Back'"
-        :sound="'back'"
+        :source="`ico_character_create_roll`"
+        :title="'Continue to character traits'"
+        :name="'Proceed'"
+        :sound="'click'"
       ></AvButton>
     </div>
   </div>

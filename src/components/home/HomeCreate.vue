@@ -11,20 +11,20 @@
     />
     <div class="submit">
       <AvButton
-        @click="createPlayer"
-        :size="'large'"
-        :source="'ico_create_player_submit'"
-        :title="'Creates this player'"
-        :name="'Submit'"
-        :sound="'click'"
-      ></AvButton>
-      <AvButton
         @click="goBack"
         :size="'large'"
         :source="'ico_back_arrow'"
         :title="'Back to home'"
         :name="'Back'"
         :sound="'back'"
+      ></AvButton>
+      <AvButton
+        @click="createPlayer"
+        :size="'large'"
+        :source="'ico_create_player_submit'"
+        :title="'Creates this player'"
+        :name="'Submit'"
+        :sound="'click'"
       ></AvButton>
     </div>
   </form>

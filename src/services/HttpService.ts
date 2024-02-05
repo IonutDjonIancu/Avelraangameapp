@@ -58,4 +58,26 @@ export class HttpService {
         return err;
       });
   }
+
+  // DELETE
+  public static async httpDelete(
+    url: string,
+    data?: object
+  ): Promise<Response> {
+    return fetch(`${HttpService.baseURL}${url}`, {
+      method: "DELETE",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: data !== null ? JSON.stringify(data) : "",
+    })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
+  }
 }

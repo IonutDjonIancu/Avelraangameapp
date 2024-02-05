@@ -31,20 +31,20 @@
       </div>
       <div class="submit">
         <AvButton
-          @click.prevent="loginPlayer"
-          :size="'large'"
-          :source="'ico_login_player_submit'"
-          :title="'Creates this player'"
-          :name="'Submit'"
-          :sound="'click'"
-        ></AvButton>
-        <AvButton
           @click="goBack"
           :size="'large'"
           :source="'ico_back_arrow'"
           :title="'Back to home'"
           :name="'Back'"
           :sound="'back'"
+        ></AvButton>
+        <AvButton
+          @click.prevent="loginPlayer"
+          :size="'large'"
+          :source="'ico_login_player_submit'"
+          :title="'Creates this player'"
+          :name="'Submit'"
+          :sound="'click'"
         ></AvButton>
       </div>
     </form>

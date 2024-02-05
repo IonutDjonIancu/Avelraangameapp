@@ -226,26 +226,37 @@
       </ul>
     </div>
     <!-- Character supplies items -->
-    <div class="row">
+    <div class="row supplies">
       <AvItemButton
         :key="item.identity.id"
         v-for="item in character.inventory.supplies"
         :item="item"
       ></AvItemButton>
     </div>
-    <AvButton
-      @click="props.gotoSibling('')"
-      :size="'large'"
-      :source="`ico_back_arrow`"
-      :title="'Go to Character'"
-      :name="'Back'"
-      :sound="'back'"
-    ></AvButton>
+    <div class="row">
+      <AvButton
+        @click="props.gotoSibling('')"
+        :size="'large'"
+        :source="`ico_back_arrow`"
+        :title="'Go to Character'"
+        :name="'Back'"
+        :sound="'back'"
+      ></AvButton>
+      <AvButton
+        @click="deleteCharacter"
+        :size="'large'"
+        :source="`ico_character_delete`"
+        :title="'Delete character'"
+        :name="'Delete'"
+        :sound="'click'"
+      ></AvButton>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps, onMounted, inject } from "vue";
+import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
 import AvItemButton from "@/components/small/AvItemButton.vue";
 import { Character } from "@/dtos/Dtos";
@@ -264,10 +275,29 @@ const props = defineProps({
   },
 });
 
+const deleteCharacter = (): void => {
+  if (
+    confirm(
+      `Are you sure you want to delete character: ${props.character.status.name}?`
+    )
+  ) {
+    const playerName = localStorage.getItem("playerName");
+    const playerToken = localStorage.getItem("playerToken");
+
+    HttpService.httpDelete(
+      `Character/DeleteCharacter?PlayerName=${playerName}&Token=${playerToken}&characterId=${props.character.identity.id}`
+    ).then(() => {
+      props.gotoSibling("");
+    });
+  }
+};
+
 onMounted(() => {
   console.log(props.character);
   updateAvImage("img_character_sheet");
-  updateAvText(`${props.character.status.name} character sheet`);
+  updateAvText(
+    `Character sheet of the one they call ${props.character.status.name}.`
+  );
 });
 </script>
 
@@ -284,5 +314,9 @@ li {
   margin-bottom: 5px;
   color: #2c3e50;
   font-weight: bold;
+}
+
+.supplies {
+  margin-bottom: 20px;
 }
 </style>

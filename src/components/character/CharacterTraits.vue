@@ -95,6 +95,14 @@
       />
     </div>
     <div class="buttons">
+      <AvButton
+        @click="props.gotoSibling('')"
+        :size="'large'"
+        :source="`ico_back_arrow`"
+        :title="'Go to Character'"
+        :name="'Back'"
+        :sound="'back'"
+      ></AvButton>
       <div :class="classor.length === 0 ? 'disabled' : ''">
         <AvButton
           @click="saveCharacter"
@@ -105,14 +113,6 @@
           :sound="'click'"
         ></AvButton>
       </div>
-      <AvButton
-        @click="props.gotoSibling('')"
-        :size="'large'"
-        :source="`ico_back_arrow`"
-        :title="'Go to Character'"
-        :name="'Back'"
-        :sound="'back'"
-      ></AvButton>
     </div>
   </div>
 </template>
