@@ -29,7 +29,6 @@ import AvButton from "@/components/small/AvButton.vue";
 import AvCharacterButton from "@/components/small/AvCharacterButton.vue";
 
 const updateAvText: any = inject("updateAvText");
-const updateAvImage: any = inject("updateAvImage");
 const emit = defineEmits(["on-character-sheet"]);
 
 const characters = ref<Character[]>([]);
@@ -65,8 +64,8 @@ const getPlayer = (): void => {
 };
 
 const seeCharacterSheet = (charId: string): void => {
-  const character: Character = characters.value.find(
-    (s) => (s.identity.id = charId)
+  let character: Character = characters.value.find(
+    (s) => s.identity.id === charId
   );
 
   emit("on-character-sheet", character);
@@ -77,8 +76,6 @@ const seeCharacterSheet = (charId: string): void => {
 onMounted(() => {
   playerName.value = localStorage.getItem("playerName");
   playerToken.value = localStorage.getItem("playerToken");
-
-  updateAvImage("img_character");
 
   getPlayer();
 });

@@ -105,6 +105,7 @@ const finalizeCharacter = (): void => {
 
   if (name.value.length === 0) {
     props.gotoSibling("");
+    return;
   }
 
   HttpService.httpPut(

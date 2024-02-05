@@ -45,6 +45,7 @@ import AvButton from "@/components/small/AvButton.vue";
 import { CharacterStub } from "@/dtos/Dtos";
 
 const updateAvText: any = inject("updateAvText");
+const updateAvImage: any = inject("updateAvImage");
 const emit = defineEmits(["on-character-stub-create"]);
 
 const entityLevel = ref<number>(1);
@@ -121,6 +122,7 @@ const saveCharacterStub = () => {
 };
 
 onMounted(() => {
+  updateAvImage("img_character");
   updateAvText(
     "Roll as many times for a character as you want, there is no limit.\n" +
       "This is a character stub, meaning it won't save until you proceed to the next phase to choose a race, culture and class.\n" +

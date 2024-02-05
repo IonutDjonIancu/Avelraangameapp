@@ -184,6 +184,7 @@ export interface Item {
   subtype: string;
   type: string;
   value: number;
+  icon: number;
 }
 
 export interface ItemIdentity {

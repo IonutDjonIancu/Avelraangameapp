@@ -1,5 +1,6 @@
 <template>
   <div class="column">
+    <!-- Character static data -->
     <div class="row">
       <!-- Stats -->
       <ul>
@@ -161,6 +162,14 @@
               : "no item"
           }}
         </li>
+        <li title="Heraldry show here">
+          Heraldry:
+          {{
+            character.inventory.heraldry.length > 0
+              ? character.inventory.heraldry.length
+              : "no items"
+          }}
+        </li>
       </ul>
       <!-- Gameplay -->
       <ul>
@@ -216,7 +225,14 @@
         </li>
       </ul>
     </div>
-    <div class="row">items</div>
+    <!-- Character supplies items -->
+    <div class="row">
+      <AvItemButton
+        :key="item.identity.id"
+        v-for="item in character.inventory.supplies"
+        :item="item"
+      ></AvItemButton>
+    </div>
     <AvButton
       @click="props.gotoSibling('')"
       :size="'large'"
@@ -231,6 +247,7 @@
 <script setup lang="ts">
 import { defineProps, onMounted, inject } from "vue";
 import AvButton from "@/components/small/AvButton.vue";
+import AvItemButton from "@/components/small/AvItemButton.vue";
 import { Character } from "@/dtos/Dtos";
 
 const updateAvImage: any = inject("updateAvImage");

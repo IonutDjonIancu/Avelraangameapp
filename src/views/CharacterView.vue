@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, inject } from "vue";
 import { Howl } from "howler";
 import CharacterMain from "@/components/character/CharacterMain.vue";
 import CharacterRoll from "@/components/character/CharacterRoll.vue";
@@ -44,6 +44,8 @@ import CharacterShow from "@/components/character/CharacterShow.vue";
 import CharacterFinalize from "@/components/character/CharacterFinalize.vue";
 import CharacterSheet from "@/components/character/CharacterSheet.vue";
 import { Character, CharacterStub } from "@/dtos/Dtos";
+
+const updateAvImage: any = inject("updateAvImage");
 
 const text = ref<string>("");
 const characterStub = ref<CharacterStub>();
@@ -78,6 +80,7 @@ const setCharacter = (chr: Character): void => {
 };
 
 onMounted(() => {
+  updateAvImage("img_character");
   canPlaySounds.value = localStorage.getItem("canPlaySounds")!;
 
   if (canPlaySounds.value === "true") {

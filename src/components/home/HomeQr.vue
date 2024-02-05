@@ -33,11 +33,6 @@ const props = defineProps({
   },
 });
 
-const goBack = (): void => {
-  updateAvText("Welcome back.");
-  props.gotoSibling("");
-};
-
 onMounted(() => {
   updateAvText("Scan the qr code with the Google authenticator app.");
 });
