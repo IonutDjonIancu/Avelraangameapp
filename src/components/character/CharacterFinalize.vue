@@ -74,12 +74,14 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, ref } from "vue";
+import { defineProps, onMounted, inject, ref, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
+import { Emits } from "@/dtos/Enums";
 import { Character, CharacterData } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 
 const updateAvText: any = inject("updateAvText");
+const emit = defineEmits([Emits.OnCharacterUpdate]);
 
 const name = ref<string>("");
 
@@ -114,6 +116,8 @@ const finalizeCharacter = (): void => {
   )
     .then((s) => s.json())
     .then(() => {
+      emit(Emits.OnCharacterUpdate);
+
       props.gotoSibling("");
     })
     .catch((err) => {

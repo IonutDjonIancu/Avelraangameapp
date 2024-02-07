@@ -25,14 +25,16 @@
         :name="'Roll'"
         :sound="'click'"
       ></AvButton>
-      <AvButton
-        @click="saveCharacterStub"
-        :size="'large'"
-        :source="`ico_character_create_roll`"
-        :title="'Continue to character traits'"
-        :name="'Proceed'"
-        :sound="'click'"
-      ></AvButton>
+      <div :class="entityLevel + statPts + skillPts < 10 ? 'disabled' : ''">
+        <AvButton
+          @click="saveCharacterStub"
+          :size="'large'"
+          :source="`ico_character_create_roll`"
+          :title="'Continue to character traits'"
+          :name="'Proceed'"
+          :sound="'click'"
+        ></AvButton>
+      </div>
     </div>
   </div>
 </template>

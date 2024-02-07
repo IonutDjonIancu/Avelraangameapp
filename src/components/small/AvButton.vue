@@ -5,7 +5,11 @@
       :src="getComputedImage"
       :title="props.title"
     />
-    <p>{{ props.name }}</p>
+    <p>
+      {{
+        props.name.length > 7 ? props.name.substring(0, 5) + "..." : props.name
+      }}
+    </p>
   </div>
 </template>
 

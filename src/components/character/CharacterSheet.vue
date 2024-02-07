@@ -2,6 +2,9 @@
   <div class="column">
     <!-- Character static data -->
     <div class="row">
+      <img :title="character.status.name" class="avatar" :src="getImage()" />
+    </div>
+    <div class="row">
       <!-- Stats -->
       <ul>
         <li class="list-header">Stats</li>
@@ -54,121 +57,71 @@
       <!-- Inventory -->
       <ul>
         <li class="list-header">Inventory</li>
-        <li
-          :title="`Item level: ${
-            character.inventory.head != null
-              ? character.inventory.head.level
-              : ''
-          }. Description: ${
-            character.inventory.head != null
-              ? character.inventory.head.description
-              : ''
-          }`"
-        >
-          Head:
-          {{
-            character.inventory.head != null
-              ? character.inventory.head.name
-              : "no item"
-          }}
+        <li>
+          <div v-if="character.inventory.head != null" class="li-item row">
+            <AvItemButton :item="character.inventory.head"></AvItemButton>
+            <i title="helm" class="fa-solid fa-user m-r"></i>
+          </div>
+          <div v-else class="li-item row">
+            <i title="helm" class="fa-solid fa-user fa-off m-r"></i>
+          </div>
         </li>
-        <li
-          :title="`Item level: ${
-            character.inventory.body != null
-              ? character.inventory.body.level
-              : ''
-          }. Description: ${
-            character.inventory.body != null
-              ? character.inventory.body.description
-              : ''
-          }`"
-        >
-          Body:
-          {{
-            character.inventory.body != null
-              ? character.inventory.body.name
-              : "no item"
-          }}
+        <li>
+          <div v-if="character.inventory.body != null" class="li-item row">
+            <AvItemButton :item="character.inventory.body"></AvItemButton>
+            <i title="armour" class="fa-solid fa-user-shield m-r"></i>
+          </div>
+          <div v-else class="li-item row">
+            <i title="armour" class="fa-solid fa-user-shield fa-off m-r"></i>
+          </div>
         </li>
-        <li
-          :title="`Item level: ${
-            character.inventory.mainhand != null
-              ? character.inventory.mainhand.level
-              : ''
-          }. Description: ${
-            character.inventory.mainhand != null
-              ? character.inventory.mainhand.description
-              : ''
-          }`"
-        >
-          Mainhand:
-          {{
-            character.inventory.mainhand != null
-              ? character.inventory.mainhand.name
-              : "no item"
-          }}
+        <li>
+          <div v-if="character.inventory.mainhand != null" class="li-item row">
+            <AvItemButton :item="character.inventory.mainhand"></AvItemButton>
+            <i title="mainhand" class="fa-solid fa-hand-back-fist m-r"></i>
+          </div>
+          <div v-else class="li-item row">
+            <i
+              title="mainhand"
+              class="fa-solid fa-hand-back-fist fa-off m-r"
+            ></i>
+          </div>
         </li>
-        <li
-          :title="`Item level: ${
-            character.inventory.offhand != null
-              ? character.inventory.offhand.level
-              : ''
-          }. Description: ${
-            character.inventory.offhand != null
-              ? character.inventory.offhand.description
-              : ''
-          }`"
-        >
-          Offhand:
-          {{
-            character.inventory.offhand != null
-              ? character.inventory.offhand.name
-              : "no item"
-          }}
+        <li>
+          <div v-if="character.inventory.offhand != null" class="li-item row">
+            <AvItemButton :item="character.inventory.offhand"></AvItemButton>
+            <i title="offhand" class="fa-solid fa-shield-halved m-r"></i>
+          </div>
+          <div v-else class="li-item row">
+            <i title="offhand" class="fa-solid fa-shield-halved fa-off m-r"></i>
+          </div>
         </li>
-        <li
-          :title="`Item level: ${
-            character.inventory.shield != null
-              ? character.inventory.shield.level
-              : ''
-          }. Description: ${
-            character.inventory.shield != null
-              ? character.inventory.shield.description
-              : ''
-          }`"
-        >
-          Shield:
-          {{
-            character.inventory.shield != null
-              ? character.inventory.shield.name
-              : "no item"
-          }}
+        <li>
+          <div v-if="character.inventory.ranged != null" class="li-item row">
+            <AvItemButton :item="character.inventory.ranged"></AvItemButton>
+            <i title="ranged" class="fa-solid fa-arrows-up-to-line m-r"></i>
+          </div>
+          <div v-else class="li-item row">
+            <i
+              title="ranged"
+              class="fa-solid fa-arrows-up-to-line fa-off m-r"
+            ></i>
+          </div>
         </li>
-        <li
-          :title="`Item level: ${
-            character.inventory.ranged != null
-              ? character.inventory.ranged.level
-              : ''
-          }. Description: ${
-            character.inventory.ranged != null
-              ? character.inventory.ranged.description
-              : ''
-          }`"
-        >
-          Ranged:
-          {{
-            character.inventory.ranged != null
-              ? character.inventory.ranged.name
-              : "no item"
-          }}
-        </li>
-        <li title="Heraldry show here">
-          Heraldry:
-          {{
-            character.inventory.heraldry.length > 0
-              ? character.inventory.heraldry.length
-              : "no items"
-          }}
+        <li>
+          <div
+            v-if="character.inventory.heraldry.length > 0"
+            class="li-item row"
+          >
+            <i title="heraldry" class="fa-solid fa-gem m-r"></i>
+            {{ character.inventory.heraldry.length }}
+          </div>
+          <div v-else class="li-item row">
+            <i title="heraldry" class="fa-regular fa-gem fa-off m-r"></i>
+            <div class="fa-off">
+              {{ character.inventory.heraldry.length }}
+            </div>
+          </div>
         </li>
       </ul>
       <!-- Gameplay -->
@@ -228,6 +181,7 @@
     <!-- Character supplies items -->
     <div class="row supplies">
       <AvItemButton
+        @on-item-equip="equipItem"
         :key="item.identity.id"
         v-for="item in character.inventory.supplies"
         :item="item"
@@ -255,14 +209,16 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject } from "vue";
+import { defineProps, onMounted, inject, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
+import { Emits } from "@/dtos/Enums";
 import AvButton from "@/components/small/AvButton.vue";
 import AvItemButton from "@/components/small/AvItemButton.vue";
-import { Character } from "@/dtos/Dtos";
+import { Character, CharacterEquip } from "@/dtos/Dtos";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvText: any = inject("updateAvText");
+const emit = defineEmits([Emits.OnItemEquip, Emits.OnCharacterDelete]);
 
 const props = defineProps({
   gotoSibling: {
@@ -275,6 +231,12 @@ const props = defineProps({
   },
 });
 
+const getImage = (): string => {
+  return require(`@/assets/ico_${props.character.status.traits.race.toLowerCase()}_${
+    props.character.status.traits.icon
+  }.png`);
+};
+
 const deleteCharacter = (): void => {
   if (
     confirm(
@@ -286,14 +248,40 @@ const deleteCharacter = (): void => {
 
     HttpService.httpDelete(
       `Character/DeleteCharacter?PlayerName=${playerName}&Token=${playerToken}&characterId=${props.character.identity.id}`
-    ).then(() => {
-      props.gotoSibling("");
-    });
+    )
+      .then(() => {
+        emit(Emits.OnCharacterDelete);
+
+        props.gotoSibling("");
+      })
+      .catch((err) => {
+        updateAvText(err.message);
+        return;
+      });
   }
 };
 
+const equipItem = (equip: CharacterEquip): void => {
+  const playerName = localStorage.getItem("playerName");
+  const playerToken = localStorage.getItem("playerToken");
+
+  equip.characterIdentity = props.character.identity;
+
+  HttpService.httpPut(
+    `Character/EquipItem?playerName=${playerName}&token=${playerToken}`,
+    equip
+  )
+    .then((s) => s.json())
+    .then((character: Character) => {
+      emit(Emits.OnItemEquip, character);
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
+};
+
 onMounted(() => {
-  console.log(props.character);
   updateAvImage("img_character_sheet");
   updateAvText(
     `Character sheet of the one they call ${props.character.status.name}.`
@@ -310,6 +298,10 @@ li {
   cursor: help;
 }
 
+.li-item {
+  align-items: center;
+}
+
 .list-header {
   margin-bottom: 5px;
   color: #2c3e50;
@@ -318,5 +310,25 @@ li {
 
 .supplies {
   margin-bottom: 20px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+}
+
+.avatar:hover {
+  width: 128px;
+  height: 128px;
+  border-radius: 5px;
+}
+
+.fa-off {
+  color: #00000051;
+}
+
+.m-r {
+  margin-right: 3px;
 }
 </style>

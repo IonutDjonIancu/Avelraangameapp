@@ -217,7 +217,6 @@ const saveCharacter = (): void => {
   )
     .then((s) => s.json())
     .then((res) => {
-      console.log(res);
       emit("on-character-create", res);
       props.gotoSibling("finalize");
     })
@@ -270,9 +269,5 @@ onMounted(() => {
 .buttons {
   display: flex;
   flex-direction: row;
-}
-
-.disabled {
-  pointer-events: none;
 }
 </style>

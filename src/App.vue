@@ -151,4 +151,8 @@ input {
   z-index: -1;
   pointer-events: none;
 }
+
+.disabled {
+  pointer-events: none;
+}
 </style>

@@ -130,10 +130,15 @@ export interface CharacterInventory {
   mainhand: Item;
   offhand: Item;
   ranged: Item;
-  shield: Item;
   heraldry: Item[];
   provisions: number;
   supplies: Item[];
+}
+
+export interface CharacterEquip {
+  characterIdentity: CharacterIdentity;
+  itemId: string;
+  inventoryLocation: string;
 }
 
 export interface CharacterStatus {
@@ -141,7 +146,7 @@ export interface CharacterStatus {
   entityLevel: number;
   dateOfBirth: string;
 
-  traits: any;
+  traits: CharacterRacialTraits;
   gameplay: CharacterGameplay;
   position: Position;
 

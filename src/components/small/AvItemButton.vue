@@ -15,6 +15,7 @@
       :title="item.name"
       :class="`column item item-level_${item.level}`"
     >
+      <span class="mini-text-category">{{ item.category }}</span>
       <img class="img" :src="getComputedImage" />
 
       <!-- first row of icons -->
@@ -72,11 +73,32 @@
       </div>
       <!-- second row of icons -->
       <div class="row">
-        <i title="equip item" class="mini fa-solid fa-arrow-up"></i>
-        <i title="equip offhand" class="mini fa-solid fa-arrow-right"></i>
+        <i
+          title="equip item"
+          @click="equipMain"
+          :class="
+            props.item.inventoryLocations.length === 0
+              ? 'mini fa-solid fa-arrow-up disabled'
+              : 'mini fa-solid fa-arrow-up'
+          "
+        ></i>
+        <i
+          title="equip offhand"
+          @click="equipOff"
+          :class="
+            hasOffhand
+              ? 'mini fa-solid fa-arrow-right'
+              : 'mini fa-solid fa-arrow-right disabled'
+          "
+        ></i>
         <i
           title="equip ranged"
-          class="mini fa-solid fa-arrow-up-from-bracket"
+          @click="equipRanged"
+          :class="
+            hasRanged
+              ? 'mini fa-solid fa-arrow-up-from-bracket'
+              : 'mini fa-solid fa-arrow-up-from-bracket disabled'
+          "
         ></i>
         <i
           :title="`quick sell item for: ${item.value}`"
@@ -103,8 +125,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, computed } from "vue";
-import { Item } from "@/dtos/Dtos";
+import { ref, defineProps, computed, defineEmits } from "vue";
+import { CharacterEquip, Item } from "@/dtos/Dtos";
+import { Emits, InventoryLocations } from "@/dtos/Enums";
+
+const emit = defineEmits([Emits.OnItemEquip]);
 
 const isHovered = ref<boolean>(false);
 
@@ -130,6 +155,14 @@ const getComputedLevel = computed((): string => {
   }
 });
 
+const hasOffhand = computed((): boolean => {
+  return props.item.inventoryLocations.includes(InventoryLocations.Offhand);
+});
+
+const hasRanged = computed((): boolean => {
+  return props.item.inventoryLocations.includes(InventoryLocations.Ranged);
+});
+
 const props = defineProps({
   item: {
     type: Object as () => Item,
@@ -139,6 +172,55 @@ const props = defineProps({
 
 const onHover = (value: boolean): void => {
   isHovered.value = value;
+};
+
+const equipMain = (): void => {
+  let location = "";
+
+  if (props.item.type === "Weapon") {
+    if (props.item.subtype === "Bow") {
+      location = InventoryLocations.Ranged;
+    } else {
+      location = InventoryLocations.Mainhand;
+    }
+  } else if (props.item.type === "Protection") {
+    location =
+      props.item.subtype === "Armour"
+        ? InventoryLocations.Body
+        : props.item.subtype === "Helm"
+        ? InventoryLocations.Head
+        : InventoryLocations.Mainhand;
+  } else {
+    location = InventoryLocations.Heraldry;
+  }
+
+  const equip: CharacterEquip = {
+    characterIdentity: null,
+    itemId: props.item.identity.id,
+    inventoryLocation: location,
+  };
+
+  emit(Emits.OnItemEquip, equip);
+};
+
+const equipOff = (): void => {
+  const equip: CharacterEquip = {
+    characterIdentity: null,
+    itemId: props.item.identity.id,
+    inventoryLocation: "Offhand",
+  };
+
+  emit(Emits.OnItemEquip, equip);
+};
+
+const equipRanged = (): void => {
+  const equip: CharacterEquip = {
+    characterIdentity: null,
+    itemId: props.item.identity.id,
+    inventoryLocation: "Ranged",
+  };
+
+  emit(Emits.OnItemEquip, equip);
 };
 </script>
 
@@ -225,6 +307,12 @@ const onHover = (value: boolean): void => {
   transition: 0.3s;
 }
 
+.mini-text-category {
+  color: #2c3e50;
+  font-size: xx-small;
+  font-weight: bold;
+}
+
 .mini-text {
   color: #2c3e50;
   font-size: x-small;
@@ -255,5 +343,9 @@ const onHover = (value: boolean): void => {
 i {
   margin-left: 1px;
   margin-right: 1px;
+}
+
+.no {
+  pointer-events: none;
 }
 </style>
