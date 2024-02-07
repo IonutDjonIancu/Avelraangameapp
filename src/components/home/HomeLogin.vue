@@ -78,18 +78,22 @@ const loginPlayer = (): void => {
   HttpService.httpPut("player/loginplayer", data)
     .then((s) => s.text())
     .then((res: string) => {
-      localStorage.setItem("playerName", data.playerName);
-      localStorage.setItem("playerToken", res);
-      updateAvText(
-        `Welcome ${data.playerName}, your rite of passage is now complete. Proceed...`
-      );
+      if (res.includes("Failed")) {
+        updateAvText("Authorization failed...");
+      } else {
+        localStorage.setItem("playerName", data.playerName);
+        localStorage.setItem("playerToken", res);
+        updateAvText(
+          `Welcome ${data.playerName}, your rite of passage is now complete. Proceed...`
+        );
 
-      updateAvAuth();
+        updateAvAuth();
 
-      name.value = "";
-      code.value = "";
+        name.value = "";
+        code.value = "";
 
-      props.gotoSibling("");
+        props.gotoSibling("");
+      }
     })
     .catch((err) => {
       updateAvText(err.message);

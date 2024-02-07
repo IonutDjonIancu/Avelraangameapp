@@ -182,6 +182,7 @@
     <div class="row supplies">
       <AvItemButton
         @on-item-equip="equipItem"
+        @on-item-sell="sellItem"
         :key="item.identity.id"
         v-for="item in character.inventory.supplies"
         :item="item"
@@ -209,16 +210,29 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, defineEmits } from "vue";
+import { defineProps, onMounted, inject, defineEmits, ref } from "vue";
 import { HttpService } from "@/services/HttpService";
 import { Emits } from "@/dtos/Enums";
+import { Howl } from "howler";
 import AvButton from "@/components/small/AvButton.vue";
 import AvItemButton from "@/components/small/AvItemButton.vue";
-import { Character, CharacterEquip } from "@/dtos/Dtos";
+import { Character, CharacterEquip, CharacterTrade } from "@/dtos/Dtos";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvText: any = inject("updateAvText");
-const emit = defineEmits([Emits.OnItemEquip, Emits.OnCharacterDelete]);
+const emit = defineEmits([
+  Emits.OnItemEquip,
+  Emits.OnCharacterDelete,
+  Emits.OnItemSell,
+]);
+
+const sell: any = new Howl({
+  src: require("@/assets/sound_item_sell.mp3"),
+  volume: 1,
+  loop: false,
+});
+
+const canPlaySounds = ref<string>("");
 
 const props = defineProps({
   gotoSibling: {
@@ -261,6 +275,28 @@ const deleteCharacter = (): void => {
   }
 };
 
+const sellItem = (trade: CharacterTrade): void => {
+  const playerName = localStorage.getItem("playerName");
+  const playerToken = localStorage.getItem("playerToken");
+
+  trade.characterIdentity = props.character.identity;
+  HttpService.httpPut(
+    `Character/SellItem?playerName=${playerName}&token=${playerToken}`,
+    trade
+  )
+    .then((s) => s.json())
+    .then((character: Character) => {
+      if (canPlaySounds.value === "true") {
+        sell.play();
+      }
+      emit(Emits.OnItemSell, character);
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
+};
+
 const equipItem = (equip: CharacterEquip): void => {
   const playerName = localStorage.getItem("playerName");
   const playerToken = localStorage.getItem("playerToken");
@@ -282,6 +318,7 @@ const equipItem = (equip: CharacterEquip): void => {
 };
 
 onMounted(() => {
+  canPlaySounds.value = localStorage.getItem("canPlaySounds");
   updateAvImage("img_character_sheet");
   updateAvText(
     `Character sheet of the one they call ${props.character.status.name}.`

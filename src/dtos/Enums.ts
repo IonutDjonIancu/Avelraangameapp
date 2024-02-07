@@ -4,6 +4,7 @@ export enum Emits {
   OnCharacterDelete = "on-character-delete",
   // items
   OnItemEquip = "on-item-equip",
+  OnItemSell = "on-item-sell",
 }
 
 export enum InventoryLocations {

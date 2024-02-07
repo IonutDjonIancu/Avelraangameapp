@@ -102,6 +102,7 @@
         ></i>
         <i
           :title="`quick sell item for: ${item.value}`"
+          @click="sellItem"
           class="mini fa-solid fa-rotate-right"
         ></i>
       </div>
@@ -126,10 +127,10 @@
 
 <script setup lang="ts">
 import { ref, defineProps, computed, defineEmits } from "vue";
-import { CharacterEquip, Item } from "@/dtos/Dtos";
+import { CharacterEquip, CharacterTrade, Item } from "@/dtos/Dtos";
 import { Emits, InventoryLocations } from "@/dtos/Enums";
 
-const emit = defineEmits([Emits.OnItemEquip]);
+const emit = defineEmits([Emits.OnItemEquip, Emits.OnItemSell]);
 
 const isHovered = ref<boolean>(false);
 
@@ -221,6 +222,18 @@ const equipRanged = (): void => {
   };
 
   emit(Emits.OnItemEquip, equip);
+};
+
+const sellItem = (): void => {
+  var trade: CharacterTrade = {
+    characterIdentity: null,
+    itemId: props.item.identity.id,
+    isToBuy: null,
+    amount: null,
+    targetIdentity: null,
+  };
+
+  emit(Emits.OnItemSell, trade);
 };
 </script>
 

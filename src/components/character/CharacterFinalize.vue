@@ -106,6 +106,7 @@ const finalizeCharacter = (): void => {
   const playerToken = localStorage.getItem("playerToken");
 
   if (name.value.length === 0) {
+    emit(Emits.OnCharacterUpdate);
     props.gotoSibling("");
     return;
   }

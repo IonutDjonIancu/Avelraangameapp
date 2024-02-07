@@ -26,6 +26,7 @@
     <CharacterSheet
       v-else-if="text === 'sheet'"
       v-on:on-item-equip="equipItem"
+      v-on:on-item-sell="sellItem"
       v-on:on-character-delete="deleteCharacter"
       :character="character"
       :gotoSibling="gotoSibling"
@@ -86,6 +87,11 @@ const deleteCharacter = (): void => {
 };
 
 const equipItem = (chr: Character) => {
+  character.value = chr;
+  getPlayer();
+};
+
+const sellItem = (chr: Character) => {
   character.value = chr;
   getPlayer();
 };

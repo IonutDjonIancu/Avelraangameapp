@@ -141,6 +141,14 @@ export interface CharacterEquip {
   inventoryLocation: string;
 }
 
+export interface CharacterTrade {
+  characterIdentity: CharacterIdentity;
+  itemId?: string;
+  isToBuy?: boolean;
+  amount?: number;
+  targetIdentity?: CharacterIdentity;
+}
+
 export interface CharacterStatus {
   name: string;
   entityLevel: number;
