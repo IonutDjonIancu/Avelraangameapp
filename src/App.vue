@@ -26,7 +26,7 @@ const avText = ref(
 );
 const avImage = ref(require("./assets/img_planet.png"));
 const canPlaySounds = ref("");
-const isLoggedIn = ref("true"); // TODO: change it back to false
+const isLoggedIn = ref(false);
 
 const updateAvText = (newText: string) => {
   avText.value = newText;
@@ -41,17 +41,16 @@ const updateAvAuth = () => {
   const playerToken = localStorage.getItem("playerToken");
 
   if (playerName && playerToken) {
-    isLoggedIn.value = "true";
+    isLoggedIn.value = true;
   } else {
-    isLoggedIn.value = "false";
+    isLoggedIn.value = false;
   }
 };
 
-// TODO: add back the clear player login to prevent app refresh
-// const clearPlayerLogin = () => {
-//   localStorage.removeItem("playerName");
-//   localStorage.removeItem("playerToken");
-// };
+const clearPlayerLogin = () => {
+  localStorage.removeItem("playerName");
+  localStorage.removeItem("playerToken");
+};
 
 provide("updateAvText", updateAvText);
 provide("updateAvImage", updateAvImage);
@@ -60,7 +59,7 @@ provide("updateAvAuth", updateAvAuth);
 onMounted(() => {
   localStorage.setItem("isSongPlaying", "false");
   canPlaySounds.value = localStorage.getItem("canPlaySounds")!;
-  //clearPlayerLogin();
+  clearPlayerLogin();
 });
 </script>
 

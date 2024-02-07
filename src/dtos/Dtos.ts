@@ -9,6 +9,11 @@ export interface PlayerLogin {
   code: string;
 }
 
+export interface PlayerInfo {
+  playerName: string;
+  playerToken: string;
+}
+
 export interface Player {
   identity: PlayerIdentity;
   lastAction: string;

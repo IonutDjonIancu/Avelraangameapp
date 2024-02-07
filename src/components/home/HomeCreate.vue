@@ -62,7 +62,7 @@ const createPlayer = (): void => {
     playerName: playerName.value,
   };
 
-  HttpService.httpPost("Player/CreatePlayer", data)
+  HttpService.httpPostNoIdentity("Player/CreatePlayer", data)
     .then((s) => s.json())
     .then((res: Authenticator) => {
       const setQrCode: SetQrCode = {
@@ -81,7 +81,7 @@ const createPlayer = (): void => {
 };
 
 const getPlayers = async () => {
-  HttpService.httpGet("metadata/getplayers")
+  HttpService.httpGetMetadata("Metadata/GetPlayers")
     .then((s) => s.json())
     .then((res: Players) => {
       updateAvText(

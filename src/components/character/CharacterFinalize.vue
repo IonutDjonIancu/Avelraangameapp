@@ -1,8 +1,8 @@
 <template>
   <div class="column">
     <div class="row">
-      <label class="label">Name</label>
-      <input v-model="name" :placeholder="character.status.name" />
+      <label class="label" for="name">Name</label>
+      <input v-model="name" name="name" :placeholder="character.status.name" />
     </div>
     <div class="row">
       <ul>
@@ -102,19 +102,13 @@ const finalizeCharacter = (): void => {
     characterName: name.value,
   };
 
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-
   if (name.value.length === 0) {
     emit(Emits.OnCharacterUpdate);
     props.gotoSibling("");
     return;
   }
 
-  HttpService.httpPut(
-    `Character/UpdateCharacterName?PlayerName=${playerName}&Token=${playerToken}`,
-    data
-  )
+  HttpService.httpPut("Character/UpdateCharacterName", data)
     .then((s) => s.json())
     .then(() => {
       emit(Emits.OnCharacterUpdate);

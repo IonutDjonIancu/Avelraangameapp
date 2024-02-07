@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="form">
+    <form name="characterLogin" class="form">
       <div class="form-item">
         <div class="form-item" style="margin-bottom: 10px">
           <label style="font-weight: bold; margin-bottom: 5px" for="name"
@@ -75,10 +75,13 @@ const loginPlayer = (): void => {
     code: code.value,
   };
 
-  HttpService.httpPut("player/loginplayer", data)
+  HttpService.httpPutNoIdentity("Player/Loginplayer", data)
     .then((s) => s.text())
     .then((res: string) => {
-      if (res.includes("Failed")) {
+      if (
+        res.toLowerCase().includes("failed") ||
+        res.toLowerCase().includes("invalid")
+      ) {
         updateAvText("Authorization failed...");
       } else {
         localStorage.setItem("playerName", data.playerName);

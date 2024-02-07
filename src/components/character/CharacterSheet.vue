@@ -1,7 +1,7 @@
 <template>
   <div class="column">
     <!-- Character static data -->
-    <div class="row">
+    <div @click="seeChar" class="row">
       <img :title="character.status.name" class="avatar" :src="getImage()" />
     </div>
     <div class="row">
@@ -131,7 +131,7 @@
           {{
             character.status.gameplay.battleboardId.length > 0
               ? "in party"
-              : "no party"
+              : "traveling alone"
           }}
         </li>
         <li title="Is character an NPC?">
@@ -145,6 +145,18 @@
         </li>
         <li title="Is character locked to modify?">
           {{ character.status.gameplay.isLocked ? "locked" : "not locked" }}
+        </li>
+        <li title="Tradition">
+          {{ character.status.traits.tradition.toLowerCase() }}
+        </li>
+        <li title="Culture">
+          {{ character.status.traits.culture.toLowerCase() }}
+        </li>
+        <li title="Race">
+          {{ character.status.traits.race.toLowerCase() }}
+        </li>
+        <li title="Class">
+          {{ character.status.traits.class.toLowerCase() }}
         </li>
       </ul>
       <!-- Misc -->
@@ -232,6 +244,12 @@ const sell: any = new Howl({
   loop: false,
 });
 
+const wear: any = new Howl({
+  src: require("@/assets/sound_item_wear.mp3"),
+  volume: 1,
+  loop: false,
+});
+
 const canPlaySounds = ref<string>("");
 
 const props = defineProps({
@@ -276,14 +294,8 @@ const deleteCharacter = (): void => {
 };
 
 const sellItem = (trade: CharacterTrade): void => {
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-
   trade.characterIdentity = props.character.identity;
-  HttpService.httpPut(
-    `Character/SellItem?playerName=${playerName}&token=${playerToken}`,
-    trade
-  )
+  HttpService.httpPut("Character/SellItem", trade)
     .then((s) => s.json())
     .then((character: Character) => {
       if (canPlaySounds.value === "true") {
@@ -298,23 +310,25 @@ const sellItem = (trade: CharacterTrade): void => {
 };
 
 const equipItem = (equip: CharacterEquip): void => {
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-
   equip.characterIdentity = props.character.identity;
 
-  HttpService.httpPut(
-    `Character/EquipItem?playerName=${playerName}&token=${playerToken}`,
-    equip
-  )
+  HttpService.httpPut("Character/EquipItem", equip)
     .then((s) => s.json())
     .then((character: Character) => {
+      if (canPlaySounds.value === "true") {
+        wear.play();
+      }
+
       emit(Emits.OnItemEquip, character);
     })
     .catch((err) => {
       updateAvText(err.message);
       return;
     });
+};
+
+const seeChar = () => {
+  console.log(props.character);
 };
 
 onMounted(() => {
@@ -353,12 +367,14 @@ li {
   width: 60px;
   height: 60px;
   border-radius: 30px;
+  transition: 0.2s;
 }
 
 .avatar:hover {
   width: 128px;
   height: 128px;
   border-radius: 5px;
+  transition: 0.2s;
 }
 
 .fa-off {

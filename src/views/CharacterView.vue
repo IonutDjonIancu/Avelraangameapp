@@ -97,11 +97,7 @@ const sellItem = (chr: Character) => {
 };
 
 const getPlayer = (): void => {
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-  HttpService.httpGet(
-    `metadata/getplayer?playerName=${playerName}&token=${playerToken}`
-  )
+  HttpService.httpGet(`Player/GetPlayer`)
     .then((s) => s.json())
     .then((res: Player) => {
       characters.value = res.characters;

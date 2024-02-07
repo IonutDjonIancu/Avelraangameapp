@@ -86,12 +86,7 @@ const playCharacterCreateTheme = (): void => {
 };
 
 const rollCharacter = (): void => {
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-
-  HttpService.httpGet(
-    `character/createcharacter?PlayerName=${playerName}&Token=${playerToken}`
-  )
+  HttpService.httpGet(`Character/CreateCharacter`)
     .then((s) => s.json())
     .then((res: CharacterStub) => {
       if (

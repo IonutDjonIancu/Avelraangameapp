@@ -153,7 +153,7 @@ const props = defineProps({
 });
 
 const getTraits = (): void => {
-  HttpService.httpGet("metadata/gettraits")
+  HttpService.httpGetMetadata("Metadata/GetTraits")
     .then((s) => s.json())
     .then((res: CharacterTraits) => {
       races.value = res.races;
@@ -208,13 +208,7 @@ const saveCharacter = (): void => {
     icon: icon.value > 0 ? icon.value : 1,
   };
 
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-
-  HttpService.httpPost(
-    `character/savecharacter?PlayerName=${playerName}&Token=${playerToken}`,
-    characterTraits
-  )
+  HttpService.httpPost(`Character/SaveCharacter`, characterTraits)
     .then((s) => s.json())
     .then((res) => {
       emit("on-character-create", res);
