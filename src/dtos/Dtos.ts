@@ -227,6 +227,14 @@ export interface Position {
   location: string;
 }
 
+export interface DbRequestsInfo {
+  password: string;
+  secret: string;
+  snapshotJsonString?: string;
+  playerJsonString?: string;
+  isShortOperation: boolean;
+}
+
 // app
 export interface SetQrCode {
   playerName: string;
