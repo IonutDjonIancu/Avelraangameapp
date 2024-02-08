@@ -109,7 +109,13 @@ const finalizeCharacter = (): void => {
   }
 
   HttpService.httpPut("Character/UpdateCharacterName", data)
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then(() => {
       emit(Emits.OnCharacterUpdate);
 

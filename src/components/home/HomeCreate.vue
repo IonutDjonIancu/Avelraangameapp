@@ -63,7 +63,13 @@ const createPlayer = (): void => {
   };
 
   HttpService.httpPostNoIdentity("Player/CreatePlayer", data)
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((res: Authenticator) => {
       const setQrCode: SetQrCode = {
         playerName: playerName.value,
@@ -82,7 +88,13 @@ const createPlayer = (): void => {
 
 const getPlayers = async () => {
   HttpService.httpGetMetadata("Metadata/GetPlayers")
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((res: Players) => {
       updateAvText(
         "This application does not store personal or real player data. It does not deal with lost data either. \n" +

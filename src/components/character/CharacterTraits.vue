@@ -154,7 +154,13 @@ const props = defineProps({
 
 const getTraits = (): void => {
   HttpService.httpGetMetadata("Metadata/GetTraits")
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((res: CharacterTraits) => {
       races.value = res.races;
       cultures.value = res.cultures;
@@ -209,7 +215,13 @@ const saveCharacter = (): void => {
   };
 
   HttpService.httpPost(`Character/SaveCharacter`, characterTraits)
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((res) => {
       emit("on-character-create", res);
       props.gotoSibling("finalize");

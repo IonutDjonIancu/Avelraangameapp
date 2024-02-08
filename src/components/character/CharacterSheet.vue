@@ -146,6 +146,11 @@
         <li title="Is character locked to modify?">
           {{ character.status.gameplay.isLocked ? "locked" : "not locked" }}
         </li>
+        <li title="Current character location">
+          {{
+            `${character.status.position.location}, ${character.status.position.land}`
+          }}
+        </li>
         <li title="Tradition">
           {{ character.status.traits.tradition.toLowerCase() }}
         </li>
@@ -296,7 +301,13 @@ const deleteCharacter = (): void => {
 const sellItem = (trade: CharacterTrade): void => {
   trade.characterIdentity = props.character.identity;
   HttpService.httpPut("Character/SellItem", trade)
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((character: Character) => {
       if (canPlaySounds.value === "true") {
         sell.play();
@@ -313,7 +324,13 @@ const equipItem = (equip: CharacterEquip): void => {
   equip.characterIdentity = props.character.identity;
 
   HttpService.httpPut("Character/EquipItem", equip)
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((character: Character) => {
       if (canPlaySounds.value === "true") {
         wear.play();

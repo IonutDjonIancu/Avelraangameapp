@@ -230,9 +230,7 @@ export interface Position {
 export interface DbRequestsInfo {
   password: string;
   secret: string;
-  snapshotJsonString?: string;
   playerJsonString?: string;
-  isShortOperation: boolean;
 }
 
 // app
