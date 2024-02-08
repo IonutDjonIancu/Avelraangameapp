@@ -78,12 +78,12 @@ nav {
   padding: 30px;
   a {
     font-weight: bold;
-    color: #2c3e50;
-    text-decoration: none;
+    color: #859c71;
+    text-decoration: underline;
 
     &.router-link-exact-active {
-      color: #859c71;
-      text-decoration: underline;
+      color: #2c3e50;
+      text-decoration: none;
     }
   }
 }
