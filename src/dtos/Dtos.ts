@@ -9,6 +9,11 @@ export interface PlayerLogin {
   code: string;
 }
 
+export interface PlayerInfo {
+  playerName: string;
+  playerToken: string;
+}
+
 export interface Player {
   identity: PlayerIdentity;
   lastAction: string;
@@ -130,10 +135,23 @@ export interface CharacterInventory {
   mainhand: Item;
   offhand: Item;
   ranged: Item;
-  shield: Item;
   heraldry: Item[];
   provisions: number;
   supplies: Item[];
+}
+
+export interface CharacterEquip {
+  characterIdentity: CharacterIdentity;
+  itemId: string;
+  inventoryLocation: string;
+}
+
+export interface CharacterTrade {
+  characterIdentity: CharacterIdentity;
+  itemId?: string;
+  isToBuy?: boolean;
+  amount?: number;
+  targetIdentity?: CharacterIdentity;
 }
 
 export interface CharacterStatus {
@@ -141,7 +159,7 @@ export interface CharacterStatus {
   entityLevel: number;
   dateOfBirth: string;
 
-  traits: any;
+  traits: CharacterRacialTraits;
   gameplay: CharacterGameplay;
   position: Position;
 

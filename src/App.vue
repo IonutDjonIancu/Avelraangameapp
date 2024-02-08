@@ -3,14 +3,17 @@
     <div class="background-image-container">
       <img class="av-image" :src="avImage" />
     </div>
-    <nav style="display: flex">
-      <router-link to="/" class="av-nav-item">Home</router-link>
-      <router-link v-if="isLoggedIn" to="/character" class="av-nav-item"
-        >| Character</router-link
-      >
-      <div v-if="!isLoggedIn" style="color: #859c71">
-        * you will have to login first in order to see the rest of the content
+    <nav style="display: flex; justify-content: space-between">
+      <div style="display: flex">
+        <router-link to="/" class="av-nav-item">Home</router-link>
+        <router-link v-if="isLoggedIn" to="/character" class="av-nav-item"
+          >| Character</router-link
+        >
+        <div v-if="!isLoggedIn" style="color: #859c71">
+          * you will have to login first in order to see the rest of the content
+        </div>
       </div>
+      <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link>
     </nav>
     <AvSays :avText="avText"></AvSays>
     <router-view />
@@ -26,7 +29,7 @@ const avText = ref(
 );
 const avImage = ref(require("./assets/img_planet.png"));
 const canPlaySounds = ref("");
-const isLoggedIn = ref("true"); // TODO: change it back to false
+const isLoggedIn = ref(false);
 
 const updateAvText = (newText: string) => {
   avText.value = newText;
@@ -41,17 +44,16 @@ const updateAvAuth = () => {
   const playerToken = localStorage.getItem("playerToken");
 
   if (playerName && playerToken) {
-    isLoggedIn.value = "true";
+    isLoggedIn.value = true;
   } else {
-    isLoggedIn.value = "false";
+    isLoggedIn.value = false;
   }
 };
 
-// TODO: add back the clear player login to prevent app refresh
-// const clearPlayerLogin = () => {
-//   localStorage.removeItem("playerName");
-//   localStorage.removeItem("playerToken");
-// };
+const clearPlayerLogin = () => {
+  localStorage.removeItem("playerName");
+  localStorage.removeItem("playerToken");
+};
 
 provide("updateAvText", updateAvText);
 provide("updateAvImage", updateAvImage);
@@ -60,7 +62,7 @@ provide("updateAvAuth", updateAvAuth);
 onMounted(() => {
   localStorage.setItem("isSongPlaying", "false");
   canPlaySounds.value = localStorage.getItem("canPlaySounds")!;
-  //clearPlayerLogin();
+  clearPlayerLogin();
 });
 </script>
 
@@ -149,6 +151,10 @@ input {
   background-size: cover;
   background-position: center;
   z-index: -1;
+  pointer-events: none;
+}
+
+.disabled {
   pointer-events: none;
 }
 </style>

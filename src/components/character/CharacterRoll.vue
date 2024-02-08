@@ -25,14 +25,16 @@
         :name="'Roll'"
         :sound="'click'"
       ></AvButton>
-      <AvButton
-        @click="saveCharacterStub"
-        :size="'large'"
-        :source="`ico_character_create_roll`"
-        :title="'Continue to character traits'"
-        :name="'Proceed'"
-        :sound="'click'"
-      ></AvButton>
+      <div :class="entityLevel + statPts + skillPts < 10 ? 'disabled' : ''">
+        <AvButton
+          @click="saveCharacterStub"
+          :size="'large'"
+          :source="`ico_character_create_roll`"
+          :title="'Continue to character traits'"
+          :name="'Proceed'"
+          :sound="'click'"
+        ></AvButton>
+      </div>
     </div>
   </div>
 </template>
@@ -84,12 +86,7 @@ const playCharacterCreateTheme = (): void => {
 };
 
 const rollCharacter = (): void => {
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-
-  HttpService.httpGet(
-    `character/createcharacter?PlayerName=${playerName}&Token=${playerToken}`
-  )
+  HttpService.httpGet(`Character/CreateCharacter`)
     .then((s) => s.json())
     .then((res: CharacterStub) => {
       if (

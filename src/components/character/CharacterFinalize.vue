@@ -1,8 +1,8 @@
 <template>
   <div class="column">
     <div class="row">
-      <label class="label">Name</label>
-      <input v-model="name" :placeholder="character.status.name" />
+      <label class="label" for="name">Name</label>
+      <input v-model="name" name="name" :placeholder="character.status.name" />
     </div>
     <div class="row">
       <ul>
@@ -74,12 +74,14 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, ref } from "vue";
+import { defineProps, onMounted, inject, ref, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
+import { Emits } from "@/dtos/Enums";
 import { Character, CharacterData } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 
 const updateAvText: any = inject("updateAvText");
+const emit = defineEmits([Emits.OnCharacterUpdate]);
 
 const name = ref<string>("");
 
@@ -100,20 +102,17 @@ const finalizeCharacter = (): void => {
     characterName: name.value,
   };
 
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-
   if (name.value.length === 0) {
+    emit(Emits.OnCharacterUpdate);
     props.gotoSibling("");
     return;
   }
 
-  HttpService.httpPut(
-    `Character/UpdateCharacterName?PlayerName=${playerName}&Token=${playerToken}`,
-    data
-  )
+  HttpService.httpPut("Character/UpdateCharacterName", data)
     .then((s) => s.json())
     .then(() => {
+      emit(Emits.OnCharacterUpdate);
+
       props.gotoSibling("");
     })
     .catch((err) => {

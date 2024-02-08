@@ -10,7 +10,11 @@
       :title="`${props.character.status.traits.race} ${props.character.status.traits.class}`"
     />
     <p :style="{ color: hasLevelUp === true ? 'gold' : 'white' }">
-      {{ props.character.status.name }}
+      {{
+        props.character.status.name.length > 7
+          ? props.character.status.name.substring(0, 7) + "..."
+          : props.character.status.name
+      }}
     </p>
   </div>
 </template>

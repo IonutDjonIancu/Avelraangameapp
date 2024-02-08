@@ -3,7 +3,7 @@
     <div class="characters">
       <AvCharacterButton
         @click="seeCharacterSheet(character.identity.id)"
-        v-for="character in characters"
+        v-for="character in props.characters"
         :key="character.identity.id"
         :character="character"
       ></AvCharacterButton>
@@ -22,49 +22,25 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, defineProps, inject, defineEmits } from "vue";
-import { HttpService } from "@/services/HttpService";
-import { Character, Player } from "@/dtos/Dtos";
+import { defineProps, defineEmits } from "vue";
+import { Character } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 import AvCharacterButton from "@/components/small/AvCharacterButton.vue";
 
-const updateAvText: any = inject("updateAvText");
 const emit = defineEmits(["on-character-sheet"]);
-
-const characters = ref<Character[]>([]);
-const playerName = ref<string>("");
-const playerToken = ref<string>("");
 
 const props = defineProps({
   gotoSibling: {
     type: Function,
   },
+  characters: {
+    type: Array as () => Character[],
+    required: true,
+  },
 });
 
-const getPlayer = (): void => {
-  HttpService.httpGet(
-    `metadata/getplayer?playerName=${playerName.value}&token=${playerToken.value}`
-  )
-    .then((s) => s.json())
-    .then((res: Player) => {
-      console.log(res);
-
-      updateAvText(
-        res.characters.length > 0
-          ? `You have ${res.characters.length} playable characters out of 5 maximum alive.`
-          : "Create some characters..."
-      );
-
-      characters.value = res.characters;
-    })
-    .catch((err) => {
-      updateAvText(err.message);
-      return;
-    });
-};
-
 const seeCharacterSheet = (charId: string): void => {
-  let character: Character = characters.value.find(
+  let character: Character = props.characters.find(
     (s) => s.identity.id === charId
   );
 
@@ -72,13 +48,6 @@ const seeCharacterSheet = (charId: string): void => {
 
   props.gotoSibling("sheet");
 };
-
-onMounted(() => {
-  playerName.value = localStorage.getItem("playerName");
-  playerToken.value = localStorage.getItem("playerToken");
-
-  getPlayer();
-});
 </script>
 
 <style scoped>
