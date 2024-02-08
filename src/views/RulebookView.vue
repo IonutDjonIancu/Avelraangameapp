@@ -35,7 +35,7 @@
         // laying traps does not break hide, but it does allow all enemies to roll a spot which can remove you from stealth if successful
         // laying traps with a lower resolve than 150 will reduce your roll by half
         // when you use hide, all enemies on battleboard roll a spot, you get 1 grade bonus to hide for the number of enemies present, and a 1* grade penalty to the number of friendlies already hidden
-        // apothecary reduces resolve by 1 for the healer if resolve is heigher or equal to 150, otherwise it will reduce the roll by a quarter for each 50 resolve under 150
+        // apothecary reduces resolve by 1 for the healer if resolve is higher or equal to 150, otherwise it will reduce the roll by a quarter for each 50 resolve under 150
         // attacks reduce resolve by 10 for the attacker and by 5 for the defender if resolve is higher or equal to 50, otherwise it will reduce the roll by half
         // casting reduces resolve by 5 for the caster if resolve is higher or equal to 100, otherwise it will reduce the roll by half, save vs casting does not reduce resolve for the defender
         // psionics is prevalent over arcane if the skills are equal when used by a character to roll for spellcasting
@@ -51,7 +51,7 @@
         // arena or tournaments do not reward levelup points, but you also don't lose your character or items if you are defeated
         // only offensive actions will reward levelup points
         // levelup gives: entitylevel + (0 deed pt., 1 stats pts., 2 assets pts., 3 skill pts) for every critical hit
-        // leveup points allocation takes into account class likely skills as well as theirs influencing stats, meaning that a Warrior would increase his Combat skill much easier than Arcane
+        // levelup points allocation takes into account class likely skills as well as theirs influencing stats, meaning that a Warrior would increase his Combat skill much easier than Arcane
         // effort level includes quests from all its lower levels as well
         // during travelling, 1 party member consumes 1 food, for every effort grade failed, party consumes 1 additional food to travel per travel day per party member (unless otherwise specified by the game logic or heroic traits)
         // travel time is usually 20km per day, unless otherwise specified by other factors
@@ -82,7 +82,7 @@
         // purge affects your psionics roll, under 100% will give a penalty, over 100% will give a bonus
         // resting replenishes 10% of your lost resolve, and 20% or your lost mana
         // effort is a feat determined by different entity types and can be achieved by becoming a greater adventurer
-        // effort represents the range of grades that you need to roll over for a successfull roll
+        // effort represents the range of grades that you need to roll over for a successful roll
       
     </textarea>
     <!-- RACES & CULTURES -->
@@ -213,7 +213,7 @@
                     public const int Sail         = -100;
             // Orcs
                 // Greenskin
-                    The most common and widespread orchish culture. Devastating and destructive in nature, although the most humane in comparison with a plethora of evil manifestations that reside on Avelraan.
+                    The most common and widespread orcish culture. Devastating and destructive in nature, although the most humane in comparison with a plethora of evil manifestations that reside on Avelraan.
                     // stats
                     public const int Strength     = 0;
                     public const int Constitution = 0;
@@ -314,7 +314,7 @@
     <textarea style="text-align: left; padding: 0px" rows="2" cols="150">
         // Stats
             Strength: represents the raw power of a character and its actual size (STR)
-            Constitution: is the overall resillience and stamina and how much a character can endure both physically and mentally (CON)
+            Constitution: is the overall resilience and stamina and how much a character can endure both physically and mentally (CON)
             Agility: shows the speed prowess and flexibility of a character (AGI)
             Willpower: the determination of a character, the power to endure at any costs (WIL)
             Perception: hand eye coordination, as well as other natural senses (PER)
@@ -333,10 +333,10 @@
             Psionics: energy discharges and telekinesis (2WIL + CON)
             Hide: the rare gift to disappear entirely (2AGI + PER + ABS - STR)
             Traps: the ability to set harmful distractions (2ABS + PER)       
-            Tactics: the accumen and command of large groups of individuals to gain a favorable outcome before, during or after a battle (3*ABS)
+            Tactics: the acumen and command of large groups of individuals to gain a favorable outcome before, during or after a battle (3*ABS)
             Social: the skill to persuade, discuss, debate or barter (PER + ABS + WIL)
             Apothecary: first aid and the physician's skill to mend or treat various wounds and illnesses (ABS + PER + CON)
-            Travel: the speed at which you can crosscountry and spacial awareness (2CON + AGI + WIL - STR)
+            Travel: the speed at which you can cross country and spatial awareness (2CON + AGI + WIL - STR)
             Sail: the skill to sail ships as well to survive at sea, rivers or lakes (2CON + ABS)      
     </textarea>
   </div>
