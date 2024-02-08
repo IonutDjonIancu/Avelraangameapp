@@ -3,14 +3,17 @@
     <div class="background-image-container">
       <img class="av-image" :src="avImage" />
     </div>
-    <nav style="display: flex">
-      <router-link to="/" class="av-nav-item">Home</router-link>
-      <router-link v-if="isLoggedIn" to="/character" class="av-nav-item"
-        >| Character</router-link
-      >
-      <div v-if="!isLoggedIn" style="color: #859c71">
-        * you will have to login first in order to see the rest of the content
+    <nav style="display: flex; justify-content: space-between">
+      <div style="display: flex">
+        <router-link to="/" class="av-nav-item">Home</router-link>
+        <router-link v-if="isLoggedIn" to="/character" class="av-nav-item"
+          >| Character</router-link
+        >
+        <div v-if="!isLoggedIn" style="color: #859c71">
+          * you will have to login first in order to see the rest of the content
+        </div>
       </div>
+      <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link>
     </nav>
     <AvSays :avText="avText"></AvSays>
     <router-view />
