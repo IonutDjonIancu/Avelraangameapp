@@ -2,7 +2,6 @@
   <div class="av-says-container">
     <textarea
       name="avsays"
-      title="The dungeonmaster Avelraan will display information here."
       :value="`Avelraan says: ${props.avText}`"
       readonly
       disabled
