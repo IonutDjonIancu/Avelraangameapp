@@ -98,7 +98,13 @@ const sellItem = (chr: Character) => {
 
 const getPlayer = (): void => {
   HttpService.httpGet(`Player/GetPlayer`)
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((res: Player) => {
       characters.value = res.characters;
       updateAvText(

@@ -76,7 +76,13 @@ const loginPlayer = (): void => {
   };
 
   HttpService.httpPutNoIdentity("Player/Loginplayer", data)
-    .then((s) => s.text())
+    .then((s) => {
+      if (s.ok) {
+        return s.text();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((res: string) => {
       if (
         res.toLowerCase().includes("failed") ||

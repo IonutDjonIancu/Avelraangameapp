@@ -87,7 +87,13 @@ const playCharacterCreateTheme = (): void => {
 
 const rollCharacter = (): void => {
   HttpService.httpGet(`Character/CreateCharacter`)
-    .then((s) => s.json())
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
     .then((res: CharacterStub) => {
       if (
         res.entityLevel > 1 &&
