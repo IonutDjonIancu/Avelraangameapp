@@ -4,7 +4,7 @@
     <input
       v-model="playerName"
       id="create"
-      name="create"
+      name="createInput"
       type="text"
       maxlength="20"
       autocomplete="off"

@@ -2,7 +2,12 @@
   <div class="column">
     <div class="row">
       <label class="label" for="name">Name</label>
-      <input v-model="name" name="name" :placeholder="character.status.name" />
+      <input
+        v-model="name"
+        id="name"
+        name="nameInput"
+        :placeholder="character.status.name"
+      />
     </div>
     <div class="row">
       <ul>

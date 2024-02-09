@@ -227,7 +227,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, defineEmits, ref } from "vue";
+import { defineProps, onMounted, inject, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
 import { Emits } from "@/dtos/Enums";
 import AvButton from "@/components/small/AvButton.vue";

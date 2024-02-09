@@ -26,7 +26,6 @@ import HomeCreate from "@/components/home/HomeCreate.vue";
 import HomeQr from "@/components/home/HomeQr.vue";
 import HomeLogin from "@/components/home/HomeLogin.vue";
 import { SetQrCode } from "../dtos/Dtos";
-import { MusicType } from "@/dtos/Enums";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvMusic: any = inject("updateAvMusic");

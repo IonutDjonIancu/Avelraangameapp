@@ -11,7 +11,7 @@
             id="name"
             type="text"
             maxlength="20"
-            name="name"
+            name="nameInput"
             autocomplete="off"
           />
         </div>
@@ -23,7 +23,7 @@
             v-model="code"
             id="code"
             type="text"
-            name="code"
+            name="codeInput"
             maxlength="6"
             autocomplete="off"
           />

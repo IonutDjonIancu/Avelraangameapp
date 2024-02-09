@@ -21,8 +21,3 @@ export enum Songs {
   EastTheme = "east_theme",
   EndTheme = "end_theme",
 }
-
-export enum MusicType {
-  Song = "song", // songs are wav
-  Sound = "sound", // sounds are mp3
-}
