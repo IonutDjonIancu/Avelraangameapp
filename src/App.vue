@@ -4,15 +4,21 @@
       <img class="av-image" :src="avImage" />
     </div>
     <nav style="display: flex; justify-content: space-between">
+      <!-- LEFT SIDE CONTENTS -->
       <div class="row">
         <router-link to="/" class="av-nav-item">Home</router-link>
         <router-link v-if="isLoggedIn" to="/character" class="av-nav-item"
           >| Character</router-link
         >
+        <router-link v-if="isLoggedIn" to="/market" class="av-nav-item"
+          >| Marketplace</router-link
+        >
         <div v-if="!isLoggedIn" style="color: #859c71">
           * you will have to login first in order to see the rest of the content
         </div>
       </div>
+
+      <!-- RIGHT SIDE CONTENTS -->
       <div class="row">
         <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link> |
         <AvMusic :avMusicName="avMusicName"></AvMusic>
@@ -37,7 +43,7 @@ const avText = ref(
   "Welcome adventurer! I will be your dungeonmaster and I will guide your story through the world of Av'el'Raan..."
 );
 const avImage = ref<string>(require("./assets/img_planet_2.png"));
-const isLoggedIn = ref<boolean>(false);
+const isLoggedIn = ref<boolean>(true); // TODO: change it back to false
 
 const avMusicName = ref<string>("");
 const avSoundName = ref<string>("");
@@ -78,16 +84,15 @@ provide("updateAvImage", updateAvImage);
 provide("updateAvAuth", updateAvAuth);
 
 onMounted(() => {
-  // TODO: add back the storage clear
+  // TODO: uncomment all this stuff
   // localStorage.clear();
-
-  if (
-    confirm(
-      "Do you allow Avelraan to sometimes play its theme music? Alternatively you can always right-click on the tab and select 'Mute site' if you get tired of it."
-    )
-  ) {
-    localStorage.setItem("canPlayMusic", "true");
-  }
+  // if (
+  //   confirm(
+  //     "Do you allow Avelraan to sometimes play its theme music? Alternatively you can always right-click on the tab and select 'Mute site' if you get tired of it."
+  //   )
+  // ) {
+  //   localStorage.setItem("canPlayMusic", "true");
+  // }
 });
 </script>
 
@@ -186,5 +191,14 @@ input {
 .m-h-1 {
   margin-left: 3px;
   margin-right: 3px;
+}
+
+.text-bold {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.text-small {
+  font-size: small;
 }
 </style>

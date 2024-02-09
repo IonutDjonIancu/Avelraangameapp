@@ -59,7 +59,7 @@
         <li class="list-header">Inventory</li>
         <li>
           <div v-if="character.inventory.head != null" class="li-item row">
-            <AvItemButton :item="character.inventory.head"></AvItemButton>
+            <AvItemCard :item="character.inventory.head"></AvItemCard>
             <i title="helm" class="fa-solid fa-user m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -68,7 +68,7 @@
         </li>
         <li>
           <div v-if="character.inventory.body != null" class="li-item row">
-            <AvItemButton :item="character.inventory.body"></AvItemButton>
+            <AvItemCard :item="character.inventory.body"></AvItemCard>
             <i title="armour" class="fa-solid fa-user-shield m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -77,7 +77,7 @@
         </li>
         <li>
           <div v-if="character.inventory.mainhand != null" class="li-item row">
-            <AvItemButton :item="character.inventory.mainhand"></AvItemButton>
+            <AvItemCard :item="character.inventory.mainhand"></AvItemCard>
             <i title="mainhand" class="fa-solid fa-hand-back-fist m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -89,7 +89,7 @@
         </li>
         <li>
           <div v-if="character.inventory.offhand != null" class="li-item row">
-            <AvItemButton :item="character.inventory.offhand"></AvItemButton>
+            <AvItemCard :item="character.inventory.offhand"></AvItemCard>
             <i title="offhand" class="fa-solid fa-shield-halved m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -98,7 +98,7 @@
         </li>
         <li>
           <div v-if="character.inventory.ranged != null" class="li-item row">
-            <AvItemButton :item="character.inventory.ranged"></AvItemButton>
+            <AvItemCard :item="character.inventory.ranged"></AvItemCard>
             <i title="ranged" class="fa-solid fa-arrows-up-to-line m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -197,13 +197,13 @@
     </div>
     <!-- Character supplies items -->
     <div class="row supplies">
-      <AvItemButton
+      <AvItemCard
         @on-item-equip="equipItem"
         @on-item-sell="sellItem"
         :key="item.identity.id"
         v-for="item in character.inventory.supplies"
         :item="item"
-      ></AvItemButton>
+      ></AvItemCard>
     </div>
     <div class="row">
       <AvButton
@@ -231,7 +231,7 @@ import { defineProps, onMounted, inject, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
 import { Emits } from "@/dtos/Enums";
 import AvButton from "@/components/small/AvButton.vue";
-import AvItemButton from "@/components/small/AvItemButton.vue";
+import AvItemCard from "@/components/small/AvItemCard.vue";
 import { Character, CharacterEquip, CharacterTrade } from "@/dtos/Dtos";
 
 const updateAvImage: any = inject("updateAvImage");
