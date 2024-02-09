@@ -42,48 +42,25 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, onMounted, inject, ref } from "vue";
 import { HttpService } from "@/services/HttpService";
-import { Howl } from "howler";
 import AvButton from "@/components/small/AvButton.vue";
 import { CharacterStub } from "@/dtos/Dtos";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvImage: any = inject("updateAvImage");
+const updateAvMusic: any = inject("updateAvMusic");
+const updateAvSound: any = inject("updateAvSound");
+
 const emit = defineEmits(["on-character-stub-create"]);
 
 const entityLevel = ref<number>(1);
 const statPts = ref<number>(1);
 const skillPts = ref<number>(1);
 
-const characterCreateTheme: any = new Howl({
-  src: require("@/assets/song_character_create.mp3"),
-  volume: 0.2,
-  loop: false,
-});
-
-const entityLevelUpSound: any = new Howl({
-  src: require("@/assets/sound_sword_far.mp3"),
-  volume: 1,
-  loop: false,
-});
-
 const props = defineProps({
   gotoSibling: {
     type: Function,
   },
 });
-
-const playCharacterCreateTheme = (): void => {
-  if (
-    localStorage.getItem("canPlaySounds") === "true" &&
-    localStorage.getItem("isSongPlaying") === "false"
-  ) {
-    characterCreateTheme.play();
-    localStorage.setItem("isSongPlaying", "true");
-    characterCreateTheme.on("end", () => {
-      localStorage.setItem("isSongPlaying", "false");
-    });
-  }
-};
 
 const rollCharacter = (): void => {
   HttpService.httpGet(`Character/CreateCharacter`)
@@ -95,11 +72,8 @@ const rollCharacter = (): void => {
       }
     })
     .then((res: CharacterStub) => {
-      if (
-        res.entityLevel > 1 &&
-        localStorage.getItem("canPlaySounds") === "true"
-      ) {
-        entityLevelUpSound.play();
+      if (res.entityLevel > 1) {
+        updateAvSound("sword_far", 1);
       }
 
       entityLevel.value = res.entityLevel;
@@ -134,7 +108,6 @@ onMounted(() => {
       "Stat points and skill points will determine your overall starting abilities, the higher the better.\n" +
       "Once you create your character it will decide by itself where to distribute points based on what class you will choose."
   );
-
-  playCharacterCreateTheme();
+  updateAvMusic("character_create");
 });
 </script>

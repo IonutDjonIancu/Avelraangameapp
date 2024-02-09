@@ -15,10 +15,11 @@
       </div>
       <div class="row">
         <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link> |
-        <AvMusic
-          :avMusicType="avMusicType"
-          :avMusicName="AvMusicName"
-        ></AvMusic>
+        <AvMusic :avMusicName="avMusicName"></AvMusic>
+        <AvSound
+          :avSoundName="avSoundName"
+          :avSoundVolume="avSoundVolume"
+        ></AvSound>
       </div>
     </nav>
     <AvSays :avText="avText"></AvSays>
@@ -28,23 +29,27 @@
 
 <script setup lang="ts">
 import { ref, provide, onMounted } from "vue";
-import { MusicType } from "@/dtos/Enums";
 import AvSays from "@/components/general/AvSays.vue";
 import AvMusic from "@/components/general/AvMusic.vue";
+import AvSound from "@/components/general/AvSound.vue";
 
 const avText = ref(
   "Welcome adventurer! I will be your dungeonmaster and I will guide your story through the world of Av'el'Raan..."
 );
 const avImage = ref<string>(require("./assets/img_planet_2.png"));
-const canPlaySounds = ref<string>("");
 const isLoggedIn = ref<boolean>(false);
 
-const avMusicType = ref<string>("");
-const AvMusicName = ref<string>("");
+const avMusicName = ref<string>("");
+const avSoundName = ref<string>("");
+const avSoundVolume = ref<number>(1);
 
-const updateAvMusic = (type: MusicType, name: string) => {
-  avMusicType.value = type;
-  AvMusicName.value = `${name}.${Math.floor(Math.random() * 100000)}`;
+const updateAvMusic = (name: string) => {
+  avMusicName.value = `${name}.${Math.floor(Math.random() * 100000)}`;
+};
+
+const updateAvSound = (name: string, volume: number) => {
+  avSoundVolume.value = volume;
+  avSoundName.value = `${name}.${Math.floor(Math.random() * 100000)}`;
 };
 
 const updateAvText = (newText: string) => {
@@ -67,19 +72,21 @@ const updateAvAuth = () => {
 };
 
 provide("updateAvMusic", updateAvMusic);
+provide("updateAvSound", updateAvSound);
 provide("updateAvText", updateAvText);
 provide("updateAvImage", updateAvImage);
 provide("updateAvAuth", updateAvAuth);
 
 onMounted(() => {
-  localStorage.clear();
+  // TODO: add back the storage clear
+  // localStorage.clear();
 
   if (
     confirm(
       "Do you allow Avelraan to sometimes play its theme music? Alternatively you can always right-click on the tab and select 'Mute site' if you get tired of it."
     )
   ) {
-    localStorage.setItem("noMusic", "false");
+    localStorage.setItem("canPlayMusic", "true");
   }
 });
 </script>

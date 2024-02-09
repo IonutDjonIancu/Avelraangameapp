@@ -230,32 +230,19 @@
 import { defineProps, onMounted, inject, defineEmits, ref } from "vue";
 import { HttpService } from "@/services/HttpService";
 import { Emits } from "@/dtos/Enums";
-import { Howl } from "howler";
 import AvButton from "@/components/small/AvButton.vue";
 import AvItemButton from "@/components/small/AvItemButton.vue";
 import { Character, CharacterEquip, CharacterTrade } from "@/dtos/Dtos";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvText: any = inject("updateAvText");
+const updateAvSound: any = inject("updateAvSound");
+
 const emit = defineEmits([
   Emits.OnItemEquip,
   Emits.OnCharacterDelete,
   Emits.OnItemSell,
 ]);
-
-const sell: any = new Howl({
-  src: require("@/assets/sound_item_sell.mp3"),
-  volume: 1,
-  loop: false,
-});
-
-const wear: any = new Howl({
-  src: require("@/assets/sound_item_wear.mp3"),
-  volume: 1,
-  loop: false,
-});
-
-const canPlaySounds = ref<string>("");
 
 const props = defineProps({
   gotoSibling: {
@@ -309,9 +296,7 @@ const sellItem = (trade: CharacterTrade): void => {
       }
     })
     .then((character: Character) => {
-      if (canPlaySounds.value === "true") {
-        sell.play();
-      }
+      updateAvSound("item_sell", 1);
       emit(Emits.OnItemSell, character);
     })
     .catch((err) => {
@@ -332,9 +317,7 @@ const equipItem = (equip: CharacterEquip): void => {
       }
     })
     .then((character: Character) => {
-      if (canPlaySounds.value === "true") {
-        wear.play();
-      }
+      updateAvSound("item_wear", 1);
 
       emit(Emits.OnItemEquip, character);
     })
@@ -345,11 +328,10 @@ const equipItem = (equip: CharacterEquip): void => {
 };
 
 const seeChar = () => {
-  console.log(props.character);
+  console.log(props.character); // allowed for now
 };
 
 onMounted(() => {
-  canPlaySounds.value = localStorage.getItem("canPlaySounds");
   updateAvImage("img_character_sheet");
   updateAvText(
     `Character sheet of the one they call ${props.character.status.name}.`

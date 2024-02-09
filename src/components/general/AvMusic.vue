@@ -10,18 +10,13 @@
 <script setup lang="ts">
 import { defineProps, ref, watch, onMounted } from "vue";
 import { Howl } from "howler";
-import { MusicType } from "@/dtos/Enums";
 
-let songPlaying = ref<Howl>(null);
 const nameOfSong = ref<string>("");
 const musicClass = ref<string>("");
 const canPlayMusic = ref<boolean>(true);
+let songPlaying = ref<Howl>(null);
 
 const props = defineProps({
-  avMusicType: {
-    type: String,
-    required: true,
-  },
   avMusicName: {
     type: String,
     required: true,
@@ -31,11 +26,7 @@ const props = defineProps({
 watch(
   () => props.avMusicName,
   () => {
-    if (props.avMusicType === MusicType.Sound) {
-      playSound();
-    } else {
-      playSong();
-    }
+    playSong();
   }
 );
 
@@ -44,9 +35,17 @@ const playSong = (): void => {
   if (songPlaying.value) return;
   const name = props.avMusicName.split(".")[0];
 
+  if (name.includes("theme")) {
+    playWav(name);
+  } else {
+    playMp3(name);
+  }
+};
+
+const playWav = (name: string) => {
   const audio: Howl = new Howl({
     src: require(`@/assets/song_${name}.wav`),
-    volume: 0.2,
+    volume: 0.3,
     loop: false,
   });
 
@@ -62,21 +61,29 @@ const playSong = (): void => {
   });
 };
 
-const playSound = (): void => {
-  const name = props.avMusicName.split(".")[0];
-
+const playMp3 = (name: string) => {
   const audio: Howl = new Howl({
-    src: require(`@/assets/sound_${name}.mp3`),
-    volume: 1,
+    src: require(`@/assets/song_${name}.mp3`),
+    volume: 0.3,
     loop: false,
   });
 
   audio.play();
+  songPlaying.value = audio;
+  nameOfSong.value = name;
+  toggleMusicClass();
+
+  audio.on("end", () => {
+    songPlaying.value = null;
+    nameOfSong.value = "";
+    toggleMusicClass();
+  });
 };
 
 const stopMusic = (): void => {
   songPlaying.value.stop();
   songPlaying.value = null;
+  nameOfSong.value = "";
   toggleMusicClass();
 };
 
@@ -89,7 +96,7 @@ const toggleMusicClass = () => {
 };
 
 onMounted(() => {
-  canPlayMusic.value = localStorage.getItem("noMusic") === "false";
+  canPlayMusic.value = localStorage.getItem("canPlayMusic") === "true";
   toggleMusicClass();
 });
 </script>

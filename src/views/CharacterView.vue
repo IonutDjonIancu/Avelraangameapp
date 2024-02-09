@@ -36,7 +36,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref, inject } from "vue";
-import { Howl } from "howler";
 import CharacterMain from "@/components/character/CharacterMain.vue";
 import CharacterRoll from "@/components/character/CharacterRoll.vue";
 import CharacterTraits from "@/components/character/CharacterTraits.vue";
@@ -47,23 +46,12 @@ import { HttpService } from "@/services/HttpService";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvImage: any = inject("updateAvImage");
+const updateAvSound: any = inject("updateAvSound");
 
 const text = ref<string>("");
 const characterStub = ref<CharacterStub>();
 const character = ref<Character>();
 const characters = ref<Character[]>([]);
-const canPlaySounds = ref<string>("");
-
-const turnPage: any = new Howl({
-  src: require("@/assets/sound_page_flip.mp3"),
-  volume: 0.3,
-  loop: false,
-});
-
-const pageTurn = (): void => {
-  if (canPlaySounds.value !== "true") return;
-  turnPage.play();
-};
 
 const gotoSibling = (value: string) => {
   text.value = value;
@@ -125,12 +113,7 @@ const updateCharacters = () => {
 
 onMounted(() => {
   updateAvImage("img_character");
-  canPlaySounds.value = localStorage.getItem("canPlaySounds")!;
-
-  if (canPlaySounds.value === "true") {
-    pageTurn();
-  }
-
+  updateAvSound("page_flip", 0.8);
   getPlayer();
 });
 </script>

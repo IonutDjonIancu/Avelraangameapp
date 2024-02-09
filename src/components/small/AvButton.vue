@@ -14,22 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, ref, onMounted } from "vue";
-import { Howl } from "howler";
+import { defineProps, computed, inject } from "vue";
 
-const click: any = new Howl({
-  src: require("@/assets/sound_button_click.mp3"),
-  volume: 1,
-  loop: false,
-});
-
-const back: any = new Howl({
-  src: require("@/assets/sound_button_click_back.mp3"),
-  volume: 1,
-  loop: false,
-});
-
-const canPlaySounds = ref<string>("");
+const updateAvSound: any = inject("updateAvSound");
 
 const getComputedImage = computed((): string => {
   return require(`@/assets/${props.source}.png`);
@@ -59,18 +46,12 @@ const props = defineProps({
 });
 
 const playSound = (value: string): void => {
-  if (canPlaySounds.value !== "true") return;
-
   if (value === "click") {
-    click.play();
+    updateAvSound("button_click", 1);
   } else {
-    back.play();
+    updateAvSound("button_click_back", 1);
   }
 };
-
-onMounted(() => {
-  canPlaySounds.value = localStorage.getItem("canPlaySounds");
-});
 </script>
 
 <style scoped>

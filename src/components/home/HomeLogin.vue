@@ -93,7 +93,7 @@ const loginPlayer = (): void => {
         localStorage.setItem("playerName", data.playerName);
         localStorage.setItem("playerToken", res);
         updateAvText(
-          `Welcome ${data.playerName}, your rite of passage is now complete. Proceed...`
+          `Welcome ${data.playerName}, your rite of passage is now complete. You can now access the other top left sections of the game.`
         );
 
         updateAvAuth();

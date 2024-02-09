@@ -99,7 +99,7 @@ const exportSnapshot = () => {
         s.text().then((r) => updateAvText(r));
       }
     })
-    .then(console.log)
+    .then(console.log) // this console log is allowed
     .catch((err) => console.error(err.message));
 };
 
@@ -118,7 +118,7 @@ const importPlayer = () => {
         s.text().then((r) => updateAvText(r));
       }
     })
-    .then(console.log)
+    .then(console.log) // this console log is allowed
     .catch((err) => console.error(err.message));
 };
 </script>
