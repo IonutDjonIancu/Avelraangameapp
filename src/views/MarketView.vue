@@ -44,10 +44,10 @@
 
 <script setup lang="ts">
 import { inject, onMounted, ref, computed } from "vue";
+import { useStore } from "vuex";
 import { Character, Player } from "@/dtos/Dtos";
 import { HttpService } from "@/services/HttpService";
 import MarketMain from "@/components/market/MarketMain.vue";
-import { useStore } from "vuex";
 
 const text = ref<string>("");
 const characters = ref<Character[]>([]);

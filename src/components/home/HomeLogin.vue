@@ -53,13 +53,13 @@
 
 <script setup lang="ts">
 import { defineProps, onMounted, inject, ref } from "vue";
+import store from "@/store";
 import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
-import { PlayerLogin } from "@/dtos/Dtos";
+import { Player, PlayerLogin } from "@/dtos/Dtos";
+import { StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
-const updateAvAuth: any = inject("updateAvAuth");
-const updateAvPlayer: any = inject("updateAvPlayer");
 
 const name = ref<string>("");
 const code = ref<string>("");
@@ -94,23 +94,23 @@ const loginPlayer = (): void => {
         localStorage.setItem("playerName", data.playerName);
         localStorage.setItem("playerToken", res);
         updateAvText(
-          `Welcome ${data.playerName}, your rite of passage is now complete. You can now access the other top left sections of the game.`
+          `Welcome ${data.playerName}, your rite of passage is now complete. You can now access the other sections of the game located in the navbar.`
         );
 
-        updateAvAuth();
-
-        HttpService.getPlayer().then((p) => {
-          console.log(p);
+        HttpService.getPlayer().then((player: Player) => {
           console.log(
-            "<<<<<<<<<<<<<<<<<<< PLAYER DATA UPDATED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> PLAYER DATA UPDATED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
           );
-          updateAvPlayer(p);
+          console.log(player);
+          console.log(
+            "<<<<<<<<<<<<<<<<<<<<<<<<<<<<< PLAYER DATA UPDATED <<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+          );
+          store.commit(StoreData.SetPlayerProfile, player);
+          name.value = "";
+          code.value = "";
+
+          props.gotoSibling("");
         });
-
-        name.value = "";
-        code.value = "";
-
-        props.gotoSibling("");
       }
     })
     .catch((err) => {
