@@ -28,7 +28,7 @@ const gotoSibling = (value: string) => {
 onMounted(() => {
   updateAvImage("img_market");
   updateAvSound("page_flip", 0.8);
-  updateAvText("Select the character that goes to the market.");
+  updateAvText("Select the character that wishes to trade.");
   HttpService.getPlayer()
     .then((s: Player) => (characters.value = s.characters))
     .then(() => console.log(characters.value));

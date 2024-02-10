@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div v-if="characters.length > 0" class="column">
     <!-- SELECT CHARACTERS -->
     <div class="row">
       <span>Select character</span>
@@ -34,6 +34,7 @@
       </div>
     </div>
   </div>
+  <div v-else>You have no characters.</div>
 </template>
 
 <script setup lang="ts">
