@@ -26,7 +26,7 @@
       </div>
       <div class="row">
         <AvItemCard
-          @on-item-sell="sellItem"
+          @on-item-sell="sellItem(item.identity.id)"
           :key="index"
           v-for="(item, index) in character.inventory.supplies"
           :item="item"
@@ -34,14 +34,20 @@
       </div>
     </div>
   </div>
-  <div v-else>You have no characters.</div>
+  <div v-else>You have no characters</div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from "vue";
-import { Character } from "@/dtos/Dtos";
+import { defineProps, ref, inject } from "vue";
+import { useStore } from "vuex";
+import { Character, CharacterTrade } from "@/dtos/Dtos";
 import AvItemCard from "@/components/small/AvItemCard.vue";
+import { HttpService } from "@/services/HttpService";
+import { StoreData } from "@/dtos/Enums";
 
+const updateAvText: any = inject("updateAvText");
+
+const store = useStore();
 const isSelected = ref<boolean>(false);
 const selectedImageIndex = ref<number>(null);
 const character = ref<Character>(null);
@@ -72,8 +78,28 @@ const getImage = (chr: Character): string => {
   }.png`);
 };
 
-const sellItem = (): void => {
-  console.log("selling item...");
+const sellItem = (itemId: string): void => {
+  var tradeItem: CharacterTrade = {
+    characterIdentity: character.value.identity,
+    itemId: itemId,
+  };
+
+  HttpService.httpPut("Character/SellItem", tradeItem)
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
+    .then((character: Character) => {
+      store.commit(StoreData.UpdateCharacter, character);
+      console.log("item sold");
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
 };
 </script>
 

@@ -59,6 +59,7 @@ import { PlayerLogin } from "@/dtos/Dtos";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvAuth: any = inject("updateAvAuth");
+const updateAvPlayer: any = inject("updateAvPlayer");
 
 const name = ref<string>("");
 const code = ref<string>("");
@@ -97,6 +98,14 @@ const loginPlayer = (): void => {
         );
 
         updateAvAuth();
+
+        HttpService.getPlayer().then((p) => {
+          console.log(p);
+          console.log(
+            "<<<<<<<<<<<<<<<<<<< PLAYER DATA UPDATED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+          );
+          updateAvPlayer(p);
+        });
 
         name.value = "";
         code.value = "";

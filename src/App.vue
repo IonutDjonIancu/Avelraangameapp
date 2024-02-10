@@ -38,6 +38,9 @@ import { ref, provide, onMounted } from "vue";
 import AvSays from "@/components/general/AvSays.vue";
 import AvMusic from "@/components/general/AvMusic.vue";
 import AvSound from "@/components/general/AvSound.vue";
+import { Player } from "./dtos/Dtos";
+import store from "@/store";
+import { StoreData } from "./dtos/Enums";
 
 const avText = ref(
   "Welcome adventurer! I will be your dungeonmaster and I will guide your story through the world of Av'el'Raan..."
@@ -77,11 +80,16 @@ const updateAvAuth = () => {
   }
 };
 
+const updateAvPlayer = (player: Player) => {
+  store.commit(StoreData.SetPlayerProfile, player);
+};
+
 provide("updateAvMusic", updateAvMusic);
 provide("updateAvSound", updateAvSound);
 provide("updateAvText", updateAvText);
 provide("updateAvImage", updateAvImage);
 provide("updateAvAuth", updateAvAuth);
+provide("updateAvPlayer", updateAvPlayer);
 
 onMounted(() => {
   // TODO: uncomment all this stuff

@@ -21,3 +21,8 @@ export enum Songs {
   EastTheme = "east_theme",
   EndTheme = "end_theme",
 }
+
+export enum StoreData {
+  SetPlayerProfile = "setPlayerProfile",
+  UpdateCharacter = "updateCharacter",
+}
