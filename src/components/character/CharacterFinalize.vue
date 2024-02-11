@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div v-if="character" class="column">
     <div class="row">
       <label class="label" for="name">Name</label>
       <input
@@ -79,36 +79,38 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, ref, defineEmits } from "vue";
+import { defineProps, onMounted, inject, ref, computed } from "vue";
+import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
-import { Emits } from "@/dtos/Enums";
-import { Character, CharacterData } from "@/dtos/Dtos";
+import { StoreData } from "@/dtos/Enums";
+import { Character, CharacterData, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 
 const updateAvText: any = inject("updateAvText");
-const emit = defineEmits([Emits.OnCharacterUpdate]);
 
+const store = useStore();
+const playerProfile = computed<Player | null>(() => store.state.playerProfile);
+const characterId = computed<string | null>(() => store.state.characterId);
+
+const character = ref<Character | null>(
+  playerProfile.value.characters.find((c) => c.identity.id == characterId.value)
+);
 const name = ref<string>("");
 
 const props = defineProps({
   gotoSibling: {
     type: Function,
   },
-  character: {
-    type: Object as () => Character,
-    required: true,
-  },
 });
 
 const finalizeCharacter = (): void => {
   const data: CharacterData = {
-    playerId: props.character.identity.playerId,
-    characterId: props.character.identity.id,
+    playerId: character.value.identity.playerId,
+    characterId: character.value.identity.id,
     characterName: name.value,
   };
 
   if (name.value.length === 0) {
-    emit(Emits.OnCharacterUpdate);
     props.gotoSibling("");
     return;
   }
@@ -121,9 +123,8 @@ const finalizeCharacter = (): void => {
         s.text().then((r) => updateAvText(r));
       }
     })
-    .then(() => {
-      emit(Emits.OnCharacterUpdate);
-
+    .then((player: Player) => {
+      store.commit(StoreData.SetPlayerProfile, player);
       props.gotoSibling("");
     })
     .catch((err) => {

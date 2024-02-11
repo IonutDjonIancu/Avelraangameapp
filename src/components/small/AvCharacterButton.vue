@@ -25,6 +25,12 @@ import { Character } from "@/dtos/Dtos";
 
 const updateAvSound: any = inject("updateAvSound");
 
+const props = defineProps({
+  character: {
+    type: Object as () => Character,
+  },
+});
+
 const getComputedImage = computed((): string => {
   return require(`@/assets/ico_${props.character.status.traits.race.toLowerCase()}_${
     props.character.status.traits.icon
@@ -43,13 +49,6 @@ const hasLevelUp = computed((): boolean => {
     props.character.levelUp.statPoints;
 
   return total > 0;
-});
-
-const props = defineProps({
-  character: {
-    type: Object as () => Character,
-    require: false,
-  },
 });
 
 const playSound = () => {

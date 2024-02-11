@@ -1,18 +1,28 @@
-import { Character, Player } from "@/dtos/Dtos";
+import { Character, CharacterStub, Player } from "@/dtos/Dtos";
 import { createStore } from "vuex";
 
 interface State {
   playerProfile?: Player;
+  characterId?: string;
+  characterStub?: CharacterStub;
 }
 
 export default createStore<State>({
   state: {
     playerProfile: null,
+    characterId: null,
+    characterStub: null,
   },
   getters: {},
   mutations: {
     setPlayerProfile(state, playerProfile: Player) {
       state.playerProfile = playerProfile;
+    },
+    setCharacterId(state, charId: string) {
+      state.characterId = charId;
+    },
+    setCharacterStub(state, charStub: CharacterStub) {
+      state.characterStub = charStub;
     },
     updateCharacter(state, updatedCharacter: Character) {
       if (state.playerProfile) {

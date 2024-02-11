@@ -118,7 +118,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, onMounted, inject, defineEmits } from "vue";
+import { ref, defineProps, onMounted, inject, computed } from "vue";
+import { useStore } from "vuex";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
 import {
@@ -126,10 +127,18 @@ import {
   CharacterStub,
   CharacterTraits,
   CharacterRacialTraits,
+  Character,
+  Player,
 } from "@/dtos/Dtos";
+import { StoreData } from "@/dtos/Enums";
+
+const store = useStore();
+const playerProfile = computed<Player | null>(() => store.state.playerProfile);
+const characterStub = computed<CharacterStub | null>(
+  () => store.state.characterStub
+);
 
 const updateAvText: any = inject("updateAvText");
-const emit = defineEmits(["on-character-create"]);
 
 const races = ref<string[]>();
 const race = ref<string>("");
@@ -145,10 +154,6 @@ const icon = ref<number>(0);
 const props = defineProps({
   gotoSibling: {
     type: Function,
-  },
-  stub: {
-    type: Object as () => CharacterStub,
-    required: true,
   },
 });
 
@@ -200,7 +205,7 @@ const getImages = (): string[] => {
   return arr;
 };
 
-const selectImage = (index): void => {
+const selectImage = (index: number): void => {
   icon.value = index + 1;
   selectedImageIndex.value = index;
 };
@@ -222,8 +227,9 @@ const saveCharacter = (): void => {
         s.text().then((r) => updateAvText(r));
       }
     })
-    .then((res) => {
-      emit("on-character-create", res);
+    .then((char: Character) => {
+      playerProfile.value.characters.push(char);
+      store.commit(StoreData.SetCharacterId, char.identity.id);
       props.gotoSibling("finalize");
     })
     .catch((err) => {
@@ -233,7 +239,7 @@ const saveCharacter = (): void => {
 
 onMounted(() => {
   updateAvText(
-    `You have entity level ${props.stub.entityLevel}, stat pts. ${props.stub.statPoints}, and skill pts. ${props.stub.skillPoints}.\n` +
+    `You have entity level ${characterStub.value.entityLevel}, stat pts. ${characterStub.value.statPoints}, and skill pts. ${characterStub.value.skillPoints}.\n` +
       "Your character will decide how to best spend these points after you choose the below traits. This will determine your birthright and your starting values for your skills.\n" +
       "There is more information on character traits in the rulebook, but there is also a short description if you hover over race, culture, tradition or class."
   );

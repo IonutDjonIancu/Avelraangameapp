@@ -20,6 +20,14 @@
 
       <!-- RIGHT SIDE CONTENTS -->
       <div class="row">
+        <span @click="seePlayer" class="av-nav-item">
+          {{
+            playerProfile
+              ? "Player: " + playerProfile.identity.name
+              : "no player logged in"
+          }}
+          |
+        </span>
         <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link> |
         <AvMusic :avMusicName="avMusicName"></AvMusic>
         <AvSound
@@ -34,13 +42,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, onMounted } from "vue";
+import { ref, provide, onMounted, computed } from "vue";
+import { useStore } from "vuex";
 import AvSays from "@/components/general/AvSays.vue";
 import AvMusic from "@/components/general/AvMusic.vue";
 import AvSound from "@/components/general/AvSound.vue";
 import { Player } from "./dtos/Dtos";
-import store from "@/store";
-import { StoreData } from "./dtos/Enums";
+
+const store = useStore();
+const playerProfile = computed<Player | null>(() => store.state.playerProfile);
 
 const avText = ref(
   "Welcome adventurer! I will be your dungeonmaster and I will guide your story through the world of Av'el'Raan..."
@@ -80,8 +90,8 @@ const updateAvAuth = () => {
   }
 };
 
-const updateAvPlayer = (player: Player) => {
-  store.commit(StoreData.SetPlayerProfile, player);
+const seePlayer = () => {
+  console.log(store.state);
 };
 
 provide("updateAvMusic", updateAvMusic);
@@ -89,7 +99,6 @@ provide("updateAvSound", updateAvSound);
 provide("updateAvText", updateAvText);
 provide("updateAvImage", updateAvImage);
 provide("updateAvAuth", updateAvAuth);
-provide("updateAvPlayer", updateAvPlayer);
 
 onMounted(() => {
   // TODO: uncomment all this stuff

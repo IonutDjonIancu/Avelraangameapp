@@ -227,12 +227,29 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, defineEmits } from "vue";
+import {
+  defineProps,
+  onMounted,
+  inject,
+  defineEmits,
+  computed,
+  ref,
+} from "vue";
+import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
 import { Emits } from "@/dtos/Enums";
 import AvButton from "@/components/small/AvButton.vue";
 import AvItemCard from "@/components/small/AvItemCard.vue";
-import { Character, CharacterEquip, CharacterTrade } from "@/dtos/Dtos";
+import { Character, CharacterEquip, CharacterTrade, Player } from "@/dtos/Dtos";
+
+const store = useStore();
+const playerProfile = computed<Player | null>(() => store.state.playerProfile);
+const characterId = computed<string | null>(() => store.state.characterId);
+const character = ref<Character>(
+  playerProfile.value.characters.find(
+    (c) => c.identity.id === characterId.value
+  )
+);
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvText: any = inject("updateAvText");
@@ -249,29 +266,26 @@ const props = defineProps({
     type: Function,
     required: true,
   },
-  character: {
-    type: Object as () => Character,
-    required: true,
-  },
 });
 
 const getImage = (): string => {
-  return require(`@/assets/ico_${props.character.status.traits.race.toLowerCase()}_${
-    props.character.status.traits.icon
+  return require(`@/assets/ico_${character.value.status.traits.race.toLowerCase()}_${
+    character.value.status.traits.icon
   }.png`);
 };
 
 const deleteCharacter = (): void => {
   if (
     confirm(
-      `Are you sure you want to delete character: ${props.character.status.name}?`
+      `Are you sure you want to delete character: ${character.value.status.name}?`
     )
   ) {
     const playerName = localStorage.getItem("playerName");
     const playerToken = localStorage.getItem("playerToken");
 
+    // TODO: refactore httpdelete
     HttpService.httpDelete(
-      `Character/DeleteCharacter?PlayerName=${playerName}&Token=${playerToken}&characterId=${props.character.identity.id}`
+      `Character/DeleteCharacter?PlayerName=${playerName}&Token=${playerToken}&characterId=${character.value.identity.id}`
     )
       .then(() => {
         emit(Emits.OnCharacterDelete);
@@ -286,7 +300,7 @@ const deleteCharacter = (): void => {
 };
 
 const sellItem = (trade: CharacterTrade): void => {
-  trade.characterIdentity = props.character.identity;
+  trade.characterIdentity = character.value.identity;
   HttpService.httpPut("Character/SellItem", trade)
     .then((s) => {
       if (s.ok) {
@@ -306,7 +320,7 @@ const sellItem = (trade: CharacterTrade): void => {
 };
 
 const equipItem = (equip: CharacterEquip): void => {
-  equip.characterIdentity = props.character.identity;
+  equip.characterIdentity = character.value.identity;
 
   HttpService.httpPut("Character/EquipItem", equip)
     .then((s) => {
@@ -328,13 +342,13 @@ const equipItem = (equip: CharacterEquip): void => {
 };
 
 const seeChar = () => {
-  console.log(props.character); // allowed for now
+  console.log(character.value); // allowed for now
 };
 
 onMounted(() => {
   updateAvImage("img_character_sheet");
   updateAvText(
-    `Character sheet of the one they call ${props.character.status.name}.`
+    `Character sheet of the one they call ${character.value.status.name}.`
   );
 });
 </script>

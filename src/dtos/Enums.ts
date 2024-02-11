@@ -24,5 +24,7 @@ export enum Songs {
 
 export enum StoreData {
   SetPlayerProfile = "setPlayerProfile",
+  SetCharacterId = "setCharacterId",
+  SetCharacterStub = "setCharacterStub",
   UpdateCharacter = "updateCharacter",
 }

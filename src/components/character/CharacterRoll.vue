@@ -27,7 +27,7 @@
       ></AvButton>
       <div :class="entityLevel + statPts + skillPts < 10 ? 'disabled' : ''">
         <AvButton
-          @click="saveCharacterStub"
+          @click="props.gotoSibling('traits')"
           :size="'large'"
           :source="`ico_character_create_roll`"
           :title="'Continue to character traits'"
@@ -40,17 +40,19 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, onMounted, inject, ref } from "vue";
+import { defineProps, onMounted, inject, ref } from "vue";
+import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
 import { CharacterStub } from "@/dtos/Dtos";
+import { StoreData } from "@/dtos/Enums";
+
+const store = useStore();
 
 const updateAvText: any = inject("updateAvText");
 const updateAvImage: any = inject("updateAvImage");
 const updateAvMusic: any = inject("updateAvMusic");
 const updateAvSound: any = inject("updateAvSound");
-
-const emit = defineEmits(["on-character-stub-create"]);
 
 const entityLevel = ref<number>(1);
 const statPts = ref<number>(1);
@@ -71,31 +73,21 @@ const rollCharacter = (): void => {
         s.text().then((r) => updateAvText(r));
       }
     })
-    .then((res: CharacterStub) => {
-      if (res.entityLevel > 1) {
+    .then((char: CharacterStub) => {
+      if (char.entityLevel > 1) {
         updateAvSound("sword_far", 1);
       }
 
-      entityLevel.value = res.entityLevel;
-      statPts.value = res.statPoints;
-      skillPts.value = res.skillPoints;
+      entityLevel.value = char.entityLevel;
+      statPts.value = char.statPoints;
+      skillPts.value = char.skillPoints;
+
+      store.commit(StoreData.SetCharacterStub, char);
     })
     .catch((err) => {
       updateAvText(err.message);
       return;
     });
-};
-
-const saveCharacterStub = () => {
-  const stub: CharacterStub = {
-    entityLevel: entityLevel.value,
-    statPoints: statPts.value,
-    skillPoints: skillPts.value,
-  };
-
-  emit("on-character-stub-create", stub);
-
-  props.gotoSibling("traits");
 };
 
 onMounted(() => {
