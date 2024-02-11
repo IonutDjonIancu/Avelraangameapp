@@ -123,8 +123,8 @@ const finalizeCharacter = (): void => {
         s.text().then((r) => updateAvText(r));
       }
     })
-    .then((player: Player) => {
-      store.commit(StoreData.SetPlayerProfile, player);
+    .then((character: Character) => {
+      store.commit(StoreData.UpdateCharacter, character);
       props.gotoSibling("");
     })
     .catch((err) => {

@@ -207,7 +207,7 @@ export interface Item {
 
 export interface ItemIdentity {
   id: string;
-  CharacterId: string;
+  characterId: string;
 }
 
 export interface SpecialSkill {

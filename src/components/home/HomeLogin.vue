@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form name="characterLogin" class="form">
+    <form name="characterLogin" class="form" autocomplete="off">
       <div class="form-item">
         <div class="form-item" style="margin-bottom: 10px">
           <label style="font-weight: bold; margin-bottom: 5px" for="name"

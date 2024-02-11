@@ -24,6 +24,9 @@ export default createStore<State>({
     setCharacterStub(state, charStub: CharacterStub) {
       state.characterStub = charStub;
     },
+    createCharacter(state, character: Character) {
+      state.playerProfile.characters.push(character);
+    },
     updateCharacter(state, updatedCharacter: Character) {
       if (state.playerProfile) {
         const index = state.playerProfile.characters.findIndex(
@@ -31,6 +34,16 @@ export default createStore<State>({
         );
         if (index !== -1) {
           state.playerProfile.characters[index] = updatedCharacter;
+        }
+      }
+    },
+    deleteCharacter(state, charId: string) {
+      if (state.playerProfile) {
+        const index = state.playerProfile.characters.findIndex(
+          (c) => c.identity.id === charId
+        );
+        if (index !== -1) {
+          state.playerProfile.characters.splice(index, 1);
         }
       }
     },

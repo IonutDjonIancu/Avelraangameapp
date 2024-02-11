@@ -126,13 +126,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, computed, defineEmits } from "vue";
-import { CharacterEquip, CharacterTrade, Item } from "@/dtos/Dtos";
-import { Emits, InventoryLocations } from "@/dtos/Enums";
+import { ref, defineProps, computed, inject } from "vue";
+import { useStore } from "vuex";
+import {
+  Character,
+  CharacterEquip,
+  CharacterTrade,
+  Item,
+  Player,
+} from "@/dtos/Dtos";
+import { InventoryLocations, StoreData } from "@/dtos/Enums";
+import { HttpService } from "@/services/HttpService";
 
-const emit = defineEmits([Emits.OnItemEquip, Emits.OnItemSell]);
+const updateAvText: any = inject("updateAvText");
+const updateAvSound: any = inject("updateAvSound");
 
-const isHovered = ref<boolean>(false);
+const store = useStore();
+const playerProfile = computed<Player | null>(() => store.state.playerProfile);
 
 const getComputedImage = computed((): string => {
   return require(`@/assets/ico_${props.item.subtype.toLowerCase()}_${
@@ -163,6 +173,8 @@ const hasOffhand = computed((): boolean => {
 const hasRanged = computed((): boolean => {
   return props.item.inventoryLocations.includes(InventoryLocations.Ranged);
 });
+
+const isHovered = ref<boolean>(false);
 
 const props = defineProps({
   item: {
@@ -195,45 +207,72 @@ const equipMain = (): void => {
     location = InventoryLocations.Heraldry;
   }
 
+  equipItem(location);
+};
+
+const equipOff = (): void => {
+  equipItem(InventoryLocations.Offhand);
+};
+
+const equipRanged = (): void => {
+  equipItem(InventoryLocations.Ranged);
+};
+
+const equipItem = (location: string): void => {
   const equip: CharacterEquip = {
-    characterIdentity: null,
+    characterIdentity: {
+      id: props.item.identity.characterId,
+      playerId: playerProfile.value.identity.id,
+    },
     itemId: props.item.identity.id,
     inventoryLocation: location,
   };
 
-  emit(Emits.OnItemEquip, equip);
-};
-
-const equipOff = (): void => {
-  const equip: CharacterEquip = {
-    characterIdentity: null,
-    itemId: props.item.identity.id,
-    inventoryLocation: "Offhand",
-  };
-
-  emit(Emits.OnItemEquip, equip);
-};
-
-const equipRanged = (): void => {
-  const equip: CharacterEquip = {
-    characterIdentity: null,
-    itemId: props.item.identity.id,
-    inventoryLocation: "Ranged",
-  };
-
-  emit(Emits.OnItemEquip, equip);
+  HttpService.httpPut("Character/EquipItem", equip)
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
+    .then((character: Character) => {
+      store.commit(StoreData.UpdateCharacter, character);
+      updateAvSound("item_wear", 1);
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
 };
 
 const sellItem = (): void => {
   var trade: CharacterTrade = {
-    characterIdentity: null,
+    characterIdentity: {
+      id: props.item.identity.characterId,
+      playerId: playerProfile.value.identity.id,
+    },
     itemId: props.item.identity.id,
     isToBuy: null,
     amount: null,
     targetIdentity: null,
   };
-
-  emit(Emits.OnItemSell, trade);
+  HttpService.httpPut("Character/SellItem", trade)
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
+    .then((character: Character) => {
+      store.commit(StoreData.UpdateCharacter, character);
+      updateAvSound("item_sell", 1);
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
 };
 </script>
 

@@ -26,5 +26,7 @@ export enum StoreData {
   SetPlayerProfile = "setPlayerProfile",
   SetCharacterId = "setCharacterId",
   SetCharacterStub = "setCharacterStub",
+  CreateCharacter = "createCharacter",
   UpdateCharacter = "updateCharacter",
+  DeleteCharacter = "deleteCharacter",
 }

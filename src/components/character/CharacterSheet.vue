@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div v-if="character" class="column">
     <!-- Character static data -->
     <div @click="seeChar" class="row">
       <img :title="character.status.name" class="avatar" :src="getImage()" />
@@ -179,11 +179,9 @@
         <li :title="`Character fame and renown: ${character.status.fame}`">
           Fame
         </li>
-
         <li title="The entity level of the character.">
           Entity {{ character.status.entityLevel }}
         </li>
-
         <li title="The day the character started adventuring.">
           Adventuring since {{ character.status.dateOfBirth }}
         </li>
@@ -198,8 +196,6 @@
     <!-- Character supplies items -->
     <div class="row supplies">
       <AvItemCard
-        @on-item-equip="equipItem"
-        @on-item-sell="sellItem"
         :key="item.identity.id"
         v-for="item in character.inventory.supplies"
         :item="item"
@@ -227,39 +223,30 @@
 </template>
 
 <script setup lang="ts">
-import {
-  defineProps,
-  onMounted,
-  inject,
-  defineEmits,
-  computed,
-  ref,
-} from "vue";
+import { defineProps, onMounted, inject, computed } from "vue";
 import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
-import { Emits } from "@/dtos/Enums";
 import AvButton from "@/components/small/AvButton.vue";
 import AvItemCard from "@/components/small/AvItemCard.vue";
-import { Character, CharacterEquip, CharacterTrade, Player } from "@/dtos/Dtos";
-
-const store = useStore();
-const playerProfile = computed<Player | null>(() => store.state.playerProfile);
-const characterId = computed<string | null>(() => store.state.characterId);
-const character = ref<Character>(
-  playerProfile.value.characters.find(
-    (c) => c.identity.id === characterId.value
-  )
-);
+import { Character, Player } from "@/dtos/Dtos";
+import { StoreData } from "@/dtos/Enums";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvText: any = inject("updateAvText");
-const updateAvSound: any = inject("updateAvSound");
 
-const emit = defineEmits([
-  Emits.OnItemEquip,
-  Emits.OnCharacterDelete,
-  Emits.OnItemSell,
-]);
+const store = useStore();
+const playerProfile = computed<Player | null>(
+  (): Player => store.state.playerProfile
+);
+const characterId = computed<string | null>(
+  (): string => store.state.characterId
+);
+const character = computed<Character | null>(
+  (): Character =>
+    playerProfile.value.characters.find(
+      (c) => c.identity.id === characterId.value
+    )
+);
 
 const props = defineProps({
   gotoSibling: {
@@ -280,16 +267,15 @@ const deleteCharacter = (): void => {
       `Are you sure you want to delete character: ${character.value.status.name}?`
     )
   ) {
+    // TODO: refactore httpdelete
+    // TODO: it currently has a special url, either change it server side, or app side
     const playerName = localStorage.getItem("playerName");
     const playerToken = localStorage.getItem("playerToken");
-
-    // TODO: refactore httpdelete
     HttpService.httpDelete(
       `Character/DeleteCharacter?PlayerName=${playerName}&Token=${playerToken}&characterId=${character.value.identity.id}`
     )
       .then(() => {
-        emit(Emits.OnCharacterDelete);
-
+        store.commit(StoreData.DeleteCharacter, character.value.identity.id);
         props.gotoSibling("");
       })
       .catch((err) => {
@@ -297,48 +283,6 @@ const deleteCharacter = (): void => {
         return;
       });
   }
-};
-
-const sellItem = (trade: CharacterTrade): void => {
-  trade.characterIdentity = character.value.identity;
-  HttpService.httpPut("Character/SellItem", trade)
-    .then((s) => {
-      if (s.ok) {
-        return s.json();
-      } else {
-        s.text().then((r) => updateAvText(r));
-      }
-    })
-    .then((character: Character) => {
-      updateAvSound("item_sell", 1);
-      emit(Emits.OnItemSell, character);
-    })
-    .catch((err) => {
-      updateAvText(err.message);
-      return;
-    });
-};
-
-const equipItem = (equip: CharacterEquip): void => {
-  equip.characterIdentity = character.value.identity;
-
-  HttpService.httpPut("Character/EquipItem", equip)
-    .then((s) => {
-      if (s.ok) {
-        return s.json();
-      } else {
-        s.text().then((r) => updateAvText(r));
-      }
-    })
-    .then((character: Character) => {
-      updateAvSound("item_wear", 1);
-
-      emit(Emits.OnItemEquip, character);
-    })
-    .catch((err) => {
-      updateAvText(err.message);
-      return;
-    });
 };
 
 const seeChar = () => {

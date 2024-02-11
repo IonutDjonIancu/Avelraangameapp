@@ -8,7 +8,7 @@
       <div class="row">
         <router-link to="/" class="av-nav-item">Home</router-link>
         <router-link v-if="isLoggedIn" to="/character" class="av-nav-item"
-          >| Character</router-link
+          >| Characters</router-link
         >
         <router-link v-if="isLoggedIn" to="/market" class="av-nav-item"
           >| Marketplace</router-link

@@ -1,5 +1,5 @@
 <template>
-  <form class="form">
+  <form class="form" autocomplete="off">
     <label class="av-label" for="create">Player name</label>
     <input
       v-model="playerName"

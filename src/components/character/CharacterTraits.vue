@@ -228,7 +228,7 @@ const saveCharacter = (): void => {
       }
     })
     .then((char: Character) => {
-      playerProfile.value.characters.push(char);
+      store.commit(StoreData.CreateCharacter, char);
       store.commit(StoreData.SetCharacterId, char.identity.id);
       props.gotoSibling("finalize");
     })
