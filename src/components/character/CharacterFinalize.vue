@@ -7,6 +7,7 @@
         id="name"
         name="nameInput"
         :placeholder="character.status.name"
+        autocomplete="off"
       />
     </div>
     <div class="row">
