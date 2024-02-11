@@ -1,10 +1,10 @@
 <template>
-  <form class="form">
+  <form class="form" autocomplete="off">
     <label class="av-label" for="create">Player name</label>
     <input
       v-model="playerName"
       id="create"
-      name="create"
+      name="createInput"
       type="text"
       maxlength="20"
       autocomplete="off"
@@ -39,13 +39,13 @@ import AvButton from "@/components/small/AvButton.vue";
 const updateAvText: any = inject("updateAvText");
 const emit = defineEmits(["on-player-create"]);
 
+const playerName = ref<string>("");
+
 const props = defineProps({
   gotoSibling: {
     type: Function,
   },
 });
-
-const playerName = ref<string>("");
 
 const goBack = (): void => {
   updateAvText("Welcome back.");

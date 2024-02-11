@@ -1,10 +1,10 @@
 <template>
   <div class="column">
-    <div class="characters">
+    <div v-if="characters" class="characters">
       <AvCharacterButton
-        @click="seeCharacterSheet(character.identity.id)"
-        v-for="character in props.characters"
-        :key="character.identity.id"
+        @click="setCharacterId(character.identity.id)"
+        v-for="(character, index) in characters"
+        :key="index"
         :character="character"
       ></AvCharacterButton>
     </div>
@@ -22,32 +22,37 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from "vue";
-import { Character } from "@/dtos/Dtos";
+import { defineProps, computed, inject, onMounted, ref } from "vue";
+import { useStore } from "vuex";
+import { Character, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 import AvCharacterButton from "@/components/small/AvCharacterButton.vue";
+import { StoreData } from "@/dtos/Enums";
 
-const emit = defineEmits(["on-character-sheet"]);
+const store = useStore();
+const playerProfile = computed<Player | null>(() => store.state.playerProfile);
+const characters = ref<Character[]>(playerProfile.value.characters);
+
+const updateAvText: any = inject("updateAvText");
 
 const props = defineProps({
   gotoSibling: {
     type: Function,
   },
-  characters: {
-    type: Array as () => Character[],
-    required: true,
-  },
 });
 
-const seeCharacterSheet = (charId: string): void => {
-  let character: Character = props.characters.find(
-    (s) => s.identity.id === charId
-  );
-
-  emit("on-character-sheet", character);
-
+const setCharacterId = (charId: string): void => {
+  store.commit(StoreData.SetCharacterId, charId);
   props.gotoSibling("sheet");
 };
+
+onMounted(() => {
+  updateAvText(
+    characters.value
+      ? `You have ${characters.value.length} playable characters out of 5 maximum alive.`
+      : "Create some characters..."
+  );
+});
 </script>
 
 <style scoped>

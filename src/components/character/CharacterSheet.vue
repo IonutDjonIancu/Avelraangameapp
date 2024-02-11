@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div v-if="character" class="column">
     <!-- Character static data -->
     <div @click="seeChar" class="row">
       <img :title="character.status.name" class="avatar" :src="getImage()" />
@@ -59,7 +59,7 @@
         <li class="list-header">Inventory</li>
         <li>
           <div v-if="character.inventory.head != null" class="li-item row">
-            <AvItemButton :item="character.inventory.head"></AvItemButton>
+            <AvItemCard :item="character.inventory.head"></AvItemCard>
             <i title="helm" class="fa-solid fa-user m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -68,7 +68,7 @@
         </li>
         <li>
           <div v-if="character.inventory.body != null" class="li-item row">
-            <AvItemButton :item="character.inventory.body"></AvItemButton>
+            <AvItemCard :item="character.inventory.body"></AvItemCard>
             <i title="armour" class="fa-solid fa-user-shield m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -77,7 +77,7 @@
         </li>
         <li>
           <div v-if="character.inventory.mainhand != null" class="li-item row">
-            <AvItemButton :item="character.inventory.mainhand"></AvItemButton>
+            <AvItemCard :item="character.inventory.mainhand"></AvItemCard>
             <i title="mainhand" class="fa-solid fa-hand-back-fist m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -89,7 +89,7 @@
         </li>
         <li>
           <div v-if="character.inventory.offhand != null" class="li-item row">
-            <AvItemButton :item="character.inventory.offhand"></AvItemButton>
+            <AvItemCard :item="character.inventory.offhand"></AvItemCard>
             <i title="offhand" class="fa-solid fa-shield-halved m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -98,7 +98,7 @@
         </li>
         <li>
           <div v-if="character.inventory.ranged != null" class="li-item row">
-            <AvItemButton :item="character.inventory.ranged"></AvItemButton>
+            <AvItemCard :item="character.inventory.ranged"></AvItemCard>
             <i title="ranged" class="fa-solid fa-arrows-up-to-line m-r"></i>
           </div>
           <div v-else class="li-item row">
@@ -179,11 +179,9 @@
         <li :title="`Character fame and renown: ${character.status.fame}`">
           Fame
         </li>
-
         <li title="The entity level of the character.">
           Entity {{ character.status.entityLevel }}
         </li>
-
         <li title="The day the character started adventuring.">
           Adventuring since {{ character.status.dateOfBirth }}
         </li>
@@ -197,13 +195,11 @@
     </div>
     <!-- Character supplies items -->
     <div class="row supplies">
-      <AvItemButton
-        @on-item-equip="equipItem"
-        @on-item-sell="sellItem"
+      <AvItemCard
         :key="item.identity.id"
         v-for="item in character.inventory.supplies"
         :item="item"
-      ></AvItemButton>
+      ></AvItemCard>
     </div>
     <div class="row">
       <AvButton
@@ -227,68 +223,59 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, defineEmits, ref } from "vue";
+import { defineProps, onMounted, inject, computed } from "vue";
+import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
-import { Emits } from "@/dtos/Enums";
-import { Howl } from "howler";
 import AvButton from "@/components/small/AvButton.vue";
-import AvItemButton from "@/components/small/AvItemButton.vue";
-import { Character, CharacterEquip, CharacterTrade } from "@/dtos/Dtos";
+import AvItemCard from "@/components/small/AvItemCard.vue";
+import { Character, Player } from "@/dtos/Dtos";
+import { StoreData } from "@/dtos/Enums";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvText: any = inject("updateAvText");
-const emit = defineEmits([
-  Emits.OnItemEquip,
-  Emits.OnCharacterDelete,
-  Emits.OnItemSell,
-]);
 
-const sell: any = new Howl({
-  src: require("@/assets/sound_item_sell.mp3"),
-  volume: 1,
-  loop: false,
-});
-
-const wear: any = new Howl({
-  src: require("@/assets/sound_item_wear.mp3"),
-  volume: 1,
-  loop: false,
-});
-
-const canPlaySounds = ref<string>("");
+const store = useStore();
+const playerProfile = computed<Player | null>(
+  (): Player => store.state.playerProfile
+);
+const characterId = computed<string | null>(
+  (): string => store.state.characterId
+);
+const character = computed<Character | null>(
+  (): Character =>
+    playerProfile.value.characters.find(
+      (c) => c.identity.id === characterId.value
+    )
+);
 
 const props = defineProps({
   gotoSibling: {
     type: Function,
     required: true,
   },
-  character: {
-    type: Object as () => Character,
-    required: true,
-  },
 });
 
 const getImage = (): string => {
-  return require(`@/assets/ico_${props.character.status.traits.race.toLowerCase()}_${
-    props.character.status.traits.icon
+  return require(`@/assets/ico_${character.value.status.traits.race.toLowerCase()}_${
+    character.value.status.traits.icon
   }.png`);
 };
 
 const deleteCharacter = (): void => {
   if (
     confirm(
-      `Are you sure you want to delete character: ${props.character.status.name}?`
+      `Are you sure you want to delete character: ${character.value.status.name}?`
     )
   ) {
+    // TODO: refactore httpdelete
+    // TODO: it currently has a special url, either change it server side, or app side
     const playerName = localStorage.getItem("playerName");
     const playerToken = localStorage.getItem("playerToken");
-
     HttpService.httpDelete(
-      `Character/DeleteCharacter?PlayerName=${playerName}&Token=${playerToken}&characterId=${props.character.identity.id}`
+      `Character/DeleteCharacter?PlayerName=${playerName}&Token=${playerToken}&characterId=${character.value.identity.id}`
     )
       .then(() => {
-        emit(Emits.OnCharacterDelete);
-
+        store.commit(StoreData.DeleteCharacter, character.value.identity.id);
         props.gotoSibling("");
       })
       .catch((err) => {
@@ -298,61 +285,14 @@ const deleteCharacter = (): void => {
   }
 };
 
-const sellItem = (trade: CharacterTrade): void => {
-  trade.characterIdentity = props.character.identity;
-  HttpService.httpPut("Character/SellItem", trade)
-    .then((s) => {
-      if (s.ok) {
-        return s.json();
-      } else {
-        s.text().then((r) => updateAvText(r));
-      }
-    })
-    .then((character: Character) => {
-      if (canPlaySounds.value === "true") {
-        sell.play();
-      }
-      emit(Emits.OnItemSell, character);
-    })
-    .catch((err) => {
-      updateAvText(err.message);
-      return;
-    });
-};
-
-const equipItem = (equip: CharacterEquip): void => {
-  equip.characterIdentity = props.character.identity;
-
-  HttpService.httpPut("Character/EquipItem", equip)
-    .then((s) => {
-      if (s.ok) {
-        return s.json();
-      } else {
-        s.text().then((r) => updateAvText(r));
-      }
-    })
-    .then((character: Character) => {
-      if (canPlaySounds.value === "true") {
-        wear.play();
-      }
-
-      emit(Emits.OnItemEquip, character);
-    })
-    .catch((err) => {
-      updateAvText(err.message);
-      return;
-    });
-};
-
 const seeChar = () => {
-  console.log(props.character);
+  console.log(character.value); // allowed for now
 };
 
 onMounted(() => {
-  canPlaySounds.value = localStorage.getItem("canPlaySounds");
   updateAvImage("img_character_sheet");
   updateAvText(
-    `Character sheet of the one they call ${props.character.status.name}.`
+    `Character sheet of the one they call ${character.value.status.name}.`
   );
 });
 </script>

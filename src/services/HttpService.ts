@@ -1,9 +1,9 @@
-import { PlayerInfo } from "@/dtos/Dtos";
+import { Player, PlayerInfo } from "@/dtos/Dtos";
 
 export class HttpService {
   // switch between local and prod for api calls
   // prod vs development feature flag
-  private static targetProd = true;
+  private static targetProd = false;
 
   // app URLs are provided below
   private static baseURL =
@@ -11,7 +11,7 @@ export class HttpService {
       ? "https://avelraangame.azurewebsites.net/api/palantir/"
       : "https://localhost:5001/api/palantir/";
 
-  // GET
+  // GET METADATA
   public static async httpGetMetadata(url: string): Promise<Response> {
     return fetch(`${this.baseURL}${url}`)
       .then((res) => {
@@ -138,6 +138,27 @@ export class HttpService {
         return err;
       });
   }
+
+  // PLAYER
+  public static getPlayer = async (): Promise<Player> => {
+    return this.httpGet(`Player/GetPlayer`)
+      .then(async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.text().then((errorMessage) => {
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((playerData: Player) => {
+        return playerData;
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error; // Re-throw the error to propagate it further
+      });
+  };
 
   private static getComposedURL = (url: string): string => {
     const playerInfo = this.identifyPlayer();

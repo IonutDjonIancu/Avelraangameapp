@@ -20,7 +20,10 @@
     <p style="font-size: xx-small">
       new rules will be added on top, once they become available
     </p>
-    <textarea style="text-align: left; padding: 0px; color: #2c3e50">
+    <textarea
+      style="text-align: left; padding: 0px; color: #2c3e50"
+      autocomplete="off"
+    >
         // Rules
         // the result of an arcane roll is the attacker's abstract * entity level + 10% of the roll difference
         // the result of a psionic roll is based on the purge level of the initiator, for a roll of 20 with 50% purge the result is 10, as well as for a roll of 20 with 150% purge the result is 30 
@@ -85,7 +88,7 @@
     <p style="text-decoration: underline; margin-top: 10px; font-weight: bold">
       Races, Cultures, Classes and Tradition
     </p>
-    <textarea style="text-align: left; padding: 0px">
+    <textarea style="text-align: left; padding: 0px" autocomplete="off">
         // Races
             // Human
                 Brought by the Triarii during the Seeding Event, humans and human cultures are the most widespread race on Avelraan, making up to about 75% of the total world population.
@@ -307,7 +310,7 @@
     <p style="text-decoration: underline; margin-top: 10px; font-weight: bold">
       Stats, Assets, Skills and Formulae
     </p>
-    <textarea style="text-align: left; padding: 0px">
+    <textarea style="text-align: left; padding: 0px" autocomplete="off">
         // Stats
             Strength: represents the raw power of a character and its actual size (STR)
             Constitution: is the overall resilience and stamina and how much a character can endure both physically and mentally (CON)

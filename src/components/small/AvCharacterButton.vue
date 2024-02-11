@@ -20,17 +20,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, defineProps } from "vue";
-import { Howl } from "howler";
+import { computed, inject, defineProps } from "vue";
 import { Character } from "@/dtos/Dtos";
 
-const click: any = new Howl({
-  src: require("@/assets/sound_button_click.mp3"),
-  volume: 1,
-  loop: false,
-});
-
-const canPlaySounds = ref<string>("");
+const updateAvSound: any = inject("updateAvSound");
 
 const getComputedImage = computed((): string => {
   return require(`@/assets/ico_${props.character.status.traits.race.toLowerCase()}_${
@@ -55,18 +48,12 @@ const hasLevelUp = computed((): boolean => {
 const props = defineProps({
   character: {
     type: Object as () => Character,
-    require: false,
   },
 });
 
-const playSound = (): void => {
-  if (canPlaySounds.value !== "true") return;
-  click.play();
+const playSound = () => {
+  updateAvSound("button_click", 1);
 };
-
-onMounted(() => {
-  canPlaySounds.value = localStorage.getItem("canPlaySounds");
-});
 </script>
 
 <style scoped>

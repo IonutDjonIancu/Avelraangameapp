@@ -4,16 +4,37 @@
       <img class="av-image" :src="avImage" />
     </div>
     <nav style="display: flex; justify-content: space-between">
-      <div style="display: flex">
+      <!-- LEFT SIDE CONTENTS -->
+      <div class="row">
         <router-link to="/" class="av-nav-item">Home</router-link>
         <router-link v-if="isLoggedIn" to="/character" class="av-nav-item"
-          >| Character</router-link
+          >| Characters</router-link
+        >
+        <router-link v-if="isLoggedIn" to="/market" class="av-nav-item"
+          >| Marketplace</router-link
         >
         <div v-if="!isLoggedIn" style="color: #859c71">
           * you will have to login first in order to see the rest of the content
         </div>
       </div>
-      <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link>
+
+      <!-- RIGHT SIDE CONTENTS -->
+      <div class="row">
+        <span @click="seePlayer" class="av-nav-item">
+          {{
+            playerProfile
+              ? "Player: " + playerProfile.identity.name
+              : "no player logged in"
+          }}
+          |
+        </span>
+        <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link> |
+        <AvMusic :avMusicName="avMusicName"></AvMusic>
+        <AvSound
+          :avSoundName="avSoundName"
+          :avSoundVolume="avSoundVolume"
+        ></AvSound>
+      </div>
     </nav>
     <AvSays :avText="avText"></AvSays>
     <router-view />
@@ -21,15 +42,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, onMounted } from "vue";
+import { ref, provide, onMounted, computed } from "vue";
+import { useStore } from "vuex";
 import AvSays from "@/components/general/AvSays.vue";
+import AvMusic from "@/components/general/AvMusic.vue";
+import AvSound from "@/components/general/AvSound.vue";
+import { Player } from "./dtos/Dtos";
+
+const store = useStore();
+const playerProfile = computed<Player | null>(() => store.state.playerProfile);
 
 const avText = ref(
   "Welcome adventurer! I will be your dungeonmaster and I will guide your story through the world of Av'el'Raan..."
 );
-const avImage = ref(require("./assets/img_planet.png"));
-const canPlaySounds = ref("");
-const isLoggedIn = ref(false);
+const avImage = ref<string>(require("./assets/img_planet_2.png"));
+const isLoggedIn = ref<boolean>(true); // TODO: change it back to false
+
+const avMusicName = ref<string>("");
+const avSoundName = ref<string>("");
+const avSoundVolume = ref<number>(1);
+
+const updateAvMusic = (name: string) => {
+  avMusicName.value = `${name}.${Math.floor(Math.random() * 100000)}`;
+};
+
+const updateAvSound = (name: string, volume: number) => {
+  avSoundVolume.value = volume;
+  avSoundName.value = `${name}.${Math.floor(Math.random() * 100000)}`;
+};
 
 const updateAvText = (newText: string) => {
   avText.value = newText;
@@ -50,19 +90,26 @@ const updateAvAuth = () => {
   }
 };
 
-const clearPlayerLogin = () => {
-  localStorage.removeItem("playerName");
-  localStorage.removeItem("playerToken");
+const seePlayer = () => {
+  console.log(store.state);
 };
 
+provide("updateAvMusic", updateAvMusic);
+provide("updateAvSound", updateAvSound);
 provide("updateAvText", updateAvText);
 provide("updateAvImage", updateAvImage);
 provide("updateAvAuth", updateAvAuth);
 
 onMounted(() => {
-  localStorage.setItem("isSongPlaying", "false");
-  canPlaySounds.value = localStorage.getItem("canPlaySounds")!;
-  clearPlayerLogin();
+  // TODO: uncomment all this stuff
+  // localStorage.clear();
+  // if (
+  //   confirm(
+  //     "Do you allow Avelraan to sometimes play its theme music? Alternatively you can always right-click on the tab and select 'Mute site' if you get tired of it."
+  //   )
+  // ) {
+  //   localStorage.setItem("canPlayMusic", "true");
+  // }
 });
 </script>
 
@@ -156,5 +203,19 @@ input {
 
 .disabled {
   pointer-events: none;
+}
+
+.m-h-1 {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.text-bold {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.text-small {
+  font-size: small;
 }
 </style>

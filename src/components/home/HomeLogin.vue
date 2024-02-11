@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form name="characterLogin" class="form">
+    <form name="characterLogin" class="form" autocomplete="off">
       <div class="form-item">
         <div class="form-item" style="margin-bottom: 10px">
           <label style="font-weight: bold; margin-bottom: 5px" for="name"
@@ -11,7 +11,7 @@
             id="name"
             type="text"
             maxlength="20"
-            name="name"
+            name="nameInput"
             autocomplete="off"
           />
         </div>
@@ -23,7 +23,7 @@
             v-model="code"
             id="code"
             type="text"
-            name="code"
+            name="codeInput"
             maxlength="6"
             autocomplete="off"
           />
@@ -53,12 +53,13 @@
 
 <script setup lang="ts">
 import { defineProps, onMounted, inject, ref } from "vue";
+import store from "@/store";
 import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
-import { PlayerLogin } from "@/dtos/Dtos";
+import { Player, PlayerLogin } from "@/dtos/Dtos";
+import { StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
-const updateAvAuth: any = inject("updateAvAuth");
 
 const name = ref<string>("");
 const code = ref<string>("");
@@ -93,15 +94,23 @@ const loginPlayer = (): void => {
         localStorage.setItem("playerName", data.playerName);
         localStorage.setItem("playerToken", res);
         updateAvText(
-          `Welcome ${data.playerName}, your rite of passage is now complete. Proceed...`
+          `Welcome ${data.playerName}, your rite of passage is now complete. You can now access the other sections of the game located in the navbar.`
         );
 
-        updateAvAuth();
+        HttpService.getPlayer().then((player: Player) => {
+          console.log(
+            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> PLAYER DATA UPDATED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+          );
+          console.log(player);
+          console.log(
+            "<<<<<<<<<<<<<<<<<<<<<<<<<<<<< PLAYER DATA UPDATED <<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+          );
+          store.commit(StoreData.SetPlayerProfile, player);
+          name.value = "";
+          code.value = "";
 
-        name.value = "";
-        code.value = "";
-
-        props.gotoSibling("");
+          props.gotoSibling("");
+        });
       }
     })
     .catch((err) => {
