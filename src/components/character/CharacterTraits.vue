@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div v-if="races" class="column">
     <div class="traits">
       <!-- labels -->
       <div class="traits-labels">
@@ -128,19 +128,17 @@ import {
   CharacterTraits,
   CharacterRacialTraits,
   Character,
-  Player,
 } from "@/dtos/Dtos";
 import { StoreData } from "@/dtos/Enums";
 
+const updateAvText: any = inject("updateAvText");
+
 const store = useStore();
-const playerProfile = computed<Player | null>(() => store.state.playerProfile);
 const characterStub = computed<CharacterStub | null>(
   () => store.state.characterStub
 );
 
-const updateAvText: any = inject("updateAvText");
-
-const races = ref<string[]>();
+const races = ref<string[]>(null);
 const race = ref<string>("");
 const cultures = ref<CharacterCultures>();
 const culture = ref<string>("");

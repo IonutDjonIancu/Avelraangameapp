@@ -43,7 +43,6 @@ const props = defineProps({
 
 const setCharacterId = (charId: string): void => {
   store.commit(StoreData.SetCharacterId, charId);
-
   props.gotoSibling("sheet");
 };
 

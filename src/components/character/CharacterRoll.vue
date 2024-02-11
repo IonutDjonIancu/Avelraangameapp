@@ -47,12 +47,12 @@ import AvButton from "@/components/small/AvButton.vue";
 import { CharacterStub } from "@/dtos/Dtos";
 import { StoreData } from "@/dtos/Enums";
 
-const store = useStore();
-
 const updateAvText: any = inject("updateAvText");
 const updateAvImage: any = inject("updateAvImage");
 const updateAvMusic: any = inject("updateAvMusic");
 const updateAvSound: any = inject("updateAvSound");
+
+const store = useStore();
 
 const entityLevel = ref<number>(1);
 const statPts = ref<number>(1);

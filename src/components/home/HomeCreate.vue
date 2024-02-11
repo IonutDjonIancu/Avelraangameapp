@@ -39,13 +39,13 @@ import AvButton from "@/components/small/AvButton.vue";
 const updateAvText: any = inject("updateAvText");
 const emit = defineEmits(["on-player-create"]);
 
+const playerName = ref<string>("");
+
 const props = defineProps({
   gotoSibling: {
     type: Function,
   },
 });
-
-const playerName = ref<string>("");
 
 const goBack = (): void => {
   updateAvText("Welcome back.");

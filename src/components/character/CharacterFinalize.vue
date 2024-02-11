@@ -89,12 +89,19 @@ import AvButton from "@/components/small/AvButton.vue";
 const updateAvText: any = inject("updateAvText");
 
 const store = useStore();
-const playerProfile = computed<Player | null>(() => store.state.playerProfile);
-const characterId = computed<string | null>(() => store.state.characterId);
-
-const character = ref<Character | null>(
-  playerProfile.value.characters.find((c) => c.identity.id == characterId.value)
+const playerProfile = computed<Player | null>(
+  (): Player => store.state.playerProfile
 );
+const characterId = computed<string | null>(
+  (): string => store.state.characterId
+);
+const character = computed<Character | null>(
+  (): Character =>
+    playerProfile.value.characters.find(
+      (c) => c.identity.id == characterId.value
+    )
+);
+
 const name = ref<string>("");
 
 const props = defineProps({

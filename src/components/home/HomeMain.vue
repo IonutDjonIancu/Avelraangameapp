@@ -28,7 +28,9 @@ import AvButton from "../small/AvButton.vue";
 import { Player } from "@/dtos/Dtos";
 
 const store = useStore();
-const playerProfile = computed<Player | null>(() => store.state.playerProfile);
+const playerProfile = computed<Player | null>(
+  (): Player => store.state.playerProfile
+);
 
 const props = defineProps({
   gotoSibling: {
