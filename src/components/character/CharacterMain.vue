@@ -31,7 +31,7 @@ import { StoreData } from "@/dtos/Enums";
 
 const store = useStore();
 const playerProfile = computed<Player | null>(() => store.state.playerProfile);
-const characters = ref<Character[]>(playerProfile.value.characters);
+const characters = computed<Character[]>(() => playerProfile.value.characters);
 
 const updateAvText: any = inject("updateAvText");
 
