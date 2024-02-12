@@ -1,5 +1,5 @@
 <template>
-  <form class="form" autocomplete="off">
+  <form name="createForm" class="form" autocomplete="nope">
     <label class="av-label" for="create">Player name</label>
     <input
       v-model="playerName"
@@ -7,7 +7,7 @@
       name="createInput"
       type="text"
       maxlength="20"
-      autocomplete="off"
+      autocomplete="nope"
     />
     <div class="submit">
       <AvButton

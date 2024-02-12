@@ -151,6 +151,7 @@ input {
 
 .av-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin-top: 30px;
   align-items: center;
@@ -210,6 +211,10 @@ input {
   margin-right: 3px;
 }
 
+.w-80 {
+  width: 80%;
+}
+
 .text-bold {
   font-weight: bold;
   color: #2c3e50;
@@ -217,5 +222,9 @@ input {
 
 .text-small {
   font-size: small;
+}
+
+.text-xsmall {
+  font-size: x-small;
 }
 </style>

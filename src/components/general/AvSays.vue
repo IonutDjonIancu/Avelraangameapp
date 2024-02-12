@@ -6,7 +6,7 @@
       readonly
       disabled
       class="av-says-textarea"
-      autocomplete="off"
+      autocomplete="nope"
     ></textarea>
   </div>
 </template>

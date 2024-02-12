@@ -227,6 +227,31 @@ export interface Position {
   location: string;
 }
 
+export interface Location {
+  name: string;
+  fullName: string;
+  position: Position;
+  description: string;
+  effort: number;
+  travelCostFromArada: number;
+  lastTimeVisited: string;
+  market: Item[];
+  mercenaries: Character[];
+  quests: Quest[];
+}
+
+export interface Quest {
+  fame: string;
+  description: string;
+  result: string;
+  isRepeatable: boolean;
+  id: string;
+  effortLvl: number;
+  encounters: number;
+  encountersLeft: number;
+  reward: string;
+}
+
 export interface DbRequestsInfo {
   password: string;
   secret: string;

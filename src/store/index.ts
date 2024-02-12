@@ -5,6 +5,7 @@ interface State {
   playerProfile?: Player;
   characterId?: string;
   characterStub?: CharacterStub;
+  location?: Location;
 }
 
 export default createStore<State>({
@@ -12,6 +13,7 @@ export default createStore<State>({
     playerProfile: null,
     characterId: null,
     characterStub: null,
+    location: null,
   },
   getters: {},
   mutations: {
@@ -23,6 +25,9 @@ export default createStore<State>({
     },
     setCharacterStub(state, charStub: CharacterStub) {
       state.characterStub = charStub;
+    },
+    setLocation(state, location: Location) {
+      state.location = location;
     },
     createCharacter(state, character: Character) {
       state.playerProfile.characters.push(character);
