@@ -136,7 +136,7 @@ nav {
 }
 
 input {
-  border-radius: 2px;
+  border-radius: 4px;
   text-align: center;
 }
 
@@ -168,6 +168,10 @@ input {
   display: flex;
   flex-direction: row;
   margin-bottom: 10px;
+}
+
+.row-center {
+  justify-content: center;
 }
 
 .normal {
@@ -206,13 +210,27 @@ input {
   pointer-events: none;
 }
 
-.m-h-1 {
+.m-y-1 {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.m-y-2 {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.m-x-1 {
   margin-left: 3px;
   margin-right: 3px;
 }
 
 .w-80 {
   width: 80%;
+}
+
+.w-10 {
+  width: 10%;
 }
 
 .text-bold {
