@@ -59,7 +59,7 @@ const avText = ref(
   "Welcome adventurer! I will be your dungeonmaster and I will guide your story through the world of Av'el'Raan..."
 );
 const avImage = ref<string>(require("./assets/img_planet_2.png"));
-const isLoggedIn = ref<boolean>(true); // TODO: change it back to false
+const isLoggedIn = ref<boolean>(false);
 
 const avMusicName = ref<string>("");
 const avSoundName = ref<string>("");
@@ -104,15 +104,14 @@ provide("updateAvImage", updateAvImage);
 provide("updateAvAuth", updateAvAuth);
 
 onMounted(() => {
-  // TODO: uncomment all this stuff
-  // localStorage.clear();
-  // if (
-  //   confirm(
-  //     "Do you allow Avelraan to sometimes play its theme music? Alternatively you can always right-click on the tab and select 'Mute site' if you get tired of it."
-  //   )
-  // ) {
-  //   localStorage.setItem("canPlayMusic", "true");
-  // }
+  localStorage.clear();
+  if (
+    confirm(
+      "Do you allow Avelraan to sometimes play its theme music? Alternatively you can always right-click on the tab and select 'Mute site' if you get tired of it."
+    )
+  ) {
+    localStorage.setItem("canPlayMusic", "true");
+  }
 });
 </script>
 
