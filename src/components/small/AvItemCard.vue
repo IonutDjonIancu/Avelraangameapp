@@ -39,7 +39,7 @@
         ></i>
         <i
           :title="
-            `Magical: ${item.hasTaint}\n` +
+            `Magical: ${item.hasTaint === true ? 'yes' : 'no'}\n` +
             `<<< assets >>>\n` +
             `harm: ${item.sheet.assets.harm}\n` +
             `resolve: ${item.sheet.assets.resolve}\n` +
@@ -72,7 +72,7 @@
         ></i>
       </div>
       <!-- second row of icons -->
-      <div class="row">
+      <div v-if="item.identity.characterId != emptyGuid" class="row">
         <i
           title="equip item"
           @click="equipMain"
@@ -106,6 +106,13 @@
           class="mini fa-solid fa-rotate-right"
         ></i>
       </div>
+      <div v-else class="row">
+        <i
+          :title="`buy item for: ${item.value}`"
+          @click="buyItem"
+          class="mini fa-solid fa-handshake"
+        ></i>
+      </div>
       <!-- third row of icons -->
       <div class="row">
         <span title="Harm" class="mini-5 text" style="margin-right: 3px">{{
@@ -134,15 +141,22 @@ import {
   CharacterTrade,
   Item,
   Player,
+  Location,
 } from "@/dtos/Dtos";
 import { InventoryLocations, StoreData } from "@/dtos/Enums";
 import { HttpService } from "@/services/HttpService";
+
+const emptyGuid = "00000000-0000-0000-0000-000000000000";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvSound: any = inject("updateAvSound");
 
 const store = useStore();
 const playerProfile = computed<Player | null>(() => store.state.playerProfile);
+const characterId = computed<string | null>(() => store.state.characterId);
+const characterLocation = computed<Location | null>(
+  (): Location => store.state.location
+);
 
 const getComputedImage = computed((): string => {
   return require(`@/assets/ico_${props.item.subtype.toLowerCase()}_${
@@ -257,6 +271,7 @@ const sellItem = (): void => {
     amount: null,
     targetIdentity: null,
   };
+
   HttpService.httpPut("Character/SellItem", trade)
     .then((s) => {
       if (s.ok) {
@@ -267,7 +282,60 @@ const sellItem = (): void => {
     })
     .then((character: Character) => {
       store.commit(StoreData.UpdateCharacter, character);
+
+      HttpService.httpPost("Gameplay/FindLocation", character.status.position)
+        .then((s) => {
+          if (s.ok) {
+            return s.json();
+          } else {
+            s.text().then((r) => updateAvText(r));
+          }
+        })
+        .then((loc: Location) => {
+          store.commit(StoreData.SetLocation, loc);
+        })
+        .catch((err) => {
+          updateAvText(err.message);
+          return;
+        });
+
       updateAvSound("item_sell", 1);
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
+};
+
+const buyItem = () => {
+  const trade: CharacterTrade = {
+    characterIdentity: {
+      id: characterId.value,
+      playerId: playerProfile.value.identity.id,
+    },
+    itemId: props.item.identity.id,
+    isToBuy: true,
+  };
+
+  HttpService.httpPut("Character/BuyItem", trade)
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
+    .then((character: Character) => {
+      updateAvSound("item_buy", 1);
+      store.commit(StoreData.UpdateCharacter, character);
+
+      const itemIndex = characterLocation.value.market.findIndex(
+        (i) => i.identity.id === props.item.identity.id
+      );
+
+      if (itemIndex !== -1) {
+        characterLocation.value.market.splice(itemIndex, 1);
+      }
     })
     .catch((err) => {
       updateAvText(err.message);
@@ -312,19 +380,19 @@ const sellItem = (): void => {
 }
 
 .item-level_1 {
-  border-color: gray;
+  border-color: whitesmoke;
 }
 
 .item-level_2 {
-  border-color: darkgreen;
+  border-color: goldenrod;
 }
 
 .item-level_3 {
-  border-color: darkgoldenrod;
+  border-color: green;
 }
 
 .item-level_4 {
-  border-color: darkred;
+  border-color: orangered;
 }
 
 .item-level_5 {
@@ -332,7 +400,7 @@ const sellItem = (): void => {
 }
 
 .item-level_6 {
-  border-color: magenta;
+  border-color: purple;
 }
 
 .mini {

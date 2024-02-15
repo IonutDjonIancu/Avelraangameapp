@@ -29,7 +29,6 @@ import { SetQrCode } from "../dtos/Dtos";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvMusic: any = inject("updateAvMusic");
-const updateAvSound: any = inject("updateAvSound");
 
 const text = ref<string>("");
 const qrCode = ref<string>("");
@@ -66,6 +65,5 @@ const playRandomTheme = (): void => {
 onMounted(() => {
   updateAvImage("img_planet_2");
   playRandomTheme();
-  updateAvSound("page_flip", 0.8);
 });
 </script>

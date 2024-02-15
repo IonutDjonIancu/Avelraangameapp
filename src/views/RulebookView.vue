@@ -14,7 +14,7 @@
       rotation."
     </p>
     <!-- RULEBOOK -->
-    <p style="text-decoration: underline; margin-top: 10px; font-weight: bold">
+    <p style="margin-top: 10px; font-weight: bold">
       Av'el'Raan Rulebook in no particular order
     </p>
     <p style="font-size: xx-small">
@@ -22,7 +22,7 @@
     </p>
     <textarea
       style="text-align: left; padding: 0px; color: #2c3e50"
-      autocomplete="off"
+      autocomplete="nope"
     >
         // Rules
         // the result of an arcane roll is the attacker's abstract * entity level + 10% of the roll difference
@@ -85,10 +85,10 @@
       
     </textarea>
     <!-- RACES & CULTURES -->
-    <p style="text-decoration: underline; margin-top: 10px; font-weight: bold">
+    <p style="margin-top: 10px; font-weight: bold">
       Races, Cultures, Classes and Tradition
     </p>
-    <textarea style="text-align: left; padding: 0px" autocomplete="off">
+    <textarea style="text-align: left; padding: 0px" autocomplete="nope">
         // Races
             // Human
                 Brought by the Triarii during the Seeding Event, humans and human cultures are the most widespread race on Avelraan, making up to about 75% of the total world population.
@@ -307,10 +307,10 @@
         </textarea
     >
     <!-- STATS & ASSETS FORMULAE -->
-    <p style="text-decoration: underline; margin-top: 10px; font-weight: bold">
+    <p style="margin-top: 10px; font-weight: bold">
       Stats, Assets, Skills and Formulae
     </p>
-    <textarea style="text-align: left; padding: 0px" autocomplete="off">
+    <textarea style="text-align: left; padding: 0px" autocomplete="nope">
         // Stats
             Strength: represents the raw power of a character and its actual size (STR)
             Constitution: is the overall resilience and stamina and how much a character can endure both physically and mentally (CON)
@@ -340,6 +340,21 @@
     </textarea>
   </div>
 </template>
+
+<script setup lang="ts">
+import { inject, onMounted } from "vue";
+
+const updateAvSound: any = inject("updateAvSound");
+const updateAvImage: any = inject("updateAvImage");
+
+onMounted(() => {
+  updateAvImage("img_rulebook");
+  updateAvSound("book", 1);
+  setTimeout(() => {
+    updateAvSound("hall_footsteps", 0.3);
+  }, 2000);
+});
+</script>
 
 <style scoped>
 li {

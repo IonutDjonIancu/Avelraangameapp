@@ -7,7 +7,7 @@
     <div class="column container container-b">
       <!-- EXPORT FUNCTIONALITY -->
       <p>Export players</p>
-      <form name="exportForm" class="row" autocomplete="off">
+      <form name="exportForm" class="row" autocomplete="nope">
         <label for="exportPass" class="m-h">pass</label>
         <input
           v-model="exportPass"
@@ -15,7 +15,7 @@
           id="exportPass"
           placeholder="speak friend and enter"
           class="m-h"
-          autocomplete="off"
+          autocomplete="nope"
         />
         <label for="exportSecret" class="m-h">secret</label>
         <input
@@ -24,7 +24,7 @@
           id="exportSecret"
           placeholder="speak friend and enter"
           class="m-h"
-          autocomplete="off"
+          autocomplete="nope"
         />
         <button @click.prevent="exportSnapshot" type="submit" class="m-h">
           submit
@@ -43,7 +43,7 @@
             id="exportPass"
             placeholder="speak friend and enter"
             class="m-h"
-            autocomplete="off"
+            autocomplete="nope"
           />
           <label for="exportSecret" class="m-h">secret</label>
           <input
@@ -52,7 +52,7 @@
             id="exportSecret"
             placeholder="speak friend and enter"
             class="m-h"
-            autocomplete="off"
+            autocomplete="nope"
           />
           <button @click.prevent="importPlayer" type="submit" class="m-h">
             submit
@@ -66,7 +66,7 @@
             id="importPlayer"
             placeholder="player json"
             class="m-h"
-            autocomplete="off"
+            autocomplete="nope"
           />
         </div>
       </form>

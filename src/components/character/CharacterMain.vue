@@ -1,12 +1,19 @@
 <template>
   <div class="column">
-    <div v-if="characters" class="characters">
-      <AvCharacterButton
-        @click="setCharacterId(character.identity.id)"
-        v-for="(character, index) in characters"
-        :key="index"
-        :character="character"
-      ></AvCharacterButton>
+    <div v-if="characters" class="column">
+      <p class="text-xsmall">
+        {{
+          `You have ${characters.length} out of 5 maximum alive playable characters.`
+        }}
+      </p>
+      <div class="characters">
+        <AvCharacterButton
+          @click="setCharacterId(character.identity.id)"
+          v-for="(character, index) in characters"
+          :key="index"
+          :character="character"
+        ></AvCharacterButton>
+      </div>
     </div>
     <div>
       <AvButton
@@ -22,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, inject, onMounted, ref } from "vue";
+import { defineProps, computed, inject, onMounted } from "vue";
 import { useStore } from "vuex";
 import { Character, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
@@ -31,7 +38,7 @@ import { StoreData } from "@/dtos/Enums";
 
 const store = useStore();
 const playerProfile = computed<Player | null>(() => store.state.playerProfile);
-const characters = ref<Character[]>(playerProfile.value.characters);
+const characters = computed<Character[]>(() => playerProfile.value.characters);
 
 const updateAvText: any = inject("updateAvText");
 
@@ -49,7 +56,7 @@ const setCharacterId = (charId: string): void => {
 onMounted(() => {
   updateAvText(
     characters.value
-      ? `You have ${characters.value.length} playable characters out of 5 maximum alive.`
+      ? `You come looking for someone, whom do you choose?`
       : "Create some characters..."
   );
 });

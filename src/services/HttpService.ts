@@ -3,9 +3,8 @@ import { Player, PlayerInfo } from "@/dtos/Dtos";
 export class HttpService {
   // switch between local and prod for api calls
   // prod vs development feature flag
-  private static targetProd = false;
+  private static targetProd = true;
 
-  // app URLs are provided below
   private static baseURL =
     HttpService.targetProd === true
       ? "https://avelraangame.azurewebsites.net/api/palantir/"

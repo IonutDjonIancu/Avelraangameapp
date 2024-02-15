@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import CharacterView from "../views/CharacterView.vue";
 import MarketView from "../views/MarketView.vue";
+import TownhallView from "../views/TownhallView.vue";
 import RulebookView from "../views/RulebookView.vue";
 import TestView from "../views/TestView.vue";
 
@@ -20,6 +21,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/market",
     name: "market",
     component: MarketView,
+  },
+  {
+    path: "/townhall",
+    name: "townhall",
+    component: TownhallView,
   },
   {
     path: "/rulebook",

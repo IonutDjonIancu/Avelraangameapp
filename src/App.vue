@@ -13,21 +13,24 @@
         <router-link v-if="isLoggedIn" to="/market" class="av-nav-item"
           >| Marketplace</router-link
         >
+        <router-link v-if="isLoggedIn" to="/townhall" class="av-nav-item"
+          >| Townhall</router-link
+        >
         <div v-if="!isLoggedIn" style="color: #859c71">
           * you will have to login first in order to see the rest of the content
         </div>
       </div>
 
       <!-- RIGHT SIDE CONTENTS -->
-      <div class="row">
-        <span @click="seePlayer" class="av-nav-item">
+      <div class="row row-center">
+        <span @click="seePlayer" class="av-nav-item text-xsmall">
           {{
             playerProfile
               ? "Player: " + playerProfile.identity.name
               : "no player logged in"
           }}
-          |
         </span>
+
         <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link> |
         <AvMusic :avMusicName="avMusicName"></AvMusic>
         <AvSound
@@ -136,7 +139,7 @@ nav {
 }
 
 input {
-  border-radius: 2px;
+  border-radius: 4px;
   text-align: center;
 }
 
@@ -151,6 +154,7 @@ input {
 
 .av-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin-top: 30px;
   align-items: center;
@@ -167,6 +171,11 @@ input {
   display: flex;
   flex-direction: row;
   margin-bottom: 10px;
+}
+
+.row-center {
+  justify-content: center;
+  align-items: center;
 }
 
 .normal {
@@ -205,9 +214,27 @@ input {
   pointer-events: none;
 }
 
-.m-h-1 {
+.m-y-1 {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.m-y-2 {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.m-x-1 {
   margin-left: 3px;
   margin-right: 3px;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.w-10 {
+  width: 10%;
 }
 
 .text-bold {
@@ -217,5 +244,9 @@ input {
 
 .text-small {
   font-size: small;
+}
+
+.text-xsmall {
+  font-size: x-small;
 }
 </style>

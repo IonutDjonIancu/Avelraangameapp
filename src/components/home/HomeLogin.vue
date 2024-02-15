@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form name="characterLogin" class="form" autocomplete="off">
+    <form name="characterLogin" class="form" autocomplete="nope">
       <div class="form-item">
         <div class="form-item" style="margin-bottom: 10px">
           <label style="font-weight: bold; margin-bottom: 5px" for="name"
@@ -12,7 +12,7 @@
             type="text"
             maxlength="20"
             name="nameInput"
-            autocomplete="off"
+            autocomplete="nope"
           />
         </div>
         <div class="form-item">
@@ -25,7 +25,7 @@
             type="text"
             name="codeInput"
             maxlength="6"
-            autocomplete="off"
+            autocomplete="nope"
           />
         </div>
       </div>

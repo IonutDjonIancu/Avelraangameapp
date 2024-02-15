@@ -1,63 +1,62 @@
 <template>
   <div class="av-container">
     <div class="column">
+      <div v-if="text === ''" class="row row-options">
+        <AvButton
+          @click="gotoSibling('trade')"
+          :size="'large'"
+          :source="'ico_market'"
+          :title="'Go to marketplace'"
+          :name="'Market'"
+          :sound="'click'"
+        ></AvButton>
+        <AvButton
+          @click="gotoSibling('mercs')"
+          :size="'large'"
+          :source="'ico_mercs'"
+          :title="'Hire mercenaries'"
+          :name="'Mercs'"
+          :sound="'click'"
+        ></AvButton>
+        <AvButton
+          @click="gotoSibling('quests')"
+          :size="'large'"
+          :source="'ico_quests'"
+          :title="'Look for quests'"
+          :name="'Quests'"
+          :sound="'click'"
+        ></AvButton>
+      </div>
+    </div>
+    <div class="column">
       <MarketMain
-        v-if="text === ''"
+        v-if="text === 'trade'"
         :gotoSibling="gotoSibling"
-        :characters="characters"
       ></MarketMain>
-      <!-- no store -->
-      <div class="column">
-        <div :key="index" v-for="(character, index) in characters">
-          {{ character.status.name }} | {{ character.status.wealth }} $$
-          <ol>
-            <li
-              :key="index"
-              v-for="(item, index) in character.inventory.supplies"
-            >
-              {{ item.name }}
-            </li>
-          </ol>
-        </div>
-      </div>
-      <!-- with store -->
-      <div>{{ playerProfile.identity.name }} with store</div>
-      <div class="column">
-        <div
-          :key="index"
-          v-for="(character, index) in playerProfile.characters"
-        >
-          {{ character.status.name }} | {{ character.status.wealth }} $$
-          <ol>
-            <li
-              :key="index"
-              v-for="(item, index) in character.inventory.supplies"
-            >
-              {{ item.name }}
-            </li>
-          </ol>
-        </div>
-      </div>
+      <MarketMercs
+        v-if="text === 'mercs'"
+        :gotoSibling="gotoSibling"
+      ></MarketMercs>
+      <MarketQuests
+        v-if="text === 'quests'"
+        :gotoSibling="gotoSibling"
+      ></MarketQuests>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref, computed } from "vue";
-import { useStore } from "vuex";
-import { Character, Player } from "@/dtos/Dtos";
-import { HttpService } from "@/services/HttpService";
+import { inject, onMounted, ref } from "vue";
 import MarketMain from "@/components/market/MarketMain.vue";
+import MarketMercs from "@/components/market/MarketMercs.vue";
+import MarketQuests from "@/components/market/MarketQuests.vue";
+import AvButton from "@/components/small/AvButton.vue";
 
 const text = ref<string>("");
-const characters = ref<Character[]>([]);
 
-const updateAvText: any = inject("updateAvText");
 const updateAvImage: any = inject("updateAvImage");
 const updateAvSound: any = inject("updateAvSound");
-
-const store = useStore();
-const playerProfile = computed<Player | null>(() => store.state.playerProfile);
+const updateAvText: any = inject("updateAvText");
 
 const gotoSibling = (value: string) => {
   text.value = value;
@@ -65,10 +64,16 @@ const gotoSibling = (value: string) => {
 
 onMounted(() => {
   updateAvImage("img_market");
-  updateAvSound("page_flip", 0.8);
-  updateAvText("Select the character that wishes to trade.");
-  HttpService.getPlayer()
-    .then((s: Player) => (characters.value = s.characters))
-    .then(() => console.log(characters.value));
+  updateAvSound("market", 0.8);
+  updateAvText(
+    "You hear the people talking. You take note of the famous warriors of the land."
+  );
 });
 </script>
+
+<style scoped>
+.row-options {
+  align-items: center;
+  justify-content: center;
+}
+</style>

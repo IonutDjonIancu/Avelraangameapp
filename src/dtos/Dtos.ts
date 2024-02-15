@@ -180,6 +180,15 @@ export interface CharacterGameplay {
   isGoodGuy: boolean;
 }
 
+export interface CharacterLadder {
+  characterName: string;
+  playerName: string;
+  race: string;
+  icon: number;
+  worth: number;
+  wealth: number;
+}
+
 export interface CharacterData {
   playerId: string;
   characterId: string;
@@ -225,6 +234,36 @@ export interface Position {
   subregion: string;
   land: string;
   location: string;
+}
+
+export interface Location {
+  name: string;
+  fullName: string;
+  position: Position;
+  description: string;
+  effort: number;
+  travelCostFromArada: number;
+  lastTimeVisited: string;
+  market: Item[];
+  mercenaries: Character[];
+  quests: Quest[];
+}
+
+export interface Quest {
+  fame: string;
+  description: string;
+  result: string;
+  isRepeatable: boolean;
+  id: string;
+  effortLvl: number;
+  encounters: number;
+  encountersLeft: number;
+  reward: string;
+}
+
+export interface Ladder {
+  charactersByWorth: CharacterLadder[];
+  charactersByWealth: CharacterLadder[];
 }
 
 export interface DbRequestsInfo {
