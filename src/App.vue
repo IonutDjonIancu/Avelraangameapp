@@ -7,16 +7,16 @@
       <!-- LEFT SIDE CONTENTS -->
       <div class="row">
         <router-link to="/" class="av-nav-item">Home</router-link>
-        <router-link v-if="isLoggedIn" to="/character" class="av-nav-item"
+        <router-link v-if="playerProfile" to="/character" class="av-nav-item"
           >| Characters</router-link
         >
-        <router-link v-if="isLoggedIn" to="/market" class="av-nav-item"
+        <router-link v-if="playerProfile" to="/market" class="av-nav-item"
           >| Marketplace</router-link
         >
-        <router-link v-if="isLoggedIn" to="/townhall" class="av-nav-item"
+        <router-link v-if="playerProfile" to="/townhall" class="av-nav-item"
           >| Townhall</router-link
         >
-        <div v-if="!isLoggedIn" style="color: #859c71">
+        <div v-if="!playerProfile" style="color: #859c71">
           * you will have to login first in order to see the rest of the content
         </div>
       </div>
@@ -59,7 +59,6 @@ const avText = ref(
   "Welcome adventurer! I will be your dungeonmaster and I will guide your story through the world of Av'el'Raan..."
 );
 const avImage = ref<string>(require("./assets/img_planet_2.png"));
-const isLoggedIn = ref<boolean>(false);
 
 const avMusicName = ref<string>("");
 const avSoundName = ref<string>("");
@@ -82,17 +81,6 @@ const updateAvImage = (value: string) => {
   avImage.value = require(`./assets/${value}.png`);
 };
 
-const updateAvAuth = () => {
-  const playerName = localStorage.getItem("playerName");
-  const playerToken = localStorage.getItem("playerToken");
-
-  if (playerName && playerToken) {
-    isLoggedIn.value = true;
-  } else {
-    isLoggedIn.value = false;
-  }
-};
-
 const seePlayer = () => {
   console.log(store.state);
 };
@@ -101,7 +89,6 @@ provide("updateAvMusic", updateAvMusic);
 provide("updateAvSound", updateAvSound);
 provide("updateAvText", updateAvText);
 provide("updateAvImage", updateAvImage);
-provide("updateAvAuth", updateAvAuth);
 
 onMounted(() => {
   localStorage.clear();
