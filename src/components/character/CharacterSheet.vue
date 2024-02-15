@@ -267,7 +267,7 @@ const deleteCharacter = (): void => {
       `Are you sure you want to delete character: ${character.value.status.name}?`
     )
   ) {
-    // TODO: refactore httpdelete
+    // TODO: refactore httpdelete in a future release
     // TODO: it currently has a special url, either change it server side, or app side
     const playerName = localStorage.getItem("playerName");
     const playerToken = localStorage.getItem("playerToken");
