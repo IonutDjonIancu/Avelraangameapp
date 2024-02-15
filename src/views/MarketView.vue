@@ -13,15 +13,15 @@
         <AvButton
           @click="gotoSibling('mercs')"
           :size="'large'"
-          :source="'ico_market'"
-          :title="'Hire mercs'"
+          :source="'ico_mercs'"
+          :title="'Hire mercenaries'"
           :name="'Mercs'"
           :sound="'click'"
         ></AvButton>
         <AvButton
           @click="gotoSibling('quests')"
           :size="'large'"
-          :source="'ico_market'"
+          :source="'ico_quests'"
           :title="'Look for quests'"
           :name="'Quests'"
           :sound="'click'"
@@ -66,7 +66,7 @@ onMounted(() => {
   updateAvImage("img_market");
   updateAvSound("market", 0.8);
   updateAvText(
-    "You walk down the muddy alleys of an old and broken town, you choose to go to..."
+    "You hear the people talking. You take note of the famous warriors of the land."
   );
 });
 </script>

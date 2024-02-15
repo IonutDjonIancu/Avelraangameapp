@@ -74,7 +74,7 @@
     </div>
     <div v-else>You have no characters that can do trade.</div>
     <AvButton
-      @click="gotoSibling('')"
+      @click="props.gotoSibling('')"
       :size="'large'"
       :source="'ico_back_arrow'"
       :title="'Back to market'"
@@ -107,7 +107,6 @@ const selectedImageIndex = ref<number>(null);
 const selectedCharacterIndex = ref<number>(null);
 const provisions = ref<number>(0);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps({
   gotoSibling: {
     type: Function,
@@ -130,7 +129,7 @@ const getSelectedCharacter = (): Character | null => {
 };
 
 const setClass = (index: number): string => {
-  return selectedImageIndex.value === index ? "m-h-1 selected" : "m-h-1";
+  return selectedImageIndex.value === index ? "m-x-1 selected" : "m-x-1";
 };
 
 const setImage = (chr: Character): string => {

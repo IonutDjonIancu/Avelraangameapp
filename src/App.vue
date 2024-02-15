@@ -13,21 +13,24 @@
         <router-link v-if="isLoggedIn" to="/market" class="av-nav-item"
           >| Marketplace</router-link
         >
+        <router-link v-if="isLoggedIn" to="/townhall" class="av-nav-item"
+          >| Townhall</router-link
+        >
         <div v-if="!isLoggedIn" style="color: #859c71">
           * you will have to login first in order to see the rest of the content
         </div>
       </div>
 
       <!-- RIGHT SIDE CONTENTS -->
-      <div class="row">
-        <span @click="seePlayer" class="av-nav-item">
+      <div class="row row-center">
+        <span @click="seePlayer" class="av-nav-item text-xsmall">
           {{
             playerProfile
               ? "Player: " + playerProfile.identity.name
               : "no player logged in"
           }}
-          |
         </span>
+
         <router-link to="/rulebook" class="av-nav-item">Rulebook</router-link> |
         <AvMusic :avMusicName="avMusicName"></AvMusic>
         <AvSound
@@ -172,6 +175,7 @@ input {
 
 .row-center {
   justify-content: center;
+  align-items: center;
 }
 
 .normal {

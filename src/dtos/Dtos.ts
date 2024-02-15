@@ -180,6 +180,15 @@ export interface CharacterGameplay {
   isGoodGuy: boolean;
 }
 
+export interface CharacterLadder {
+  characterName: string;
+  playerName: string;
+  race: string;
+  icon: number;
+  worth: number;
+  wealth: number;
+}
+
 export interface CharacterData {
   playerId: string;
   characterId: string;
@@ -250,6 +259,11 @@ export interface Quest {
   encounters: number;
   encountersLeft: number;
   reward: string;
+}
+
+export interface Ladder {
+  charactersByWorth: CharacterLadder[];
+  charactersByWealth: CharacterLadder[];
 }
 
 export interface DbRequestsInfo {

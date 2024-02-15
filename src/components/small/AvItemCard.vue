@@ -39,7 +39,7 @@
         ></i>
         <i
           :title="
-            `Magical: ${item.hasTaint}\n` +
+            `Magical: ${item.hasTaint === true ? 'yes' : 'no'}\n` +
             `<<< assets >>>\n` +
             `harm: ${item.sheet.assets.harm}\n` +
             `resolve: ${item.sheet.assets.resolve}\n` +
@@ -380,19 +380,19 @@ const buyItem = () => {
 }
 
 .item-level_1 {
-  border-color: gray;
+  border-color: whitesmoke;
 }
 
 .item-level_2 {
-  border-color: darkgreen;
+  border-color: goldenrod;
 }
 
 .item-level_3 {
-  border-color: darkgoldenrod;
+  border-color: green;
 }
 
 .item-level_4 {
-  border-color: darkred;
+  border-color: orangered;
 }
 
 .item-level_5 {
@@ -400,7 +400,7 @@ const buyItem = () => {
 }
 
 .item-level_6 {
-  border-color: magenta;
+  border-color: purple;
 }
 
 .mini {
