@@ -1,10 +1,23 @@
 <template>
   <div class="column">
     <div style="text-align: center">
-      <p style="font-weight: bold">Character stub</p>
-      <p :class="entityLevel > 1 ? 'meta' : 'normal'">
-        Entity level {{ entityLevel }}
+      <p v-if="entityLevel === 2" :class="getEntityLvlClass">
+        You have been born... gifted
       </p>
+      <p v-else-if="entityLevel === 3" :class="getEntityLvlClass">
+        At your birth you were the one... chosen
+      </p>
+      <p v-else-if="entityLevel === 4" :class="getEntityLvlClass">
+        You were born... a hero
+      </p>
+      <p v-else-if="entityLevel === 5" :class="getEntityLvlClass">
+        Your birthright is of... an olympian
+      </p>
+      <p v-else-if="entityLevel === 6" :class="getEntityLvlClass">
+        Among mortals you are... a planar
+      </p>
+      <p v-else :class="getEntityLvlClass">Character stub</p>
+      <p :class="getEntityLvlClass">Entity level {{ entityLevel }}</p>
       <p>Stat points {{ statPts }}</p>
       <p>Skill points {{ skillPts }}</p>
     </div>
@@ -40,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, inject, ref } from "vue";
+import { defineProps, onMounted, inject, ref, computed } from "vue";
 import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
@@ -53,6 +66,10 @@ const updateAvMusic: any = inject("updateAvMusic");
 const updateAvSound: any = inject("updateAvSound");
 
 const store = useStore();
+
+const getEntityLvlClass = computed((): string => {
+  return `entity-lvl-${entityLevel.value}`;
+});
 
 const entityLevel = ref<number>(1);
 const statPts = ref<number>(1);
@@ -113,3 +130,35 @@ onMounted(() => {
   updateAvMusic("character_create");
 });
 </script>
+
+<style scoped>
+.entity-lvl-1 {
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.entity-lvl-2 {
+  color: goldenrod;
+  font-weight: bold;
+}
+
+.entity-lvl-3 {
+  color: green;
+  font-weight: bold;
+}
+
+.entity-lvl-4 {
+  color: orangered;
+  font-weight: bold;
+}
+
+.entity-lvl-5 {
+  color: blue;
+  font-weight: bold;
+}
+
+.entity-lvl-6 {
+  color: purple;
+  font-weight: bold;
+}
+</style>

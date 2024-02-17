@@ -17,7 +17,7 @@
     </div>
     <div>
       <AvButton
-        @click="props.gotoSibling('roll')"
+        @click="goToRoll()"
         :size="'large'"
         :source="`ico_character_roll`"
         :title="'Create a new character'"
@@ -35,6 +35,7 @@ import { Character, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import { StoreData } from "@/dtos/Enums";
+import { HttpService } from "@/services/HttpService";
 
 const store = useStore();
 const playerProfile = computed<Player | null>(() => store.state.playerProfile);
@@ -51,6 +52,22 @@ const props = defineProps({
 const setCharacterId = (charId: string): void => {
   store.commit(StoreData.SetCharacterId, charId);
   props.gotoSibling("sheet");
+};
+
+const goToRoll = (): void => {
+  HttpService.httpGet("Character/Character")
+    .then((s) => {
+      if (s.ok) {
+        return;
+      }
+    })
+    .then(() => {
+      props.gotoSibling("roll");
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
 };
 
 onMounted(() => {

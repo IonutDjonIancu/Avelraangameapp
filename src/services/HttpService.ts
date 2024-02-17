@@ -10,7 +10,7 @@ export class HttpService {
       ? "https://avelraangame.azurewebsites.net/api/palantir/"
       : "https://localhost:5001/api/palantir/";
 
-  // GET METADATA
+  // GET
   public static async httpGetMetadata(url: string): Promise<Response> {
     return fetch(`${this.baseURL}${url}`)
       .then((res) => {
@@ -49,7 +49,7 @@ export class HttpService {
       });
   }
 
-  // POST-noIdentity
+  // POST
   public static async httpPostNoIdentity(
     url: string,
     data: object
@@ -90,7 +90,7 @@ export class HttpService {
       });
   }
 
-  // PUT-noIdentity
+  // PUT
   public static async httpPutNoIdentity(
     url: string,
     data: object

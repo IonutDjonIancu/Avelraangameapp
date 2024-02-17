@@ -131,7 +131,6 @@
         class="fa-solid fa-earth-americas location"
         style="color: #ffd43b"
       ></i>
-      <div class="info text-xsmall" style="color: #ffd43b">1 2 3 4</div>
     </div>
   </div>
 </template>
@@ -266,8 +265,12 @@ const wasClicked = () => {
   position: absolute;
   z-index: 2;
   margin-top: -35px;
-  margin-left: 12px;
+  margin-left: -24px;
   cursor: help;
+}
+
+.number {
+  padding: 0px;
 }
 
 .card {
@@ -317,7 +320,7 @@ const wasClicked = () => {
   border-width: 3px;
   border-style: solid;
   border-radius: 5px;
-  border-color: greenyellow;
+  border-color: blue;
 }
 
 .card-6 {

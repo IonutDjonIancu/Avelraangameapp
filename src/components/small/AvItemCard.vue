@@ -396,7 +396,7 @@ const buyItem = () => {
 }
 
 .item-level_5 {
-  border-color: greenyellow;
+  border-color: blue;
 }
 
 .item-level_6 {
