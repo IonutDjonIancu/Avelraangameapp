@@ -7,12 +7,12 @@
         }}
       </p>
       <div class="characters">
-        <AvCharacterButton
-          @click="setCharacterId(character.identity.id)"
+        <AvCharacterCard
+          v-on:on-card-click="setCharacterId(character.identity.id)"
           v-for="(character, index) in characters"
           :key="index"
           :character="character"
-        ></AvCharacterButton>
+        ></AvCharacterCard>
       </div>
     </div>
     <div>
@@ -33,7 +33,7 @@ import { defineProps, computed, inject, onMounted } from "vue";
 import { useStore } from "vuex";
 import { Character, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
-import AvCharacterButton from "@/components/small/AvCharacterButton.vue";
+import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import { StoreData } from "@/dtos/Enums";
 
 const store = useStore();
