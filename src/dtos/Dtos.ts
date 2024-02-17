@@ -41,10 +41,17 @@ export interface PlayerIdentity {
 export interface Character {
   identity: CharacterIdentity;
   status: CharacterStatus;
-  levelUp: any;
+  levelUp: CharacterLevelUp;
   sheet: CharacterSheet;
   inventory: CharacterInventory;
   mercenaries: Character[];
+}
+
+export interface CharacterLevelUp {
+  statPoints: number;
+  assetPoints: number;
+  skillPoints: number;
+  deedPoints: number;
 }
 
 export interface CharacterSheet {
@@ -118,6 +125,7 @@ export interface CharacterCultures {
 }
 
 export interface CharacterStub {
+  id: string;
   playerId?: string;
   entityLevel: number;
   statPoints: number;

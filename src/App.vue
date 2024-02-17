@@ -235,4 +235,12 @@ input {
 .text-xsmall {
   font-size: x-small;
 }
+
+.text-xxsmall {
+  font-size: xx-small;
+}
+
+.text-large {
+  font-size: large;
+}
 </style>

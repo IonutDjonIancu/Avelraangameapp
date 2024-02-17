@@ -1,10 +1,20 @@
 <template>
   <div v-if="character" class="column">
     <!-- Character static data -->
-    <div @click="seeChar" class="row">
+    <div class="row">
+      <i
+        @click="changeName()"
+        title="Change name"
+        class="fa-solid fa-pen fa-flip-horizontal"
+      ></i>
       <img :title="character.status.name" class="avatar" :src="getImage()" />
     </div>
     <div class="row">
+      <ul>
+        <li title="character name" class="list-header">
+          {{ character.status.name }}:
+        </li>
+      </ul>
       <!-- Stats -->
       <ul>
         <li class="list-header">Stats</li>
@@ -228,7 +238,7 @@ import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
 import AvItemCard from "@/components/small/AvItemCard.vue";
-import { Character, Player } from "@/dtos/Dtos";
+import { Character, Player, CharacterData } from "@/dtos/Dtos";
 import { StoreData } from "@/dtos/Enums";
 
 const updateAvImage: any = inject("updateAvImage");
@@ -285,14 +295,39 @@ const deleteCharacter = (): void => {
   }
 };
 
-const seeChar = () => {
-  console.log(character.value); // allowed for now
+const changeName = () => {
+  const newName = prompt("New character name:");
+
+  if (!newName) return;
+
+  const data: CharacterData = {
+    playerId: character.value.identity.playerId,
+    characterId: character.value.identity.id,
+    characterName: newName,
+  };
+
+  HttpService.httpPut("Character/UpdateCharacterName", data)
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
+    .then((character: Character) => {
+      store.commit(StoreData.UpdateCharacter, character);
+      updateAvText("You have changed this character's name.");
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
 };
 
 onMounted(() => {
   updateAvImage("img_character_sheet");
   updateAvText(
-    `Character sheet of the one they call ${character.value.status.name}.`
+    `Character sheet of the one they call '${character.value.status.name}'.`
   );
 });
 </script>
@@ -340,5 +375,9 @@ li {
 
 .m-r {
   margin-right: 3px;
+}
+
+i {
+  cursor: pointer;
 }
 </style>

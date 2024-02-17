@@ -4,13 +4,15 @@ export class HttpService {
   // switch between local and prod for api calls
   // prod vs development feature flag
   private static targetProd = true;
+  // below stuff remains untouched
+  // prod url remains unchanged
 
   private static baseURL =
     HttpService.targetProd === true
       ? "https://avelraangame.azurewebsites.net/api/palantir/"
       : "https://localhost:5001/api/palantir/";
 
-  // GET METADATA
+  // GET
   public static async httpGetMetadata(url: string): Promise<Response> {
     return fetch(`${this.baseURL}${url}`)
       .then((res) => {
@@ -34,7 +36,22 @@ export class HttpService {
       });
   }
 
-  // POST-noIdentity
+  // GET
+  public static async httpGetWithParams(
+    url: string,
+    param1: string
+  ): Promise<Response> {
+    return fetch(`${this.getComposedURL(url)}&${param1}`)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.error(err.message);
+        return err;
+      });
+  }
+
+  // POST
   public static async httpPostNoIdentity(
     url: string,
     data: object
@@ -75,7 +92,7 @@ export class HttpService {
       });
   }
 
-  // PUT-noIdentity
+  // PUT
   public static async httpPutNoIdentity(
     url: string,
     data: object
