@@ -1,6 +1,6 @@
 <template>
   <div class="column">
-    <div style="text-align: center">
+    <div class="text-large" style="text-align: center">
       <p v-if="entityLevel === 2" :class="getEntityLvlClass">
         You have been born... gifted
       </p>
@@ -18,10 +18,12 @@
       </p>
       <p v-else :class="getEntityLvlClass">Character stub</p>
       <p :class="getEntityLvlClass">Entity level {{ entityLevel }}</p>
+    </div>
+    <div class="column">
       <p>Stat points {{ statPts }}</p>
       <p>Skill points {{ skillPts }}</p>
     </div>
-    <div class="row">
+    <div class="row m-y-2">
       <AvButton
         @click="props.gotoSibling('')"
         :size="'large'"
@@ -160,5 +162,9 @@ onMounted(() => {
 .entity-lvl-6 {
   color: purple;
   font-weight: bold;
+}
+
+p {
+  margin: 10px 0px;
 }
 </style>
