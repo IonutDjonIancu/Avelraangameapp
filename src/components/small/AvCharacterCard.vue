@@ -5,11 +5,13 @@
     v-if="character"
     tabindex="-1"
     :class="setCardClass"
+    @click="wasClicked()"
   >
     <img
       :class="setImgClass"
       :src="getImage"
       :title="`${props.character.status.traits.race} ${props.character.status.traits.class}`"
+      @click="wasClicked()"
     />
     <p
       @mouseover="toggleName(true)"
@@ -359,6 +361,7 @@ p {
   border-radius: 5px;
   opacity: 0.5;
   transition: opacity 0.3s;
+  cursor: pointer;
 }
 
 i {
