@@ -18,7 +18,7 @@
         :sound="'back'"
       ></AvButton>
       <AvButton
-        @click="rollCharacter"
+        @click="rollCharacter($event)"
         :size="'large'"
         :source="`ico_d20_gold`"
         :title="'Roll for new character stats'"
@@ -57,6 +57,7 @@ const store = useStore();
 const entityLevel = ref<number>(1);
 const statPts = ref<number>(1);
 const skillPts = ref<number>(1);
+const id = ref<string>();
 
 const props = defineProps({
   gotoSibling: {
@@ -64,8 +65,16 @@ const props = defineProps({
   },
 });
 
-const rollCharacter = (): void => {
-  HttpService.httpGet(`Character/CreateCharacter`)
+const rollCharacter = (event: Event): void => {
+  if (!event.isTrusted) {
+    console.log("script detected");
+    return;
+  }
+
+  HttpService.httpGetWithParams(
+    "Character/CreateCharacter",
+    `&stubId=${id.value}`
+  )
     .then((s) => {
       if (s.ok) {
         return s.json();
@@ -81,6 +90,7 @@ const rollCharacter = (): void => {
       entityLevel.value = char.entityLevel;
       statPts.value = char.statPoints;
       skillPts.value = char.skillPoints;
+      id.value = char.id;
 
       store.commit(StoreData.SetCharacterStub, char);
     })

@@ -125,6 +125,7 @@ export interface CharacterCultures {
 }
 
 export interface CharacterStub {
+  id: string;
   playerId?: string;
   entityLevel: number;
   statPoints: number;

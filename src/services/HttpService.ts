@@ -34,6 +34,21 @@ export class HttpService {
       });
   }
 
+  // GET
+  public static async httpGetWithParams(
+    url: string,
+    param1: string
+  ): Promise<Response> {
+    return fetch(`${this.getComposedURL(url)}&${param1}`)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.error(err.message);
+        return err;
+      });
+  }
+
   // POST-noIdentity
   public static async httpPostNoIdentity(
     url: string,
