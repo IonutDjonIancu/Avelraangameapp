@@ -1,6 +1,7 @@
 <template>
   <div class="column">
     <div
+      v-if="showName"
       @click="toggleTopIcons"
       :title="character.status.name"
       class="name-tag"
@@ -13,29 +14,32 @@
     </div>
     <div class="card-container">
       <div class="column">
-        <div :class="showingTopIcons">
+        <div v-if="showTopIcons" :class="showingTopIcons">
           <i class="fa-solid fa-clipboard"></i>
           <i class="fa-solid fa-clipboard"></i>
           <i class="fa-solid fa-clipboard"></i>
           <i class="fa-solid fa-clipboard"></i>
         </div>
         <i
+          v-if="showLvlup"
           title="Character has gained experience in battle"
           :class="showHideLevelup"
           style="color: #1fd19b"
         ></i>
         <img
+          :title="title"
           @click="wasClicked"
           :src="getImage"
           :class="getEntityLevelBorderClass()"
         />
         <i
+          v-if="showLocked"
           title="Character is locked to modify at this point in time"
           :class="showHideIsLocked"
           class="fa-solid fa-circle-xmark is-locked"
           style="color: #8b2727"
         ></i>
-        <div :class="showingBottomIcons">
+        <div v-if="showBottomIcons" :class="showingBottomIcons">
           <i class="fa-solid fa-clipboard"></i>
           <i class="fa-solid fa-clipboard"></i>
           <i class="fa-solid fa-clipboard"></i>
@@ -44,6 +48,7 @@
       </div>
     </div>
     <div
+      v-if="showHealthBars"
       :title="`Resolve left: ${character.sheet.assets.resolveLeft} \nMana left: ${character.sheet.assets.manaLeft}`"
       class="column"
     >
@@ -62,7 +67,12 @@
         ></div>
       </div>
     </div>
-    <div @click="toggleBottomIcons" title="Character's class" class="class-tag">
+    <div
+      v-if="showClass"
+      @click="toggleBottomIcons"
+      title="Character's class"
+      class="class-tag"
+    >
       {{ character.status.traits.class }}
     </div>
   </div>
@@ -106,8 +116,8 @@ const showHideLevelup = computed((): string => {
     props.character.levelUp.statPoints +
     props.character.levelUp.skillPoints >
     0
-    ? "fa-solid fa-circle-plus level-up level-up-show"
-    : "fa-solid fa-circle-plus level-up level-up-hide";
+    ? "fa-solid fa-circle-up level-up level-up-show"
+    : "fa-solid fa-circle-up level-up level-up-hide";
 });
 
 const showHideIsLocked = computed((): string => {
@@ -140,13 +150,50 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  showTopIcons: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  showBottomIcons: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  showHealthBars: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  showName: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  showClass: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  showLvlup: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  showLocked: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
 });
 
 const toggleTopIcons = (): void => {
+  if (!props.showTopIcons) return;
   areTopIconsShown.value = !areTopIconsShown.value;
 };
 
 const toggleBottomIcons = (): void => {
+  if (!props.showBottomIcons) return;
   areBottomIconsShown.value = !areBottomIconsShown.value;
 };
 
@@ -168,6 +215,7 @@ const getEntityLevelBorderClass = () => {
   background-color: black;
   border: solid black 2px;
   border-radius: 3px;
+  box-shadow: 3px 2px 8px rgba(0, 0, 0, 0.515);
 }
 
 .level-up {
@@ -217,12 +265,12 @@ const getEntityLevelBorderClass = () => {
   border-top-right-radius: 3px;
   cursor: pointer;
   opacity: 0.6;
-  transition: 0.8s;
+  transition: 0.3s;
 }
 
 .image:hover {
   opacity: 1;
-  transition: 0.3s;
+  transition: 0.1s;
 }
 
 .image-lvl-1 {
@@ -291,7 +339,7 @@ const getEntityLevelBorderClass = () => {
 
 .class-tag {
   font-size: x-small;
-  font-weight: lighter;
+  font-weight: bold;
   color: #859c71;
   cursor: pointer;
 }

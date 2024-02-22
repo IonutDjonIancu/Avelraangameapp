@@ -12,6 +12,8 @@
           v-for="(character, index) in characters"
           :key="index"
           :character="character"
+          :title="'See character'"
+          :show-top-icons="true"
         ></AvCharacterCard>
       </div>
     </div>

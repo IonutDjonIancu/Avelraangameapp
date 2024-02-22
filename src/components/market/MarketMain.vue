@@ -2,16 +2,20 @@
   <div class="column">
     <div v-if="characters" class="column">
       <!-- SELECT CHARACTERS -->
-      <p class="text-bold">Characters</p>
+      <p class="text-xsmall">Select a character to start trading.</p>
       <div class="row">
-        <img
-          :title="character.status.name"
-          @click="selectCharacter(index)"
+        <div
+          :class="setClass(index)"
           :key="index"
           v-for="(character, index) in characters"
-          :src="setImage(character)"
-          :class="setClass(index)"
-        />
+        >
+          <AvCharacterCard
+            :character="character"
+            :title="'Is trading'"
+            :show-class="false"
+            @on-card-click="selectCharacter(index)"
+          ></AvCharacterCard>
+        </div>
       </div>
       <div v-if="character" class="row text-small">
         <span class="m-x-1"
@@ -89,6 +93,8 @@ import { ref, inject, computed, onMounted, defineProps } from "vue";
 import { useStore } from "vuex";
 import { Character, Player, Location, CharacterTrade } from "@/dtos/Dtos";
 import AvItemCard from "@/components/small/AvItemCard.vue";
+
+import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
 import { StoreData } from "@/dtos/Enums";
@@ -130,12 +136,6 @@ const getSelectedCharacter = (): Character | null => {
 
 const setClass = (index: number): string => {
   return selectedImageIndex.value === index ? "m-x-1 selected" : "m-x-1";
-};
-
-const setImage = (chr: Character): string => {
-  return require(`@/assets/ico_${chr.status.traits.race.toLowerCase()}_${
-    chr.status.traits.icon
-  }.png`);
 };
 
 const getLocation = (character: Character) => {
@@ -209,6 +209,8 @@ img:hover {
 
 .selected {
   border: 3px solid #859c71;
+  border-radius: 3px;
+  padding-bottom: 5px;
 }
 
 .row {

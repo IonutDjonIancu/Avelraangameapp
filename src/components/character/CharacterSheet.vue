@@ -2,33 +2,29 @@
   <div v-if="character" class="column">
     <!-- Character static data -->
     <div class="row">
+      <i
+        @click="changeName()"
+        title="Change name"
+        class="fa-solid fa-pen fa-flip-horizontal avatar-icons"
+      ></i>
       <img :title="character.status.name" class="avatar" :src="getImage()" />
+      <i
+        v-if="!isLvlupShown"
+        @click="toggleLevelUp()"
+        title="Level up"
+        :class="getLevelupClass"
+      ></i>
+      <i
+        v-if="isLvlupShown"
+        @click="toggleLevelUp()"
+        title="Close level up"
+        class="fa-solid fa-circle-down avatar-icons"
+      ></i>
     </div>
     <div class="row">
       <ul>
         <li title="character name" class="list-header">
-          {{ character.status.name }}:
-        </li>
-        <li class="li-item row">
-          <i
-            @click="changeName()"
-            title="Change name"
-            class="fa-solid fa-pen fa-flip-horizontal avatar-icons"
-          ></i>
-        </li>
-        <li class="li-item row">
-          <i
-            v-if="!isLvlupShown"
-            @click="toggleLevelUp()"
-            title="Level up"
-            :class="getLevelupClass"
-          ></i>
-          <i
-            v-if="isLvlupShown"
-            @click="toggleLevelUp()"
-            title="Close level up"
-            class="fa-solid fa-circle-down avatar-icons"
-          ></i>
+          {{ character.status.name }}
         </li>
       </ul>
       <div v-if="!isLvlupShown" class="row">
