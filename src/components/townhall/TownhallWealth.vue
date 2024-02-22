@@ -5,7 +5,7 @@
       <div
         :key="index"
         v-for="(char, index) in characters"
-        class="row row-center small-row"
+        class="row row-center"
       >
         <img :src="setImage(char.race, char.icon)" class="m-x-1" />
         <span title="character worth" class="m-x-1 text-bold">{{
@@ -78,10 +78,5 @@ img {
   width: 40px;
   height: 40px;
   border-radius: 30px;
-}
-
-.small-row {
-  width: 30%;
-  justify-content: start;
 }
 </style>

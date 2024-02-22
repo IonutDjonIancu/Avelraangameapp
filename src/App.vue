@@ -150,7 +150,10 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+}
+
+.column-80 {
+  width: 80%;
 }
 
 .row {
@@ -208,6 +211,11 @@ input {
 .m-y-2 {
   margin-top: 6px;
   margin-bottom: 6px;
+}
+
+.m-y-3 {
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 
 .m-x-1 {

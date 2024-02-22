@@ -380,15 +380,15 @@ const buyItem = () => {
 }
 
 .item-level_1 {
-  border-color: whitesmoke;
+  border-color: gray;
 }
 
 .item-level_2 {
-  border-color: goldenrod;
+  border-color: green;
 }
 
 .item-level_3 {
-  border-color: green;
+  border-color: goldenrod;
 }
 
 .item-level_4 {

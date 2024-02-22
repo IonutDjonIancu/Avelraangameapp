@@ -22,3 +22,7 @@ export enum StoreData {
   UpdateCharacter = "updateCharacter",
   DeleteCharacter = "deleteCharacter",
 }
+
+export enum Emits {
+  OnCardClick = "on-card-click",
+}
