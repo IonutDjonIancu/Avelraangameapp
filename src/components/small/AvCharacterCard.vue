@@ -273,25 +273,6 @@ const getEntityLevelBorderClass = () => {
   transition: 0.1s;
 }
 
-.image-lvl-1 {
-  border-top-color: gray;
-}
-.image-lvl-2 {
-  border-top-color: green;
-}
-.image-lvl-3 {
-  border-top-color: goldenrod;
-}
-.image-lvl-4 {
-  border-top-color: orangered;
-}
-.image-lvl-5 {
-  border-top-color: blue;
-}
-.image-lvl-6 {
-  border-top-color: purple;
-}
-
 .top-icons {
   padding-top: 1px;
   margin-bottom: 0px;

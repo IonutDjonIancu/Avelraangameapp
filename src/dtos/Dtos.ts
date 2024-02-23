@@ -192,6 +192,7 @@ export interface CharacterLadder {
   characterName: string;
   playerName: string;
   race: string;
+  entityLevel: number;
   icon: number;
   worth: number;
   wealth: number;

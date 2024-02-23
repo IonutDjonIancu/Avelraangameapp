@@ -24,11 +24,14 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  entityLevel: {
+    type: Number,
+    required: true,
+  },
 });
 
 const getEntityLevelBorderClass = () => {
-  return `image image-lvl-1`;
-  //   return `image image-lvl-${props.character.status.entityLevel}`;
+  return `image image-lvl-${props.entityLevel}`;
 };
 </script>
 
@@ -47,24 +50,5 @@ const getEntityLevelBorderClass = () => {
 .image:hover {
   opacity: 1;
   transition: 0.1s;
-}
-
-.image-lvl-1 {
-  border-top-color: gray;
-}
-.image-lvl-2 {
-  border-top-color: green;
-}
-.image-lvl-3 {
-  border-top-color: goldenrod;
-}
-.image-lvl-4 {
-  border-top-color: orangered;
-}
-.image-lvl-5 {
-  border-top-color: blue;
-}
-.image-lvl-6 {
-  border-top-color: purple;
 }
 </style>

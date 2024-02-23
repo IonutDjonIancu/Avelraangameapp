@@ -12,6 +12,7 @@
             :title="character.characterName"
             :race="character.race"
             :icon="character.icon"
+            :entity-level="character.entityLevel"
           ></AvCharacterCardSmall>
         </div>
         <div class="column col-center">

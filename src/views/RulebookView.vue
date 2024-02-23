@@ -25,6 +25,7 @@
       autocomplete="nope"
     >
         // Rules
+        // abstract for spellcasters adds an extra roll against the target's willpower roll, this does not affect psickers
         // the result of an arcane roll is the attacker's abstract * entity level + 10% of the roll difference
         // the result of a psionic roll is based on the purge level of the initiator, for a roll of 20 with 50% purge the result is 10, as well as for a roll of 20 with 150% purge the result is 30 
         // the game has implemented racism, meaning that some mechanics will work based on your race, not only on your social skills, i.e: merchants refusing to trade with you because you are an orc
