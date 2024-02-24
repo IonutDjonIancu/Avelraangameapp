@@ -28,7 +28,10 @@
       </div>
     </div>
     <div v-else class="m-y-3">You have no characters that can employ.</div>
-    <div v-if="mercenaries !== null && mercenaries.length > 0" class="column">
+    <div
+      v-if="mercenaries !== null && mercenaries.length > 0 && character"
+      class="column"
+    >
       <!-- MERCENARIES -->
       <p class="text-bold">
         Mercenaries for hire in {{ location.position.location }},
@@ -118,7 +121,6 @@ const characterLocation = computed<Location | null>(
 
 const selectedCharIndex = ref<number>(null);
 const selectedMercIndex = ref<number>(null);
-const selectedCharacterIndex = ref<number>(null);
 
 const props = defineProps({
   gotoSibling: {
@@ -132,7 +134,6 @@ const selectCharacter = (index: number): void => {
 
   getLocation(character);
 
-  selectedCharacterIndex.value = index;
   selectedCharIndex.value = index;
 };
 
@@ -152,7 +153,6 @@ const getLocation = (character: Character) => {
     })
     .then((location: Location) => {
       store.commit(StoreData.SetLocation, location);
-      console.log(location);
 
       if (mercenaries.value.length == 0) {
         updateAvText("There are no mercenaries at this location.");
@@ -164,7 +164,7 @@ const getLocation = (character: Character) => {
 };
 
 const getSelectedCharacter = (): Character | null => {
-  return characters.value[selectedCharacterIndex.value];
+  return characters.value[selectedCharIndex.value];
 };
 
 const selectedMerc = (index: number): string => {
@@ -207,14 +207,7 @@ const hireMercenary = (): void => {
     .then((character: Character) => {
       updateAvSound("item_buy", 1);
       store.commit(StoreData.UpdateCharacter, character);
-
-      const itemIndex = characterLocation.value.mercenaries.findIndex(
-        (i) => i.identity.id === data.mercenaryId
-      );
-
-      if (itemIndex !== -1) {
-        characterLocation.value.mercenaries.splice(itemIndex, 1);
-      }
+      store.commit(StoreData.RemoveLocationMercenary, data.mercenaryId);
 
       updateAvText("The mercenary joins your ranks.");
     })

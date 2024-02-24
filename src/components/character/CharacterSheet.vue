@@ -2,32 +2,52 @@
   <div v-if="character" class="column">
     <!-- Character static data -->
     <div class="row">
+      <img :title="character.status.name" class="avatar" :src="getImage()" />
       <i
         @click="changeName()"
         title="Change name"
-        class="fa-solid fa-pen fa-flip-horizontal avatar-icons"
+        class="fa-solid fa-pen fa-lg fa-flip-horizontal avatar-icons"
       ></i>
-      <img :title="character.status.name" class="avatar" :src="getImage()" />
       <i
-        v-if="!isLvlupShown"
-        @click="toggleLevelUp()"
+        v-if="content !== levelup"
+        @click="setContent(levelup)"
         title="Level up"
         :class="getLevelupClass"
       ></i>
       <i
-        v-if="isLvlupShown"
-        @click="toggleLevelUp()"
+        v-if="content === levelup"
+        @click="setContent(sheet)"
         title="Close level up"
-        class="fa-solid fa-circle-down avatar-icons"
+        class="fa-solid fa-lg fa-circle-down avatar-icons"
+      ></i>
+      <i
+        v-if="content !== mercenaries"
+        @click="setContent(mercenaries)"
+        title="See mercenaries"
+        class="fa-solid fa-lg fa-people-group"
+      ></i>
+      <i
+        v-if="content === mercenaries"
+        @click="setContent(sheet)"
+        title="Close mercenaries"
+        class="fa-solid fa-lg fa-people-line"
+      ></i>
+      <i
+        v-if="content !== sheet"
+        title="Close and go back to character sheet"
+        @click="setContent(sheet)"
+        class="fa-solid fa-lg fa-xmark"
+        style="color: #a30f0f"
       ></i>
     </div>
     <div class="row">
-      <ul>
-        <li title="character name" class="list-header">
-          {{ character.status.name }}
-        </li>
-      </ul>
-      <div v-if="!isLvlupShown" class="row">
+      <!-- CHARACTER SHEET -->
+      <div v-if="content === sheet" class="row">
+        <ul>
+          <li title="character name" class="list-header">
+            {{ character.status.name }}
+          </li>
+        </ul>
         <!-- Stats -->
         <ul>
           <li class="list-header">Stats</li>
@@ -224,12 +244,34 @@
           </li>
         </ul>
       </div>
-      <div v-if="isLvlupShown" class="row">
+      <!-- CHARACTER LEVEL UP -->
+      <div v-if="content === levelup" class="row">
         <CharacterLevelup></CharacterLevelup>
+      </div>
+      <!-- CHARACTER MERCENARIES -->
+      <div v-if="content === mercenaries">
+        <div v-if="character.mercenaries.length > 0" class="row">
+          <div
+            v-for="(merc, index) in character.mercenaries"
+            class="column"
+            :key="index"
+          >
+            <AvCharacterCard
+              :character="merc"
+              :show-class="true"
+              :show-health-bars="true"
+              :show-name="true"
+              :show-top-icons="true"
+            ></AvCharacterCard>
+            <p title="Mercenary provisions" class="m-y-1 text-xsmall">
+              {{ merc.inventory.provisions }} provs.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Character supplies items -->
-    <div class="row supplies">
+    <div v-if="content === sheet" class="row supplies">
       <AvItemCard
         :key="item.identity.id"
         v-for="item in character.inventory.supplies"
@@ -266,6 +308,7 @@ import AvItemCard from "@/components/small/AvItemCard.vue";
 import CharacterLevelup from "@/components/character/CharacterLevelup.vue";
 import { Character, Player, CharacterData } from "@/dtos/Dtos";
 import { StoreData } from "@/dtos/Enums";
+import AvCharacterCard from "../small/AvCharacterCard.vue";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvText: any = inject("updateAvText");
@@ -293,10 +336,14 @@ const getLevelupClass = computed<string | null>((): string => {
     character.value.levelUp.assetPoints +
     character.value.levelUp.deedPoints >
     0
-    ? "fa-solid fa-circle-up avatar-icons with-level-up"
-    : "fa-solid fa-circle-up avatar-icons";
+    ? "fa-solid fa-lg fa-circle-up avatar-icons with-level-up"
+    : "fa-solid fa-lg fa-circle-up avatar-icons";
 });
-const isLvlupShown = ref<boolean>(false);
+
+const sheet = "sheet";
+const levelup = "levelup";
+const mercenaries = "mercenaries";
+const content = ref<string>(sheet);
 
 const props = defineProps({
   gotoSibling: {
@@ -305,8 +352,8 @@ const props = defineProps({
   },
 });
 
-const toggleLevelUp = (): void => {
-  isLvlupShown.value = !isLvlupShown.value;
+const setContent = (val: string): void => {
+  content.value = val;
 };
 
 const getImage = (): string => {
@@ -424,6 +471,8 @@ li {
 i {
   cursor: pointer;
   opacity: 0.6;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
 i:hover {
@@ -438,5 +487,9 @@ i:hover {
 
 .with-level-up {
   color: #4a7822;
+}
+
+img {
+  cursor: pointer;
 }
 </style>

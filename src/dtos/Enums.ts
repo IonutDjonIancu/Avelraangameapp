@@ -18,6 +18,8 @@ export enum StoreData {
   SetCharacterId = "setCharacterId",
   SetCharacterStub = "setCharacterStub",
   SetLocation = "setLocation",
+  RemoveLocationItem = "removeLocationItem",
+  RemoveLocationMercenary = "removeLocationMercenary",
   CreateCharacter = "createCharacter",
   UpdateCharacter = "updateCharacter",
   DeleteCharacter = "deleteCharacter",

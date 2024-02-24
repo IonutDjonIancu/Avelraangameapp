@@ -153,9 +153,6 @@ const updateAvSound: any = inject("updateAvSound");
 const store = useStore();
 const playerProfile = computed<Player | null>(() => store.state.playerProfile);
 const characterId = computed<string | null>(() => store.state.characterId);
-const characterLocation = computed<Location | null>(
-  (): Location => store.state.location
-);
 
 const getComputedImage = computed((): string => {
   return require(`@/assets/ico_${props.item.subtype.toLowerCase()}_${
@@ -327,14 +324,7 @@ const buyItem = () => {
     .then((character: Character) => {
       updateAvSound("item_buy", 1);
       store.commit(StoreData.UpdateCharacter, character);
-
-      const itemIndex = characterLocation.value.market.findIndex(
-        (i) => i.identity.id === props.item.identity.id
-      );
-
-      if (itemIndex !== -1) {
-        characterLocation.value.market.splice(itemIndex, 1);
-      }
+      store.commit(StoreData.RemoveLocationItem, trade.itemId);
     })
     .catch((err) => {
       updateAvText(err.message);
