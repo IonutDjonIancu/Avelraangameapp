@@ -204,6 +204,11 @@ export interface CharacterData {
   characterName: string;
 }
 
+export interface CharacterHireMercenary {
+  characterIdentity: CharacterIdentity;
+  mercenaryId: string;
+}
+
 export interface Item {
   identity: ItemIdentity;
   inventoryLocations: string[];

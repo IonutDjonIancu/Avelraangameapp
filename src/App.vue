@@ -203,6 +203,11 @@ input {
   pointer-events: none;
 }
 
+.m-y-0 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
 .m-y-1 {
   margin-top: 3px;
   margin-bottom: 3px;
@@ -216,6 +221,16 @@ input {
 .m-y-3 {
   margin-top: 9px;
   margin-bottom: 9px;
+}
+
+.m-y-4 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.m-y-5 {
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .m-x-1 {
@@ -234,6 +249,10 @@ input {
 .text-bold {
   font-weight: bold;
   color: #2c3e50;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .text-small {

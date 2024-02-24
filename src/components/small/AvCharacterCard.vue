@@ -7,18 +7,101 @@
       class="name-tag"
     >
       {{
-        character.status.name.length > 7
-          ? character.status.name.slice(0, 7) + "..."
+        character.status.name.length > 5
+          ? character.status.name.slice(0, 5) + "..."
           : character.status.name
       }}
     </div>
     <div class="card-container">
       <div class="column">
         <div v-if="showTopIcons" :class="showingTopIcons">
-          <i class="fa-solid fa-clipboard"></i>
-          <i class="fa-solid fa-clipboard"></i>
-          <i class="fa-solid fa-clipboard"></i>
-          <i class="fa-solid fa-clipboard"></i>
+          <i
+            :title="
+              `<<< stats >>>\n` +
+              `STR: ${character.sheet.stats.strength}\n` +
+              `CON: ${character.sheet.stats.constitution}\n` +
+              `AGI: ${character.sheet.stats.agility}\n` +
+              `WIL: ${character.sheet.stats.willpower}\n` +
+              `PER: ${character.sheet.stats.perception}\n` +
+              `ABS: ${character.sheet.stats.abstract}\n` +
+              `<<< assets >>>\n` +
+              `HAR: ${character.sheet.assets.harm}\n` +
+              `RES: ${character.sheet.assets.resolve}\n` +
+              `MAN: ${character.sheet.assets.mana}\n` +
+              `DEF: ${character.sheet.assets.defense}\n` +
+              `PUR: ${character.sheet.assets.purge}\n` +
+              `ACT: ${character.sheet.assets.actions}\n` +
+              `SPO: ${character.sheet.assets.spot}\n` +
+              `<<< skills >>>\n` +
+              `MEL: ${character.sheet.skills.melee}\n` +
+              `ARC: ${character.sheet.skills.arcane}\n` +
+              `PSI: ${character.sheet.skills.psionics}\n` +
+              `TRA: ${character.sheet.skills.traps}\n` +
+              `HID: ${character.sheet.skills.hide}\n` +
+              `TAC: ${character.sheet.skills.tactics}\n` +
+              `APO: ${character.sheet.skills.apothecary}\n` +
+              `SOC: ${character.sheet.skills.social}\n` +
+              `TRV: ${character.sheet.skills.travel}\n` +
+              `SAI: ${character.sheet.skills.sail}\n`
+            "
+            class="fa-solid fa-clipboard"
+          ></i>
+          <i
+            :title="
+              `<<< inventory >>>\n` +
+              `head: ${
+                character.inventory.head
+                  ? character.inventory.head.category
+                  : '..'
+              }\n` +
+              `body: ${
+                character.inventory.body
+                  ? character.inventory.body.category
+                  : '..'
+              }\n` +
+              `mainhand: ${
+                character.inventory.mainhand
+                  ? character.inventory.mainhand.category
+                  : '..'
+              }\n` +
+              `offhand: ${
+                character.inventory.offhand
+                  ? character.inventory.offhand.category
+                  : '..'
+              }\n` +
+              `ranged: ${
+                character.inventory.ranged
+                  ? character.inventory.ranged.category
+                  : '..'
+              }\n`
+            "
+            class="fa-solid fa-shield-halved"
+          ></i>
+          <i
+            :title="
+              `<<< status >>>\n` +
+              `entity level ${character.status.entityLevel}\n` +
+              `name ${character.status.name}\n` +
+              `quests finished ${character.status.nrOfQuestsFinished}\n` +
+              `race ${character.status.traits.race}\n` +
+              `culture ${character.status.traits.culture}\n` +
+              `class ${character.status.traits.class}\n` +
+              `tradition ${character.status.traits.tradition}\n` +
+              `<<< fame >>>\n` +
+              `${character.status.fame}\n`
+            "
+            class="fa-solid fa-user"
+          ></i>
+          <i
+            :title="
+              `<<< gameplay >>>\n` +
+              `Alive? ${character.status.gameplay.isAlive}\n` +
+              `Hidden? ${character.status.gameplay.isHidden}\n` +
+              `Locked? ${character.status.gameplay.isLocked}\n` +
+              `NPC? ${character.status.gameplay.isNpc}\n`
+            "
+            class="fa-solid fa-circle-half-stroke"
+          ></i>
         </div>
         <i
           v-if="showLvlup"

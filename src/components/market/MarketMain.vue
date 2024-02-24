@@ -55,7 +55,7 @@
           ></AvItemCard>
         </div>
       </div>
-      <div v-if="character" class="column m-y-2">
+      <div v-if="character" class="column m-y-5">
         <form class="row row-center" autocomplete="none">
           <label
             title="Provisions help your characters when travelling."
@@ -72,19 +72,27 @@
             autocomplete="none"
           />
           <span class="text-xsmall"> x 2 wealth per provision </span>
-          <button @click.prevent="buyProvisions" class="m-x-1">buy</button>
+          <div class="m-x-1">
+            <i
+              title="Purchase"
+              @click="buyProvisions"
+              class="fa-solid fa-hand-holding-dollar fa-xl"
+            ></i>
+          </div>
         </form>
       </div>
     </div>
     <div v-else>You have no characters that can do trade.</div>
-    <AvButton
-      @click="props.gotoSibling('')"
-      :size="'large'"
-      :source="'ico_back_arrow'"
-      :title="'Back to market'"
-      :name="'Back'"
-      :sound="'back'"
-    ></AvButton>
+    <div class="m-y-3">
+      <AvButton
+        @click="props.gotoSibling('')"
+        :size="'large'"
+        :source="'ico_back_arrow'"
+        :title="'Back to market'"
+        :name="'Back'"
+        :sound="'back'"
+      ></AvButton>
+    </div>
   </div>
 </template>
 
@@ -108,7 +116,6 @@ const characters = computed<Character[]>(() => playerProfile.value.characters);
 const character = computed<Character | null>(() => getSelectedCharacter());
 const location = computed<Location | null>(() => store.state.location);
 
-const isSelected = ref<boolean>(false);
 const selectedImageIndex = ref<number>(null);
 const selectedCharacterIndex = ref<number>(null);
 const provisions = ref<number>(0);
@@ -127,7 +134,6 @@ const selectCharacter = (index: number): void => {
 
   selectedCharacterIndex.value = index;
   selectedImageIndex.value = index;
-  isSelected.value = !isSelected.value;
 };
 
 const getSelectedCharacter = (): Character | null => {
@@ -197,16 +203,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 30px;
-}
-
-img:hover {
-  cursor: pointer;
-}
-
 .selected {
   border: 3px solid #859c71;
   border-radius: 3px;
@@ -215,5 +211,15 @@ img:hover {
 
 .row {
   align-items: center;
+}
+
+i {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+i:hover {
+  opacity: 1;
+  transition: 0.3;
 }
 </style>
