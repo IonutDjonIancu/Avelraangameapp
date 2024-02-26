@@ -203,39 +203,54 @@ input {
   pointer-events: none;
 }
 
-.m-y-0 {
+.my0 {
   margin-top: 0px;
   margin-bottom: 0px;
 }
 
-.m-y-1 {
+.my1 {
   margin-top: 3px;
   margin-bottom: 3px;
 }
 
-.m-y-2 {
+.my2 {
   margin-top: 6px;
   margin-bottom: 6px;
 }
 
-.m-y-3 {
+.my3 {
   margin-top: 9px;
   margin-bottom: 9px;
 }
 
-.m-y-4 {
+.my4 {
   margin-top: 12px;
   margin-bottom: 12px;
 }
 
-.m-y-5 {
+.my5 {
   margin-top: 15px;
   margin-bottom: 15px;
 }
 
-.m-x-1 {
+.mx0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.mx1 {
   margin-left: 3px;
   margin-right: 3px;
+}
+
+.mx2 {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.mx3 {
+  margin-left: 9px;
+  margin-right: 9px;
 }
 
 .w-80 {

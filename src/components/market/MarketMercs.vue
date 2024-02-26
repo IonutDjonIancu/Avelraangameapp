@@ -19,15 +19,15 @@
         </div>
       </div>
       <div v-if="character" class="row text-small">
-        <span class="m-x-1"
+        <span class="mx1"
           >Social: {{ character ? character.sheet.skills.social : "" }}</span
         >
-        <span class="m-x-1"
+        <span class="mx1"
           >Wealth: {{ character ? character.status.wealth : "" }}</span
         >
       </div>
     </div>
-    <div v-else class="m-y-3">You have no characters that can employ.</div>
+    <div v-else class="my3">You have no characters that can employ.</div>
     <div
       v-if="mercenaries !== null && mercenaries.length > 0 && character"
       class="column"
@@ -50,8 +50,8 @@
             :show-top-icons="true"
             :show-class="true"
           ></AvCharacterCard>
-          <p class="text-xsmall text-center m-y-1">Will join for:</p>
-          <p class="text-small text-bold text-center m-y-1">
+          <p class="text-xsmall text-center my1">Will join for:</p>
+          <p class="text-small text-bold text-center my1">
             {{ merc.status.worth }}
           </p>
         </div>
@@ -59,12 +59,12 @@
     </div>
     <div
       v-if="showHire && mercenaries !== null && mercenaries.length > 0"
-      class="column m-y-3"
+      class="column my3"
     >
-      <p class="m-y-1">
+      <p class="my1">
         Hire mercenary for {{ mercenaries[selectedMercIndex].status.worth }}?
       </p>
-      <div class="m-y-2">
+      <div class="my2">
         <i
           @click="hireMercenary()"
           title="Hire mercenary"
@@ -72,7 +72,7 @@
         ></i>
       </div>
     </div>
-    <div class="m-y-3">
+    <div class="my3">
       <AvButton
         @click="props.gotoSibling('')"
         :size="'large'"
@@ -138,7 +138,7 @@ const selectCharacter = (index: number): void => {
 };
 
 const setClass = (index: number): string => {
-  return selectedCharIndex.value === index ? "m-x-1 selected" : "m-x-1";
+  return selectedCharIndex.value === index ? "mx1 selected" : "mx1";
 };
 
 const getLocation = (character: Character) => {
@@ -168,7 +168,7 @@ const getSelectedCharacter = (): Character | null => {
 };
 
 const selectedMerc = (index: number): string => {
-  return selectedMercIndex.value === index ? "m-x-1 selected-merc" : "m-x-1";
+  return selectedMercIndex.value === index ? "mx1 selected-merc" : "mx1";
 };
 
 const selectMerc = (index: number): void => {

@@ -18,6 +18,7 @@
             :show-top-icons="true"
             @on-card-click="selectCharacter(index)"
           ></AvCharacterCard>
+          <p class="my1"></p>
         </div>
       </div>
       <!-- QUESTS -->
@@ -25,12 +26,12 @@
         v-if="quests !== null && quests.length > 0 && character"
         class="column"
       >
-        <p class="text-bold m-y-1">
+        <p class="text-bold my1">
           Quests available at {{ location.position.location }},
           {{ location.position.land }}
         </p>
         <ul>
-          <li v-for="(quest, index) in quests" :key="index" class="m-y-2">
+          <li v-for="(quest, index) in quests" :key="index" class="my2">
             <i
               @click="acceptQuest()"
               title="Accept quest"
@@ -54,7 +55,7 @@
         </ul>
       </div>
     </div>
-    <div v-else class="m-y-3">You have no characters that can do quests.</div>
+    <div v-else class="my3">You have no characters that can do quests.</div>
     <AvButton
       @click="props.gotoSibling('')"
       :size="'large'"
@@ -109,7 +110,7 @@ const selectCharacter = (index: number): void => {
 };
 
 const setClass = (index: number): string => {
-  return selectedCharIndex.value === index ? "m-x-1 selected" : "m-x-1";
+  return selectedCharIndex.value === index ? "mx1 selected" : "mx1";
 };
 
 const getQuestRewardIcon = (val: string) => {

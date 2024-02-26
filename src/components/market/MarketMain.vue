@@ -18,14 +18,14 @@
         </div>
       </div>
       <div v-if="character" class="row text-small">
-        <span class="m-x-1"
+        <span class="mx1"
           >Social: {{ character ? character.sheet.skills.social : "" }}</span
         >
-        <span class="m-x-1"
+        <span class="mx1"
           >Provisions:
           {{ character ? character.inventory.provisions : "" }}</span
         >
-        <span class="m-x-1"
+        <span class="mx1"
           >Wealth: {{ character ? character.status.wealth : "" }}</span
         >
       </div>
@@ -55,24 +55,24 @@
           ></AvItemCard>
         </div>
       </div>
-      <div v-if="character" class="column m-y-5">
+      <div v-if="character" class="column my5">
         <form class="row row-center" autocomplete="none">
           <label
             title="Provisions help your characters when travelling."
-            class="text-small m-x-1"
+            class="text-small mx1"
             for="provisionsInput"
             >Buy provisions</label
           >
           <input
             v-model="provisions"
-            class="m-x-1 w-10"
+            class="mx1 w-10"
             type="number"
             name="provisions"
             id="provisionsInput"
             autocomplete="none"
           />
           <span class="text-xsmall"> x 2 wealth per provision </span>
-          <div class="m-x-1">
+          <div class="mx1">
             <i
               title="Purchase"
               @click="buyProvisions"
@@ -83,7 +83,7 @@
       </div>
     </div>
     <div v-else>You have no characters that can do trade.</div>
-    <div class="m-y-3">
+    <div class="my3">
       <AvButton
         @click="props.gotoSibling('')"
         :size="'large'"
@@ -141,7 +141,7 @@ const getSelectedCharacter = (): Character | null => {
 };
 
 const setClass = (index: number): string => {
-  return selectedImageIndex.value === index ? "m-x-1 selected" : "m-x-1";
+  return selectedImageIndex.value === index ? "mx1 selected" : "mx1";
 };
 
 const getLocation = (character: Character) => {

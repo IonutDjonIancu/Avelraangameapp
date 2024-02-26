@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="m-y-3">
+    <div class="my3">
       <AvButton
         @click="props.gotoSibling('')"
         :size="'large'"

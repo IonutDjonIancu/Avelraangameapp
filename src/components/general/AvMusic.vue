@@ -1,5 +1,5 @@
 <template>
-  <div @click="stopMusic" class="m-x-1 music">
+  <div @click="stopMusic" class="mx1 music">
     <i
       :title="songPlaying ? `Currently playing: ${nameOfSong} song` : ''"
       :class="musicClass"

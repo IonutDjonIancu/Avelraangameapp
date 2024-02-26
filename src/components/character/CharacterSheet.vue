@@ -263,7 +263,7 @@
               :show-name="true"
               :show-top-icons="true"
             ></AvCharacterCard>
-            <p title="Mercenary provisions" class="m-y-1 text-xsmall">
+            <p title="Mercenary provisions" class="my1 text-xsmall">
               {{ merc.inventory.provisions }} provs.
             </p>
           </div>
