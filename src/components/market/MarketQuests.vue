@@ -6,19 +6,22 @@
         Select a character to see all available quests at its location.
       </p>
       <div class="row">
-        <div
-          :class="setClass(index)"
-          :key="index"
-          v-for="(character, index) in characters"
-        >
-          <AvCharacterCard
-            :character="character"
-            :title="'Is trading'"
-            :show-class="false"
-            :show-top-icons="true"
-            @on-card-click="selectCharacter(index)"
-          ></AvCharacterCard>
-          <p class="my1"></p>
+        <div class="column">
+          <div
+            :class="setClass(index)"
+            :key="index"
+            v-for="(character, index) in characters"
+          >
+            <AvCharacterCard
+              :character="character"
+              :title="'is looking for work'"
+              :show-class="false"
+              @on-card-click="selectCharacter(index)"
+            ></AvCharacterCard>
+          </div>
+          <p v-if="character" class="my1 text-xsmall text-center">
+            Provs. {{ character.inventory.provisions }}
+          </p>
         </div>
       </div>
       <!-- QUESTS -->

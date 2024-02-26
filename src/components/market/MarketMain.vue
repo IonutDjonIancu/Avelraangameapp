@@ -17,7 +17,7 @@
           ></AvCharacterCard>
         </div>
       </div>
-      <div v-if="character" class="row text-small">
+      <div v-if="character" class="row text-xsmall">
         <span class="mx1"
           >Social: {{ character ? character.sheet.skills.social : "" }}</span
         >
