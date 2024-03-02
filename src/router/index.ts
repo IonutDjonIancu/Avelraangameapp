@@ -3,7 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import CharacterView from "../views/CharacterView.vue";
 import MarketView from "../views/MarketView.vue";
 import TownhallView from "../views/TownhallView.vue";
-import LocationViewVue from "@/views/LocationView.vue";
+import TravelViewVue from "../views/TravelView.vue";
 import RulebookView from "../views/RulebookView.vue";
 import TestView from "../views/TestView.vue";
 
@@ -29,9 +29,9 @@ const routes: Array<RouteRecordRaw> = [
     component: TownhallView,
   },
   {
-    path: "/location",
-    name: "location",
-    component: LocationViewVue,
+    path: "/travel",
+    name: "travel",
+    component: TravelViewVue,
   },
   {
     path: "/rulebook",

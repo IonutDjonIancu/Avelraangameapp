@@ -208,7 +208,8 @@
             allLocations.find((s) => s.name === chosenLocation)
               .travelCostFromArada
           }}
-          provisions to reach {{ chosenLocation }}
+          provisions for a man to reach {{ chosenLocation }} (you and your men
+          have a total of {{ calculateProvisions() }})
         </div>
         <div class="my3">
           <AvButton
@@ -229,7 +230,13 @@
 <script setup lang="ts">
 import { ref, inject, computed } from "vue";
 import { useStore } from "vuex";
-import { Character, Player, Location } from "@/dtos/Dtos";
+import {
+  Character,
+  Player,
+  Location,
+  CharacterTravel,
+  CharacterTravelResponse,
+} from "@/dtos/Dtos";
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
@@ -248,7 +255,7 @@ const character = computed<Character>(() => getSelectedCharacter());
 const getRegions = computed<Set<string> | null>(() => regions.value);
 const getSubregions = computed<Set<string> | null>(() => subregions.value);
 const getLands = computed<Set<string> | null>(() => lands.value);
-const getLocations = computed<string[] | null>(() => locations.value);
+const getLocations = computed<Set<string> | null>(() => locations.value);
 
 const isMapBeingHovered = computed((): boolean => {
   return isMapHovered.value;
@@ -263,8 +270,20 @@ const chosenLocation = ref<string>("");
 const regions = ref<Set<string> | null>(new Set<string>());
 const subregions = ref<Set<string> | null>(new Set<string>());
 const lands = ref<Set<string> | null>(new Set<string>());
-const locations = ref<string[] | null>([]);
+const locations = ref<Set<string> | null>(new Set<string>());
 const allLocations = ref<Location[] | null>(null);
+
+const calculateProvisions = (): number => {
+  var total = 0;
+
+  total += character.value.inventory.provisions;
+
+  character.value.mercenaries.forEach((merc) => {
+    total += merc.inventory.provisions;
+  });
+
+  return total;
+};
 
 const getMapSource = (val: string) => {
   return require(`@/assets/map_${val.toLowerCase()}.jpg`);
@@ -317,7 +336,7 @@ const getAllLocations = (): void => {
         regions.value.add(loc.position.region);
         subregions.value.add(loc.position.subregion);
         lands.value.add(loc.position.land);
-        locations.value.push(loc.position.location);
+        locations.value.add(loc.position.location);
       });
     })
     .catch((err) => {
@@ -327,7 +346,46 @@ const getAllLocations = (): void => {
 };
 
 const travel = (): void => {
-  console.log("is travelling");
+  if (
+    !chosenRegion.value ||
+    !chosenSubregion.value ||
+    !chosenLand.value ||
+    !chosenLocation.value
+  ) {
+    return;
+  }
+
+  const data: CharacterTravel = {
+    characterIdentity: character.value.identity,
+    destination: {
+      region: chosenRegion.value,
+      subregion: chosenSubregion.value,
+      land: chosenLand.value,
+      location: chosenLocation.value,
+    },
+  };
+
+  console.log(data);
+
+  HttpService.httpPut("Character/TravelToLocation", data)
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
+    .then((travelResponse: CharacterTravelResponse) => {
+      console.log(travelResponse);
+      store.commit(StoreData.UpdateCharacter, travelResponse.character);
+      clearDestination();
+      updateAvText(travelResponse.result);
+      selectedCharIndex.value = null;
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
 };
 </script>
 

@@ -209,6 +209,16 @@ export interface CharacterHireMercenary {
   mercenaryId: string;
 }
 
+export interface CharacterTravel {
+  characterIdentity: CharacterIdentity;
+  destination: Position;
+}
+
+export interface CharacterTravelResponse {
+  character: Character;
+  result: string;
+}
+
 export interface Item {
   identity: ItemIdentity;
   inventoryLocations: string[];

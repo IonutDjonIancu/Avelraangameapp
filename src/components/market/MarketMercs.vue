@@ -107,18 +107,13 @@ const store = useStore();
 const playerProfile = computed<Player | null>(() => store.state.playerProfile);
 const characters = computed<Character[]>(() => playerProfile.value.characters);
 const mercenaries = computed<Character[] | null>(() => {
-  return characterLocation.value !== null
-    ? characterLocation.value.mercenaries
-    : null;
+  return location.value !== null ? location.value.mercenaries : null;
 });
 const character = computed<Character | null>(() => getSelectedCharacter());
 const location = computed<Location | null>(() => store.state.location);
 const showHire = computed<boolean>((): boolean => {
   return selectedCharIndex.value != null && selectedMercIndex.value != null;
 });
-const characterLocation = computed<Location | null>(
-  (): Location => store.state.location
-);
 
 const selectedCharIndex = ref<number>(null);
 const selectedMercIndex = ref<number>(null);
@@ -206,6 +201,7 @@ const hireMercenary = (): void => {
       }
     })
     .then((character: Character) => {
+      selectedMercIndex.value = null;
       updateAvSound("item_buy", 1);
       store.commit(StoreData.UpdateCharacter, character);
       store.commit(StoreData.RemoveLocationMercenary, data.mercenaryId);

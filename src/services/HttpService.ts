@@ -3,7 +3,7 @@ import { Player, PlayerInfo } from "@/dtos/Dtos";
 export class HttpService {
   // switch between local and prod for api calls
   // prod vs development feature flag
-  private static targetProd = false;
+  private static targetProd = true;
   // below stuff remains untouched
   // prod url remains unchanged
 

@@ -16,8 +16,8 @@
         <router-link v-if="playerProfile" to="/townhall" class="av-nav-item"
           >| Townhall</router-link
         >
-        <router-link v-if="playerProfile" to="/location" class="av-nav-item"
-          >| Locations</router-link
+        <router-link v-if="playerProfile" to="/travel" class="av-nav-item"
+          >| Travel</router-link
         >
         <div v-if="!playerProfile" style="color: #859c71">
           * you will have to login first in order to see the rest of the content

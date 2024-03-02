@@ -36,7 +36,7 @@
         v-if="content !== sheet"
         title="Close and go back to character sheet"
         @click="setContent(sheet)"
-        class="fa-solid fa-lg fa-xmark"
+        class="fa-solid fa-xl fa-xmark"
         style="color: #a30f0f"
       ></i>
     </div>

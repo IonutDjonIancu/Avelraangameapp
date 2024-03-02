@@ -1,12 +1,12 @@
 <template>
   <div class="av-container">
-    <LocationMain v-if="text === ''" :gotoSibling="gotoSibling"></LocationMain>
+    <TravelMain v-if="text === ''" :gotoSibling="gotoSibling"></TravelMain>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from "vue";
-import LocationMain from "@/components/location/LocationMain.vue";
+import TravelMain from "@/components/travel/TravelMain.vue";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvSound: any = inject("updateAvSound");
