@@ -23,7 +23,7 @@
       <p>Stat points {{ statPts }}</p>
       <p>Skill points {{ skillPts }}</p>
     </div>
-    <div class="row m-y-2">
+    <div class="row my2">
       <AvButton
         @click="props.gotoSibling('')"
         :size="'large'"
@@ -140,12 +140,12 @@ onMounted(() => {
 }
 
 .entity-lvl-2 {
-  color: goldenrod;
+  color: green;
   font-weight: bold;
 }
 
 .entity-lvl-3 {
-  color: green;
+  color: goldenrod;
   font-weight: bold;
 }
 

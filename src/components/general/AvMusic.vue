@@ -1,5 +1,5 @@
 <template>
-  <div @click="stopMusic" class="m-x-1 music">
+  <div @click="stopMusic" class="mx1 music">
     <i
       :title="songPlaying ? `Currently playing: ${nameOfSong} song` : ''"
       :class="musicClass"
@@ -81,10 +81,15 @@ const playMp3 = (name: string) => {
 };
 
 const stopMusic = (): void => {
-  songPlaying.value.stop();
-  songPlaying.value = null;
-  nameOfSong.value = "";
-  toggleMusicClass();
+  if (songPlaying.value === null) {
+    playWav("main_theme");
+    return;
+  } else {
+    songPlaying.value.stop();
+    songPlaying.value = null;
+    nameOfSong.value = "";
+    toggleMusicClass();
+  }
 };
 
 const toggleMusicClass = () => {

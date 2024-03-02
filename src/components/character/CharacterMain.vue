@@ -12,6 +12,8 @@
           v-for="(character, index) in characters"
           :key="index"
           :character="character"
+          :title="'See character'"
+          :show-top-icons="true"
         ></AvCharacterCard>
       </div>
     </div>
@@ -86,7 +88,7 @@ onMounted(() => {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 100%;
   margin-bottom: 20px;
 }
 </style>

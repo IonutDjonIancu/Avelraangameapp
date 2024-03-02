@@ -16,6 +16,9 @@
         <router-link v-if="playerProfile" to="/townhall" class="av-nav-item"
           >| Townhall</router-link
         >
+        <router-link v-if="playerProfile" to="/travel" class="av-nav-item"
+          >| Travel</router-link
+        >
         <div v-if="!playerProfile" style="color: #859c71">
           * you will have to login first in order to see the rest of the content
         </div>
@@ -150,7 +153,10 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+}
+
+.column-80 {
+  width: 80%;
 }
 
 .row {
@@ -200,19 +206,54 @@ input {
   pointer-events: none;
 }
 
-.m-y-1 {
+.my0 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.my1 {
   margin-top: 3px;
   margin-bottom: 3px;
 }
 
-.m-y-2 {
+.my2 {
   margin-top: 6px;
   margin-bottom: 6px;
 }
 
-.m-x-1 {
+.my3 {
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
+
+.my4 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.my5 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.mx0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.mx1 {
   margin-left: 3px;
   margin-right: 3px;
+}
+
+.mx2 {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.mx3 {
+  margin-left: 9px;
+  margin-right: 9px;
 }
 
 .w-80 {
@@ -226,6 +267,10 @@ input {
 .text-bold {
   font-weight: bold;
   color: #2c3e50;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .text-small {
@@ -242,5 +287,24 @@ input {
 
 .text-large {
   font-size: large;
+}
+
+.image-lvl-1 {
+  border-top-color: gray;
+}
+.image-lvl-2 {
+  border-top-color: green;
+}
+.image-lvl-3 {
+  border-top-color: goldenrod;
+}
+.image-lvl-4 {
+  border-top-color: orangered;
+}
+.image-lvl-5 {
+  border-top-color: blue;
+}
+.image-lvl-6 {
+  border-top-color: purple;
 }
 </style>

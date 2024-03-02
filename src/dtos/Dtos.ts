@@ -192,6 +192,7 @@ export interface CharacterLadder {
   characterName: string;
   playerName: string;
   race: string;
+  entityLevel: number;
   icon: number;
   worth: number;
   wealth: number;
@@ -201,6 +202,21 @@ export interface CharacterData {
   playerId: string;
   characterId: string;
   characterName: string;
+}
+
+export interface CharacterHireMercenary {
+  characterIdentity: CharacterIdentity;
+  mercenaryId: string;
+}
+
+export interface CharacterTravel {
+  characterIdentity: CharacterIdentity;
+  destination: Position;
+}
+
+export interface CharacterTravelResponse {
+  character: Character;
+  result: string;
 }
 
 export interface Item {

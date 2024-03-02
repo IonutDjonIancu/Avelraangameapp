@@ -2,26 +2,29 @@
   <div class="column">
     <div v-if="characters" class="column">
       <!-- SELECT CHARACTERS -->
-      <p class="text-bold">Characters</p>
       <div class="row">
-        <img
-          :title="character.status.name"
-          @click="selectCharacter(index)"
+        <div
+          :class="setClass(index)"
           :key="index"
           v-for="(character, index) in characters"
-          :src="setImage(character)"
-          :class="setClass(index)"
-        />
+        >
+          <AvCharacterCard
+            :character="character"
+            :title="'is trading'"
+            :show-class="false"
+            @on-card-click="selectCharacter(index)"
+          ></AvCharacterCard>
+        </div>
       </div>
-      <div v-if="character" class="row text-small">
-        <span class="m-x-1"
+      <div v-if="character" class="row text-xsmall">
+        <span class="mx1"
           >Social: {{ character ? character.sheet.skills.social : "" }}</span
         >
-        <span class="m-x-1"
+        <span class="mx1"
           >Provisions:
           {{ character ? character.inventory.provisions : "" }}</span
         >
-        <span class="m-x-1"
+        <span class="mx1"
           >Wealth: {{ character ? character.status.wealth : "" }}</span
         >
       </div>
@@ -39,10 +42,12 @@
       </div>
       <!-- MARKET ITEMS -->
       <div v-if="location && character" class="column w-80">
-        <p class="text-bold">
-          Market of {{ location.position.location }},
-          {{ location.position.land }}
-        </p>
+        <div class="row">
+          <p class="text-bold my0">
+            Market of {{ location.position.location }},
+            {{ location.position.land }}
+          </p>
+        </div>
         <div class="row">
           <AvItemCard
             :key="index + item.identity.id"
@@ -51,36 +56,44 @@
           ></AvItemCard>
         </div>
       </div>
-      <div v-if="character" class="column m-y-2">
+      <div v-if="character" class="column my5">
         <form class="row row-center" autocomplete="none">
           <label
             title="Provisions help your characters when travelling."
-            class="text-small m-x-1"
+            class="text-small mx1"
             for="provisionsInput"
             >Buy provisions</label
           >
           <input
             v-model="provisions"
-            class="m-x-1 w-10"
+            class="mx1 w-10"
             type="number"
             name="provisions"
             id="provisionsInput"
             autocomplete="none"
           />
           <span class="text-xsmall"> x 2 wealth per provision </span>
-          <button @click.prevent="buyProvisions" class="m-x-1">buy</button>
+          <div class="mx1">
+            <i
+              title="Purchase"
+              @click="buyProvisions"
+              class="fa-solid fa-hand-holding-dollar fa-xl"
+            ></i>
+          </div>
         </form>
       </div>
     </div>
     <div v-else>You have no characters that can do trade.</div>
-    <AvButton
-      @click="props.gotoSibling('')"
-      :size="'large'"
-      :source="'ico_back_arrow'"
-      :title="'Back to market'"
-      :name="'Back'"
-      :sound="'back'"
-    ></AvButton>
+    <div class="my3">
+      <AvButton
+        @click="props.gotoSibling('')"
+        :size="'large'"
+        :source="'ico_back_arrow'"
+        :title="'Back to market'"
+        :name="'Back'"
+        :sound="'back'"
+      ></AvButton>
+    </div>
   </div>
 </template>
 
@@ -89,6 +102,8 @@ import { ref, inject, computed, onMounted, defineProps } from "vue";
 import { useStore } from "vuex";
 import { Character, Player, Location, CharacterTrade } from "@/dtos/Dtos";
 import AvItemCard from "@/components/small/AvItemCard.vue";
+
+import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
 import { StoreData } from "@/dtos/Enums";
@@ -102,7 +117,6 @@ const characters = computed<Character[]>(() => playerProfile.value.characters);
 const character = computed<Character | null>(() => getSelectedCharacter());
 const location = computed<Location | null>(() => store.state.location);
 
-const isSelected = ref<boolean>(false);
 const selectedImageIndex = ref<number>(null);
 const selectedCharacterIndex = ref<number>(null);
 const provisions = ref<number>(0);
@@ -121,7 +135,6 @@ const selectCharacter = (index: number): void => {
 
   selectedCharacterIndex.value = index;
   selectedImageIndex.value = index;
-  isSelected.value = !isSelected.value;
 };
 
 const getSelectedCharacter = (): Character | null => {
@@ -129,13 +142,7 @@ const getSelectedCharacter = (): Character | null => {
 };
 
 const setClass = (index: number): string => {
-  return selectedImageIndex.value === index ? "m-x-1 selected" : "m-x-1";
-};
-
-const setImage = (chr: Character): string => {
-  return require(`@/assets/ico_${chr.status.traits.race.toLowerCase()}_${
-    chr.status.traits.icon
-  }.png`);
+  return selectedImageIndex.value === index ? "mx0 selected" : "mx0";
 };
 
 const getLocation = (character: Character) => {
@@ -197,21 +204,23 @@ onMounted(() => {
 </script>
 
 <style scoped>
-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 30px;
-}
-
-img:hover {
-  cursor: pointer;
-}
-
 .selected {
   border: 3px solid #859c71;
+  border-radius: 3px;
+  padding-bottom: 5px;
 }
 
 .row {
   align-items: center;
+}
+
+i {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+i:hover {
+  opacity: 1;
+  transition: 0.3;
 }
 </style>

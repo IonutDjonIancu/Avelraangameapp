@@ -41,32 +41,31 @@
           :title="
             `Magical: ${item.hasTaint === true ? 'yes' : 'no'}\n` +
             `<<< assets >>>\n` +
-            `harm: ${item.sheet.assets.harm}\n` +
-            `resolve: ${item.sheet.assets.resolve}\n` +
-            `mana: ${item.sheet.assets.mana}\n` +
-            `defense: ${item.sheet.assets.defense}\n` +
-            `purge: ${item.sheet.assets.purge}\n` +
-            `actions: ${item.sheet.assets.actions}\n` +
-            `spot: ${item.sheet.assets.spot}\n` +
+            `HAR: ${item.sheet.assets.harm}\n` +
+            `RES: ${item.sheet.assets.resolve}\n` +
+            `MAN: ${item.sheet.assets.mana}\n` +
+            `DEF: ${item.sheet.assets.defense}\n` +
+            `PUR: ${item.sheet.assets.purge}\n` +
+            `ACT: ${item.sheet.assets.actions}\n` +
+            `SPO: ${item.sheet.assets.spot}\n` +
             `<<< skills >>>\n` +
-            `apothecary: ${item.sheet.skills.apothecary}\n` +
-            `arcane: ${item.sheet.skills.arcane}\n` +
-            `hide: ${item.sheet.skills.hide}\n` +
-            `melee: ${item.sheet.skills.melee}\n` +
-            `psionics: ${item.sheet.skills.psionics}\n` +
-            `sail: ${item.sheet.skills.sail}\n` +
-            `social: ${item.sheet.skills.social}\n` +
-            `tactics: ${item.sheet.skills.tactics}\n` +
-            `traps: ${item.sheet.skills.traps}\n` +
-            `travel: ${item.sheet.skills.travel}\n` +
-            `apothecary: ${item.sheet.skills.apothecary}\n` +
+            `MEL: ${item.sheet.skills.melee}\n` +
+            `ARC: ${item.sheet.skills.arcane}\n` +
+            `PSI: ${item.sheet.skills.psionics}\n` +
+            `TRA: ${item.sheet.skills.traps}\n` +
+            `HID: ${item.sheet.skills.hide}\n` +
+            `TAC: ${item.sheet.skills.tactics}\n` +
+            `APO: ${item.sheet.skills.apothecary}\n` +
+            `SOC: ${item.sheet.skills.social}\n` +
+            `TRV: ${item.sheet.skills.travel}\n` +
+            `SAI: ${item.sheet.skills.sail}\n` +
             `<<< stats >>>\n` +
-            `strength: ${item.sheet.stats.strength}\n` +
-            `constitution: ${item.sheet.stats.constitution}\n` +
-            `agility: ${item.sheet.stats.agility}\n` +
-            `willpower: ${item.sheet.stats.willpower}\n` +
-            `perception: ${item.sheet.stats.perception}\n` +
-            `abstract: ${item.sheet.stats.abstract}\n`
+            `STR: ${item.sheet.stats.strength}\n` +
+            `CON: ${item.sheet.stats.constitution}\n` +
+            `AGI: ${item.sheet.stats.agility}\n` +
+            `WIL: ${item.sheet.stats.willpower}\n` +
+            `PER: ${item.sheet.stats.perception}\n` +
+            `ABS: ${item.sheet.stats.abstract}\n`
           "
           class="mini fa-solid fa-scroll"
         ></i>
@@ -154,9 +153,6 @@ const updateAvSound: any = inject("updateAvSound");
 const store = useStore();
 const playerProfile = computed<Player | null>(() => store.state.playerProfile);
 const characterId = computed<string | null>(() => store.state.characterId);
-const characterLocation = computed<Location | null>(
-  (): Location => store.state.location
-);
 
 const getComputedImage = computed((): string => {
   return require(`@/assets/ico_${props.item.subtype.toLowerCase()}_${
@@ -328,14 +324,7 @@ const buyItem = () => {
     .then((character: Character) => {
       updateAvSound("item_buy", 1);
       store.commit(StoreData.UpdateCharacter, character);
-
-      const itemIndex = characterLocation.value.market.findIndex(
-        (i) => i.identity.id === props.item.identity.id
-      );
-
-      if (itemIndex !== -1) {
-        characterLocation.value.market.splice(itemIndex, 1);
-      }
+      store.commit(StoreData.RemoveLocationItem, trade.itemId);
     })
     .catch((err) => {
       updateAvText(err.message);
@@ -380,15 +369,15 @@ const buyItem = () => {
 }
 
 .item-level_1 {
-  border-color: whitesmoke;
+  border-color: gray;
 }
 
 .item-level_2 {
-  border-color: goldenrod;
+  border-color: green;
 }
 
 .item-level_3 {
-  border-color: green;
+  border-color: goldenrod;
 }
 
 .item-level_4 {

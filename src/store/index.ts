@@ -1,4 +1,4 @@
-import { Character, CharacterStub, Player } from "@/dtos/Dtos";
+import { Character, CharacterStub, Location, Player } from "@/dtos/Dtos";
 import { createStore } from "vuex";
 
 interface State {
@@ -28,6 +28,24 @@ export default createStore<State>({
     },
     setLocation(state, location: Location) {
       state.location = location;
+    },
+    removeLocationItem(state, itemId: string) {
+      const itemIndex = state.location.market.findIndex(
+        (i) => i.identity.id === itemId
+      );
+
+      if (itemIndex !== -1) {
+        state.location.market.splice(itemIndex, 1);
+      }
+    },
+    removeLocationMercenary(state, mercId: string) {
+      const itemIndex = state.location.mercenaries.findIndex(
+        (i) => i.identity.id === mercId
+      );
+
+      if (itemIndex !== -1) {
+        state.location.mercenaries.splice(itemIndex, 1);
+      }
     },
     createCharacter(state, character: Character) {
       state.playerProfile.characters.push(character);
