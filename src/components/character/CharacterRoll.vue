@@ -140,12 +140,12 @@ onMounted(() => {
 }
 
 .entity-lvl-2 {
-  color: goldenrod;
+  color: green;
   font-weight: bold;
 }
 
 .entity-lvl-3 {
-  color: green;
+  color: goldenrod;
   font-weight: bold;
 }
 

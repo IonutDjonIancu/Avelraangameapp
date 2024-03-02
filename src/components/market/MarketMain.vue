@@ -2,7 +2,6 @@
   <div class="column">
     <div v-if="characters" class="column">
       <!-- SELECT CHARACTERS -->
-      <p class="text-xsmall">Select a character to start trading.</p>
       <div class="row">
         <div
           :class="setClass(index)"
@@ -11,7 +10,7 @@
         >
           <AvCharacterCard
             :character="character"
-            :title="'Is trading'"
+            :title="'is trading'"
             :show-class="false"
             @on-card-click="selectCharacter(index)"
           ></AvCharacterCard>
@@ -43,10 +42,12 @@
       </div>
       <!-- MARKET ITEMS -->
       <div v-if="location && character" class="column w-80">
-        <p class="text-bold">
-          Market of {{ location.position.location }},
-          {{ location.position.land }}
-        </p>
+        <div class="row">
+          <p class="text-bold my0">
+            Market of {{ location.position.location }},
+            {{ location.position.land }}
+          </p>
+        </div>
         <div class="row">
           <AvItemCard
             :key="index + item.identity.id"
@@ -141,7 +142,7 @@ const getSelectedCharacter = (): Character | null => {
 };
 
 const setClass = (index: number): string => {
-  return selectedImageIndex.value === index ? "mx1 selected" : "mx1";
+  return selectedImageIndex.value === index ? "mx0 selected" : "mx0";
 };
 
 const getLocation = (character: Character) => {

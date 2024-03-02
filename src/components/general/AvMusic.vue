@@ -81,10 +81,15 @@ const playMp3 = (name: string) => {
 };
 
 const stopMusic = (): void => {
-  songPlaying.value.stop();
-  songPlaying.value = null;
-  nameOfSong.value = "";
-  toggleMusicClass();
+  if (songPlaying.value === null) {
+    playWav("main_theme");
+    return;
+  } else {
+    songPlaying.value.stop();
+    songPlaying.value = null;
+    nameOfSong.value = "";
+    toggleMusicClass();
+  }
 };
 
 const toggleMusicClass = () => {

@@ -2,7 +2,6 @@
   <div class="column">
     <div v-if="characters" class="column">
       <!-- CHARACTERS -->
-      <p class="text-xsmall">Select a character to wishes to employ.</p>
       <div class="row">
         <div
           :class="setClass(index)"
@@ -11,7 +10,7 @@
         >
           <AvCharacterCard
             :character="character"
-            :title="'Is trading'"
+            :title="'is looking for sellswords'"
             :show-class="false"
             :show-top-icons="true"
             @on-card-click="selectCharacter(index)"
@@ -33,10 +32,12 @@
       class="column"
     >
       <!-- MERCENARIES -->
-      <p class="text-bold">
-        Mercenaries for hire in {{ location.position.location }},
-        {{ location.position.land }}
-      </p>
+      <div class="row">
+        <p class="text-bold my0">
+          Mercenaries for hire in {{ location.position.location }},
+          {{ location.position.land }}
+        </p>
+      </div>
       <div class="row">
         <div
           :class="selectedMerc(index)"
@@ -138,7 +139,7 @@ const selectCharacter = (index: number): void => {
 };
 
 const setClass = (index: number): string => {
-  return selectedCharIndex.value === index ? "mx1 selected" : "mx1";
+  return selectedCharIndex.value === index ? "mx0 selected" : "mx0";
 };
 
 const getLocation = (character: Character) => {
@@ -168,7 +169,7 @@ const getSelectedCharacter = (): Character | null => {
 };
 
 const selectedMerc = (index: number): string => {
-  return selectedMercIndex.value === index ? "mx1 selected-merc" : "mx1";
+  return selectedMercIndex.value === index ? "mx0 selected-merc" : "mx0";
 };
 
 const selectMerc = (index: number): void => {
@@ -219,7 +220,7 @@ const hireMercenary = (): void => {
 
 onMounted(() => {
   updateAvText(
-    "These are the available selswords looking for work in this town."
+    "Select a character to check all available selswords looking for work in this town."
   );
 });
 </script>

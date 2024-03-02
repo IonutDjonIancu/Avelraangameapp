@@ -2,26 +2,27 @@
   <div class="column">
     <div v-if="characters" class="column">
       <!-- CHARACTERS -->
-      <p class="text-xsmall">
-        Select a character to see all available quests at its location.
-      </p>
       <div class="row">
         <div class="column">
-          <div
-            :class="setClass(index)"
-            :key="index"
-            v-for="(character, index) in characters"
-          >
-            <AvCharacterCard
-              :character="character"
-              :title="'is looking for work'"
-              :show-class="false"
-              @on-card-click="selectCharacter(index)"
-            ></AvCharacterCard>
+          <div class="row">
+            <div
+              :class="setClass(index)"
+              :key="index"
+              v-for="(character, index) in characters"
+            >
+              <AvCharacterCard
+                :character="character"
+                :title="'is looking for work'"
+                :show-class="false"
+                @on-card-click="selectCharacter(index)"
+              ></AvCharacterCard>
+            </div>
           </div>
-          <p v-if="character" class="my1 text-xsmall text-center">
-            Provs. {{ character.inventory.provisions }}
-          </p>
+          <div class="row">
+            <p v-if="character" class="my0 text-xsmall text-center">
+              Provs. {{ character.inventory.provisions }}
+            </p>
+          </div>
         </div>
       </div>
       <!-- QUESTS -->
@@ -29,44 +30,50 @@
         v-if="quests !== null && quests.length > 0 && character"
         class="column"
       >
-        <p class="text-bold my1">
-          Quests available at {{ location.position.location }},
-          {{ location.position.land }}
-        </p>
-        <ul>
-          <li v-for="(quest, index) in quests" :key="index" class="my2">
-            <i
-              @click="acceptQuest()"
-              title="Accept quest"
-              class="fa-solid fa-lg fa-thumbs-up"
-            ></i>
-            {{ quest.fame }} |
-            <span :title="`${quest.description}`" class="description"
-              >description</span
-            >
-            | rewards
-            <i
-              :title="`${quest.reward}`"
-              :class="getQuestRewardIcon(quest.reward)"
-            ></i>
-            <i
-              v-if="quest.isRepeatable"
-              title="This quest can be repeated"
-              class="fa-solid fa-arrow-rotate-left"
-            ></i>
-          </li>
-        </ul>
+        <div class="row">
+          <p class="text-bold my0">
+            Quests available at {{ location.position.location }},
+            {{ location.position.land }}
+          </p>
+        </div>
+        <div class="row">
+          <ul class="my0">
+            <li v-for="(quest, index) in quests" :key="index" class="my2">
+              <i
+                @click="acceptQuest()"
+                title="Accept quest"
+                class="fa-solid fa-lg fa-thumbs-up"
+              ></i>
+              {{ quest.fame }} |
+              <span :title="`${quest.description}`" class="description"
+                >description</span
+              >
+              | rewards
+              <i
+                :title="`rewards: ${quest.reward}`"
+                :class="getQuestRewardIcon(quest.reward)"
+              ></i>
+              <i
+                v-if="quest.isRepeatable"
+                title="This quest can be repeated"
+                class="fa-solid fa-arrow-rotate-left mx1"
+              ></i>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div v-else class="my3">You have no characters that can do quests.</div>
-    <AvButton
-      @click="props.gotoSibling('')"
-      :size="'large'"
-      :source="'ico_back_arrow'"
-      :title="'Back to market'"
-      :name="'Back'"
-      :sound="'back'"
-    ></AvButton>
+    <div class="my3">
+      <AvButton
+        @click="props.gotoSibling('')"
+        :size="'large'"
+        :source="'ico_back_arrow'"
+        :title="'Back to market'"
+        :name="'Back'"
+        :sound="'back'"
+      ></AvButton>
+    </div>
   </div>
 </template>
 
@@ -113,7 +120,7 @@ const selectCharacter = (index: number): void => {
 };
 
 const setClass = (index: number): string => {
-  return selectedCharIndex.value === index ? "mx1 selected" : "mx1";
+  return selectedCharIndex.value === index ? "mx0 selected" : "mx0";
 };
 
 const getQuestRewardIcon = (val: string) => {
@@ -158,7 +165,7 @@ const acceptQuest = (): void => {
 
 onMounted(() => {
   updateAvText(
-    "These are all the quests that you manage to find out about by talking to townsfolk."
+    "Select a character to see all the quests that you manage to find out about by talking to townsfolk."
   );
 });
 </script>
@@ -204,5 +211,9 @@ i {
 i:hover {
   opacity: 1;
   transition: 0.3;
+}
+
+ul {
+  list-style: none;
 }
 </style>
