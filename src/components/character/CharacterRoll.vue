@@ -86,7 +86,7 @@ const props = defineProps({
 
 const rollCharacter = (event: Event): void => {
   if (!event.isTrusted) {
-    console.log("script detected");
+    console.warn("script detected");
     return;
   }
 

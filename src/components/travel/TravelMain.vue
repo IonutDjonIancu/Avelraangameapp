@@ -330,7 +330,6 @@ const getAllLocations = (): void => {
     })
     .then((res: Location[]) => {
       allLocations.value = res;
-      console.log(res);
 
       res.forEach((loc) => {
         regions.value.add(loc.position.region);
@@ -365,8 +364,6 @@ const travel = (): void => {
     },
   };
 
-  console.log(data);
-
   HttpService.httpPut("Character/TravelToLocation", data)
     .then((s) => {
       if (s.ok) {
@@ -376,7 +373,6 @@ const travel = (): void => {
       }
     })
     .then((travelResponse: CharacterTravelResponse) => {
-      console.log(travelResponse);
       store.commit(StoreData.UpdateCharacter, travelResponse.character);
       clearDestination();
       updateAvText(travelResponse.result);

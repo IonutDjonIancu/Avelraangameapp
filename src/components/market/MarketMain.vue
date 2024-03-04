@@ -157,7 +157,6 @@ const getLocation = (character: Character) => {
     })
     .then((location: Location) => {
       store.commit(StoreData.SetLocation, location);
-      console.log(location);
     })
     .catch((err) => {
       updateAvText(err.message);

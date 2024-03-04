@@ -25,7 +25,7 @@
       </div>
 
       <!-- RIGHT SIDE CONTENTS -->
-      <div class="row row-center">
+      <div class="row row-center pointer">
         <span @click="seePlayer" class="av-nav-item text-xsmall">
           {{
             playerProfile
@@ -85,7 +85,7 @@ const updateAvImage = (value: string) => {
 };
 
 const seePlayer = () => {
-  console.log(store.state);
+  console.info(store.state); // the only console log allowed until the game is finished
 };
 
 provide("updateAvMusic", updateAvMusic);
@@ -287,6 +287,10 @@ input {
 
 .text-large {
   font-size: large;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .image-lvl-1 {

@@ -98,13 +98,6 @@ const loginPlayer = (): void => {
         );
 
         HttpService.getPlayer().then((player: Player) => {
-          console.log(
-            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> PLAYER DATA UPDATED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-          );
-          console.log(player);
-          console.log(
-            "<<<<<<<<<<<<<<<<<<<<<<<<<<<<< PLAYER DATA UPDATED <<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-          );
           store.commit(StoreData.SetPlayerProfile, player);
           name.value = "";
           code.value = "";
