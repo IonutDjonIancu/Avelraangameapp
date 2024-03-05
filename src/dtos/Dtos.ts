@@ -234,10 +234,10 @@ export interface Battleboard {
   canLvlUp: boolean;
   roundNr: number;
   goodGuyPartyLeadId: string;
-  goodGuys: Set<Character>;
+  goodGuys: Character[];
   badGuyPartyLeadId: string;
-  badGuys: Set<Character>;
-  battleOrder: Set<string>;
+  badGuys: Character[];
+  battleOrder: string[];
   quest: Quest;
 }
 

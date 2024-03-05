@@ -128,6 +128,7 @@ const createParty = (): void => {
       character.value.status.gameplay.battleboardId = battleboard.id;
       store.commit(StoreData.UpdateCharacter, character.value);
 
+      selectedCharIndex.value = null;
       updateAvText(
         "You announce yourself to the local marshals that you account to your fame."
       );
@@ -149,43 +150,7 @@ onMounted(() => {
   padding-bottom: 5px;
 }
 
-.selected-merc {
-  border: 3px solid #2c3e50c5;
-  border-radius: 3px;
-  padding-bottom: 5px;
-}
-
-.description {
-  cursor: pointer;
-}
-
 .row {
   align-items: center;
-}
-
-.notimplemented {
-  color: #e10505;
-}
-
-.gold {
-  color: goldenrod;
-}
-
-.item {
-  color: darkblue;
-}
-
-i {
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-i:hover {
-  opacity: 1;
-  transition: 0.3;
-}
-
-ul {
-  list-style: none;
 }
 </style>
