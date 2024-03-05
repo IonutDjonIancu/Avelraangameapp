@@ -179,11 +179,12 @@
         <ul>
           <li class="list-header">Gameplay</li>
           <li title="Is character on a battleboard?">
-            {{
-              character.status.gameplay.battleboardId.length > 0
-                ? "in party"
-                : "traveling alone"
-            }}
+            <span
+              v-if="character.status.gameplay.battleboardId !== ''"
+              class="text-bold"
+              >in warparty</span
+            >
+            <span v-else class="text-small">no warparty</span>
           </li>
           <li title="Is character an NPC?">
             {{ character.status.gameplay.isNpc ? "NPC" : "playable character" }}

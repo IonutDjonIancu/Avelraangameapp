@@ -215,7 +215,7 @@
           <AvButton
             @click="travel()"
             :size="'large'"
-            :source="'ico_login_player_submit'"
+            :source="'ico_travel'"
             :title="'Travel'"
             :name="'Travel'"
             :sound="'click'"

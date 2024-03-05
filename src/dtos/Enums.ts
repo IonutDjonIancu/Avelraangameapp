@@ -14,15 +14,20 @@ export enum Songs {
 }
 
 export enum StoreData {
+  // player
   SetPlayerProfile = "setPlayerProfile",
+  // character
   SetCharacterId = "setCharacterId",
   SetCharacterStub = "setCharacterStub",
-  SetLocation = "setLocation",
-  RemoveLocationItem = "removeLocationItem",
-  RemoveLocationMercenary = "removeLocationMercenary",
   CreateCharacter = "createCharacter",
   UpdateCharacter = "updateCharacter",
   DeleteCharacter = "deleteCharacter",
+  // location
+  SetLocation = "setLocation",
+  RemoveLocationItem = "removeLocationItem",
+  RemoveLocationMercenary = "removeLocationMercenary",
+  // battleboard
+  SetBattleboard = "setBattleboard",
 }
 
 export enum Emits {

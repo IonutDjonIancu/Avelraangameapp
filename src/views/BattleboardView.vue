@@ -1,0 +1,75 @@
+<template>
+  <div class="av-container">
+    <div class="column">
+      <div v-if="text === ''" class="row row-options">
+        <AvButton
+          @click="gotoSibling('create')"
+          :size="'large'"
+          :source="'ico_party_create'"
+          :title="'Create a fellowship'"
+          :name="'Create'"
+          :sound="'click'"
+        ></AvButton>
+        <AvButton
+          @click="gotoSibling('join')"
+          :size="'large'"
+          :source="'ico_party_join'"
+          :title="'Join a fellowship'"
+          :name="'Join'"
+          :sound="'click'"
+        ></AvButton>
+        <AvButton
+          @click="gotoSibling('disband')"
+          :size="'large'"
+          :source="'ico_party_disband'"
+          :title="'Disband a fellowship'"
+          :name="'Disband'"
+          :sound="'click'"
+        ></AvButton>
+      </div>
+      <BattleboardCreate
+        v-if="text === 'create'"
+        :gotoSibling="gotoSibling"
+      ></BattleboardCreate>
+      <BattleboardJoin
+        v-if="text === 'join'"
+        :gotoSibling="gotoSibling"
+      ></BattleboardJoin>
+      <BattleboardDisband
+        v-if="text === 'disband'"
+        :gotoSibling="gotoSibling"
+      ></BattleboardDisband>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted, inject } from "vue";
+import BattleboardCreate from "@/components/battleboard/BattleboardCreate.vue";
+import BattleboardJoin from "@/components/battleboard/BattleboardJoin.vue";
+import BattleboardDisband from "@/components/battleboard/BattleboardDisband.vue";
+import AvButton from "@/components/small/AvButton.vue";
+
+const updateAvImage: any = inject("updateAvImage");
+const updateAvSound: any = inject("updateAvSound");
+const updateAvText: any = inject("updateAvText");
+
+const text = ref<string>("");
+
+const gotoSibling = (value: string): void => {
+  text.value = value;
+};
+
+onMounted(() => {
+  updateAvImage("img_party");
+  updateAvSound("party", 0.4);
+  updateAvText("You are here to create a warparty.");
+});
+</script>
+
+<style scoped>
+.row-options {
+  align-items: center;
+  justify-content: center;
+}
+</style>

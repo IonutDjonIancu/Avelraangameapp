@@ -72,7 +72,8 @@
         v-if="character && character.status.gameplay.battleboardId == ''"
         class="my3"
       >
-        This character has no party, create or join a party before questing.
+        This character has no warparty, create or join a warparty before
+        questing.
       </div>
     </div>
     <div v-else class="my3">You have no characters that can do quests.</div>

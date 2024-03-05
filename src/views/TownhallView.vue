@@ -19,16 +19,14 @@
           :sound="'click'"
         ></AvButton>
       </div>
-      <div class="column">
-        <TownhallWealth
-          v-if="text === 'wealth'"
-          :gotoSibling="gotoSibling"
-        ></TownhallWealth>
-        <TownhallWorth
-          v-if="text === 'worth'"
-          :gotoSibling="gotoSibling"
-        ></TownhallWorth>
-      </div>
+      <TownhallWealth
+        v-if="text === 'wealth'"
+        :gotoSibling="gotoSibling"
+      ></TownhallWealth>
+      <TownhallWorth
+        v-if="text === 'worth'"
+        :gotoSibling="gotoSibling"
+      ></TownhallWorth>
     </div>
   </div>
 </template>

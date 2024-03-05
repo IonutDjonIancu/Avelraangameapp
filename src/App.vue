@@ -19,6 +19,9 @@
         <router-link v-if="playerProfile" to="/travel" class="av-nav-item"
           >| Travel</router-link
         >
+        <router-link v-if="playerProfile" to="/battleboard" class="av-nav-item"
+          >| Fellowship</router-link
+        >
         <div v-if="!playerProfile" style="color: #859c71">
           * you will have to login first in order to see the rest of the content
         </div>
