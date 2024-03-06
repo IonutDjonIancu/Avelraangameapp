@@ -103,7 +103,7 @@ const rollCharacter = (event: Event): void => {
     })
     .then((char: CharacterStub) => {
       if (char.entityLevel > 1) {
-        updateAvSound("sword_far", 1);
+        updateAvSound(Sounds.SoundSwordFar, 1);
       }
 
       entityLevel.value = char.entityLevel;

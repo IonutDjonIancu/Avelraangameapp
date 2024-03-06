@@ -22,6 +22,7 @@
 <script setup lang="ts">
 import { computed, inject, defineProps } from "vue";
 import { Character } from "@/dtos/Dtos";
+import { Sounds } from "@/dtos/Enums";
 
 const updateAvSound: any = inject("updateAvSound");
 
@@ -52,7 +53,7 @@ const props = defineProps({
 });
 
 const playSound = () => {
-  updateAvSound("button_click", 1);
+  updateAvSound(Sounds.SoundButtonClick, 1);
 };
 </script>
 

@@ -65,7 +65,7 @@ const gotoSibling = (value: string) => {
 
 onMounted(() => {
   updateAvImage("img_market");
-  updateAvSound("market", 0.8);
+  updateAvSound(Sounds.SoundMarket, 0.8);
   updateAvText("You walk down the busy, muddy, streets of the known lands.");
 });
 </script>

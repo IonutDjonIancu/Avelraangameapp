@@ -150,7 +150,7 @@ const selectCharacter = (index: number): void => {
 const selectParty = (index: number, board: Battleboard): void => {
   store.commit(StoreData.SetBattleboard, board);
   selectedPartyIndex.value = index;
-  updateAvSound("button_click", 1);
+  updateAvSound(Sounds.SoundButtonClick, 1);
 };
 
 const setClass = (index: number): string => {

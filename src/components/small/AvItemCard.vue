@@ -142,7 +142,7 @@ import {
   Player,
   Location,
 } from "@/dtos/Dtos";
-import { InventoryLocations, StoreData } from "@/dtos/Enums";
+import { InventoryLocations, Sounds, StoreData } from "@/dtos/Enums";
 import { HttpService } from "@/services/HttpService";
 
 const emptyGuid = "00000000-0000-0000-0000-000000000000";
@@ -248,7 +248,7 @@ const equipItem = (location: string): void => {
     })
     .then((character: Character) => {
       store.commit(StoreData.UpdateCharacter, character);
-      updateAvSound("item_wear", 1);
+      updateAvSound(Sounds.SoundItemWear, 1);
     })
     .catch((err) => {
       updateAvText(err.message);
@@ -295,7 +295,7 @@ const sellItem = (): void => {
           return;
         });
 
-      updateAvSound("item_sell", 1);
+      updateAvSound(Sounds.SoundItemSell, 1);
     })
     .catch((err) => {
       updateAvText(err.message);
@@ -322,7 +322,7 @@ const buyItem = () => {
       }
     })
     .then((character: Character) => {
-      updateAvSound("item_buy", 1);
+      updateAvSound(Sounds.SoundItemBuy, 1);
       store.commit(StoreData.UpdateCharacter, character);
       store.commit(StoreData.RemoveLocationItem, trade.itemId);
     })

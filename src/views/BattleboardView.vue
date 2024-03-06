@@ -63,7 +63,7 @@ const gotoSibling = (value: string): void => {
 
 onMounted(() => {
   updateAvImage("img_party");
-  updateAvSound("party", 0.4);
+  updateAvSound(Sounds.SoundParty, 0.4);
   updateAvText("You are here to create a warparty.");
 });
 </script>

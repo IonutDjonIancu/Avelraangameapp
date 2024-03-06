@@ -188,7 +188,7 @@ const buyProvisions = () => {
       }
     })
     .then((character: Character) => {
-      updateAvSound("item_buy", 1);
+      updateAvSound(Sounds.SoundItemBuy, 1);
       store.commit(StoreData.UpdateCharacter, character);
     })
     .catch((err) => {

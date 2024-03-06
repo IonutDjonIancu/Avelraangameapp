@@ -50,7 +50,7 @@ const gotoSibling = (value: string) => {
 
 onMounted(() => {
   updateAvImage("img_townhall");
-  updateAvSound("townhall", 0.2);
+  updateAvSound(Sounds.SoundTownhall, 0.2);
   updateAvText("Behold the statues of those worthy of tales and songs.");
 });
 </script>

@@ -343,6 +343,7 @@
 </template>
 
 <script setup lang="ts">
+import { Sounds } from "@/dtos/Enums";
 import { inject, onMounted } from "vue";
 
 const updateAvSound: any = inject("updateAvSound");
@@ -350,9 +351,9 @@ const updateAvImage: any = inject("updateAvImage");
 
 onMounted(() => {
   updateAvImage("img_rulebook");
-  updateAvSound("book", 1);
+  updateAvSound(Sounds.SoundBook, 1);
   setTimeout(() => {
-    updateAvSound("hall_footsteps", 0.3);
+    updateAvSound(Sounds.SoundHallFootsteps, 0.3);
   }, 2000);
 });
 </script>

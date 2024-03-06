@@ -30,6 +30,7 @@ import CharacterRoll from "@/components/character/CharacterRoll.vue";
 import CharacterTraits from "@/components/character/CharacterTraits.vue";
 import CharacterFinalize from "@/components/character/CharacterFinalize.vue";
 import CharacterSheet from "@/components/character/CharacterSheet.vue";
+import { Sounds } from "@/dtos/Enums";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvSound: any = inject("updateAvSound");
@@ -42,6 +43,6 @@ const gotoSibling = (value: string) => {
 
 onMounted(() => {
   updateAvImage("img_character");
-  updateAvSound("page_flip", 0.8);
+  updateAvSound(Sounds.SoundPageFlip, 0.8);
 });
 </script>
