@@ -33,7 +33,10 @@ AvCharacterCardSmall
                 {{ character.status.position.location }}
               </p>
             </div>
-            <div class="row row-center column-80">
+            <div
+              v-if="battleboards && battleboards.length > 0"
+              class="row row-center column-80"
+            >
               <div
                 v-for="(board, index) in getBattleboards"
                 :key="index"
@@ -143,6 +146,7 @@ const selectCharacter = (index: number): void => {
   store.commit(StoreData.SetCharacterId, character.identity.id);
 
   selectedCharIndex.value = index;
+  selectedPartyIndex.value = null;
 
   setBattleboards();
 };
@@ -186,7 +190,34 @@ const setBattleboards = (): void => {
 };
 
 const joinParty = (): void => {
-  console.log("joining party");
+  if (selectedPartyIndex.value === null) return;
+
+  var data: BattleboardActor = {
+    mainActor: character.value.identity,
+    battleboardId: battleboards.value[selectedPartyIndex.value].id,
+  };
+
+  HttpService.httpPut("Battleboards/JoinBattleboard", data)
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
+    .then((board: Battleboard) => {
+      store.commit(StoreData.SetBattleboard, board);
+      character.value.status.gameplay.battleboardId = board.id;
+      store.commit(StoreData.UpdateCharacter, character.value);
+
+      selectedCharIndex.value = null;
+      selectedPartyIndex.value = null;
+      updateAvText("You have now joined the ranks of local warparty.");
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
 };
 
 const filterBattleboards = (boards: Battleboard[]): Battleboard[] => {
