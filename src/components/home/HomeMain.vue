@@ -7,7 +7,7 @@
       :source="'ico_create_player'"
       :title="'Create new player account'"
       :name="'Create'"
-      :sound="'click'"
+      :sound="Sounds.SoundButtonClick"
     ></AvButton>
     <AvButton
       @click="props.gotoSibling('login')"
@@ -16,7 +16,7 @@
       :source="'ico_login_player'"
       :title="'Login to an existing player account'"
       :name="'Login'"
-      :sound="'click'"
+      :sound="Sounds.SoundButtonClick"
     ></AvButton>
   </div>
 </template>
@@ -26,6 +26,7 @@ import { defineProps, computed } from "vue";
 import { useStore } from "vuex";
 import AvButton from "../small/AvButton.vue";
 import { Player } from "@/dtos/Dtos";
+import { Sounds } from "@/dtos/Enums";
 
 const store = useStore();
 const playerProfile = computed<Player | null>(

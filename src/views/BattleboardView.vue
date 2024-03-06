@@ -8,7 +8,7 @@
           :source="'ico_party_create'"
           :title="'Create a fellowship'"
           :name="'Create'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
         <AvButton
           @click="gotoSibling('join')"
@@ -16,7 +16,7 @@
           :source="'ico_party_join'"
           :title="'Join a fellowship'"
           :name="'Join'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
         <AvButton
           @click="gotoSibling('disband')"
@@ -24,7 +24,7 @@
           :source="'ico_party_disband'"
           :title="'Disband a fellowship'"
           :name="'Disband'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
       </div>
       <BattleboardCreate
@@ -49,6 +49,7 @@ import BattleboardCreate from "@/components/battleboard/BattleboardCreate.vue";
 import BattleboardJoin from "@/components/battleboard/BattleboardJoin.vue";
 import BattleboardDisband from "@/components/battleboard/BattleboardDisband.vue";
 import AvButton from "@/components/small/AvButton.vue";
+import { Sounds } from "@/dtos/Enums";
 
 const updateAvImage: any = inject("updateAvImage");
 const updateAvSound: any = inject("updateAvSound");

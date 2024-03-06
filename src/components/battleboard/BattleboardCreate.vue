@@ -49,7 +49,7 @@
         :source="'ico_back_arrow'"
         :title="'Back to fellowship'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
       <AvButton
         v-if="
@@ -61,7 +61,7 @@
         :source="'ico_party_create_accept'"
         :title="'Accept and create warparty'"
         :name="'Accept'"
-        :sound="'click'"
+        :sound="Sounds.SoundButtonClick"
       ></AvButton>
     </div>
   </div>
@@ -74,7 +74,7 @@ import { Battleboard, BattleboardActor, Character, Player } from "@/dtos/Dtos";
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 

@@ -218,7 +218,7 @@
             :source="'ico_travel'"
             :title="'Travel'"
             :name="'Travel'"
-            :sound="'click'"
+            :sound="Sounds.SoundButtonClick"
           ></AvButton>
         </div>
       </div>
@@ -240,7 +240,7 @@ import {
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvMusic: any = inject("updateAvMusic");

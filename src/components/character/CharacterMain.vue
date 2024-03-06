@@ -24,7 +24,7 @@
         :source="`ico_character_roll`"
         :title="'Create a new character'"
         :name="'Create'"
-        :sound="'click'"
+        :sound="Sounds.SoundButtonClick"
       ></AvButton>
     </div>
   </div>
@@ -36,7 +36,7 @@ import { useStore } from "vuex";
 import { Character, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 import { HttpService } from "@/services/HttpService";
 
 const store = useStore();

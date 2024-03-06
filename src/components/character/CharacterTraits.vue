@@ -101,7 +101,7 @@
         :source="`ico_back_arrow`"
         :title="'Go to Character'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
       <div :class="classor.length === 0 ? 'disabled' : ''">
         <AvButton
@@ -110,7 +110,7 @@
           :source="`ico_character_create_traits`"
           :title="'Proceed'"
           :name="'Proceed'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
       </div>
     </div>
@@ -129,7 +129,7 @@ import {
   CharacterRacialTraits,
   Character,
 } from "@/dtos/Dtos";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 

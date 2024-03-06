@@ -8,7 +8,7 @@
           :source="'ico_char_worth'"
           :title="'Townhall of heroes and their worth'"
           :name="'Heroes'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
         <AvButton
           @click="gotoSibling('wealth')"
@@ -16,7 +16,7 @@
           :source="'ico_char_wealth'"
           :title="'Townhall of nobles and their wealth'"
           :name="'Nobles'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
       </div>
       <TownhallWealth
@@ -36,6 +36,7 @@ import { ref, onMounted, inject } from "vue";
 import TownhallWealth from "@/components/townhall/TownhallWealth.vue";
 import TownhallWorth from "@/components/townhall/TownhallWorth.vue";
 import AvButton from "@/components/small/AvButton.vue";
+import { Sounds } from "@/dtos/Enums";
 
 const text = ref<string>("");
 

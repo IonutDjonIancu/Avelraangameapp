@@ -10,7 +10,7 @@
       :source="'ico_login_player'"
       :title="'Continue to login'"
       :name="'Login'"
-      :sound="'click'"
+      :sound="Sounds.SoundButtonClick"
     ></AvButton>
   </div>
 </template>
@@ -18,6 +18,7 @@
 <script setup lang="ts">
 import { defineProps, onMounted, inject } from "vue";
 import AvButton from "@/components/small/AvButton.vue";
+import { Sounds } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 

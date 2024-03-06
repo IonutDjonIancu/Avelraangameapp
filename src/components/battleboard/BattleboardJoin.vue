@@ -24,15 +24,23 @@ AvCharacterCardSmall
             class="column"
           >
             <div>
-              <p>These are the warparty leads in your character's area</p>
+              <p v-if="battleboards && battleboards.length > 0">
+                These are the warparty leads known around
+                {{ character.status.position.location }}
+              </p>
+              <p v-else>
+                There are no warparties around
+                {{ character.status.position.location }}
+              </p>
             </div>
             <div class="row row-center column-80">
               <div
                 v-for="(board, index) in getBattleboards"
                 :key="index"
-                class="column mx1"
+                :class="setSelectedPartyClass(index)"
               >
                 <AvCharacterCardSmall
+                  @click="selectParty(index, board)"
                   :title="
                     board.goodGuys.find(
                       (s) => s.identity.id === board.goodGuyPartyLeadId
@@ -80,11 +88,12 @@ AvCharacterCardSmall
         :source="'ico_back_arrow'"
         :title="'Back to fellowship'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
       <AvButton
         v-if="
           selectedCharIndex != null &&
+          selectedPartyIndex != null &&
           character.status.gameplay.battleboardId == ''
         "
         @click="joinParty()"
@@ -92,7 +101,7 @@ AvCharacterCardSmall
         :source="'ico_party_join_accept'"
         :title="'Join this warparty'"
         :name="'Join'"
-        :sound="'click'"
+        :sound="Sounds.SoundSwordFar"
       ></AvButton>
     </div>
   </div>
@@ -106,9 +115,10 @@ import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvCharacterCardSmall from "../small/AvCharacterCardSmall.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
-import { StoreData } from "@/dtos/Enums";
+import { StoreData, Sounds } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
+const updateAvSound: any = inject("updateAvSound");
 
 const store = useStore();
 const playerProfile = computed<Player | null>(() => store.state.playerProfile);
@@ -119,6 +129,7 @@ const getBattleboards = computed<Battleboard[] | null>(
 );
 
 const selectedCharIndex = ref<number>(null);
+const selectedPartyIndex = ref<number>(null);
 const battleboards = ref<Battleboard[] | null>(null);
 
 const props = defineProps({
@@ -136,8 +147,20 @@ const selectCharacter = (index: number): void => {
   setBattleboards();
 };
 
+const selectParty = (index: number, board: Battleboard): void => {
+  store.commit(StoreData.SetBattleboard, board);
+  selectedPartyIndex.value = index;
+  updateAvSound("button_click", 1);
+};
+
 const setClass = (index: number): string => {
   return selectedCharIndex.value === index ? "mx0 selected" : "mx0";
+};
+
+const setSelectedPartyClass = (index: number): string => {
+  return selectedPartyIndex.value === index
+    ? "column mx1 selected-party"
+    : "column mx1";
 };
 
 const getSelectedCharacter = (): Character | null => {
@@ -154,7 +177,7 @@ const setBattleboards = (): void => {
       }
     })
     .then((boards: Battleboard[]) => {
-      battleboards.value = boards;
+      battleboards.value = filterBattleboards(boards);
     })
     .catch((err) => {
       updateAvText(err.message);
@@ -164,6 +187,25 @@ const setBattleboards = (): void => {
 
 const joinParty = (): void => {
   console.log("joining party");
+};
+
+const filterBattleboards = (boards: Battleboard[]): Battleboard[] => {
+  var result: Battleboard[] = [];
+
+  result = boards.filter(
+    (s) =>
+      s.goodGuys.find((r) => r.identity.id === s.goodGuyPartyLeadId).status
+        .position.location === character.value.status.position.location
+  );
+
+  result = result.filter(
+    (s) =>
+      !s.goodGuys.some(
+        (s) => s.identity.playerId === character.value.identity.playerId
+      )
+  );
+
+  return result;
 };
 
 onMounted(() => {
@@ -176,6 +218,12 @@ onMounted(() => {
   border: 3px solid #859c71;
   border-radius: 3px;
   padding-bottom: 5px;
+}
+
+.selected-party {
+  border: 3px solid #2c3e50;
+  border-radius: 3px;
+  padding: 2px;
 }
 
 .row {

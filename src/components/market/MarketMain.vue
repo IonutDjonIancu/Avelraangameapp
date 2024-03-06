@@ -91,7 +91,7 @@
         :source="'ico_back_arrow'"
         :title="'Back to market'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
     </div>
   </div>
@@ -106,7 +106,7 @@ import AvItemCard from "@/components/small/AvItemCard.vue";
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvSound: any = inject("updateAvSound");

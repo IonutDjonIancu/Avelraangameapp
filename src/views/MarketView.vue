@@ -8,7 +8,7 @@
           :source="'ico_market'"
           :title="'Go to marketplace'"
           :name="'Market'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
         <AvButton
           @click="gotoSibling('mercs')"
@@ -16,7 +16,7 @@
           :source="'ico_mercs'"
           :title="'Hire mercenaries'"
           :name="'Mercs'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
         <AvButton
           @click="gotoSibling('quests')"
@@ -24,7 +24,7 @@
           :source="'ico_quests'"
           :title="'Look for quests'"
           :name="'Quests'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
       </div>
     </div>
@@ -51,6 +51,7 @@ import MarketMain from "@/components/market/MarketMain.vue";
 import MarketMercs from "@/components/market/MarketMercs.vue";
 import MarketQuests from "@/components/market/MarketQuests.vue";
 import AvButton from "@/components/small/AvButton.vue";
+import { Sounds } from "@/dtos/Enums";
 
 const text = ref<string>("");
 

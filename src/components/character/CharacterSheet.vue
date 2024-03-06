@@ -286,7 +286,7 @@
         :source="`ico_back_arrow`"
         :title="'Go to Character'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
       <AvButton
         @click="deleteCharacter"
@@ -294,7 +294,7 @@
         :source="`ico_character_delete`"
         :title="'Delete character'"
         :name="'Delete'"
-        :sound="'click'"
+        :sound="Sounds.SoundButtonClick"
       ></AvButton>
     </div>
   </div>
@@ -308,7 +308,7 @@ import AvButton from "@/components/small/AvButton.vue";
 import AvItemCard from "@/components/small/AvItemCard.vue";
 import CharacterLevelup from "@/components/character/CharacterLevelup.vue";
 import { Character, Player, CharacterData } from "@/dtos/Dtos";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 import AvCharacterCard from "../small/AvCharacterCard.vue";
 
 const updateAvImage: any = inject("updateAvImage");
