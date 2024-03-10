@@ -272,6 +272,11 @@ input {
   color: #2c3e50;
 }
 
+.text-bold-green {
+  font-weight: bold;
+  color: #859c71;
+}
+
 .text-center {
   text-align: center;
 }

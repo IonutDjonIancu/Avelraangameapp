@@ -72,7 +72,26 @@ const goToRoll = (): void => {
     });
 };
 
+const getPlayer = (): void => {
+  HttpService.httpGet("Player/GetPlayer")
+    .then((s) => {
+      if (s.ok) {
+        return s.json();
+      } else {
+        s.text().then((r) => updateAvText(r));
+      }
+    })
+    .then((player: Player) => {
+      store.commit(StoreData.SetPlayerProfile, player);
+    })
+    .catch((err) => {
+      updateAvText(err.message);
+      return;
+    });
+};
+
 onMounted(() => {
+  getPlayer();
   updateAvText(
     characters.value
       ? `You come looking for someone, whom do you choose?`

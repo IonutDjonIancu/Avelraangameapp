@@ -3,8 +3,10 @@
     <!-- BUTTON SMALL -->
     <div v-if="!isHovered" :class="`img-small item-level_${item.level}`">
       <img style="width: 20px; height: 20px" :src="getComputedImage" />
-      <span class="mini-text harm">{{ props.item.sheet.assets.harm }}</span>
-      <span class="mini-text defense">{{
+      <span v-if="showHoverStats" class="mini-text harm">{{
+        props.item.sheet.assets.harm
+      }}</span>
+      <span v-if="showHoverStats" class="mini-text defense">{{
         props.item.sheet.assets.defense
       }}</span>
     </div>
@@ -191,6 +193,16 @@ const props = defineProps({
     type: Object as () => Item,
     require: false,
   },
+  showHoverStats: {
+    type: Boolean,
+    require: false,
+    default: true,
+  },
+  blockActions: {
+    type: Boolean,
+    require: false,
+    default: false,
+  },
 });
 
 const onHover = (value: boolean): void => {
@@ -229,6 +241,8 @@ const equipRanged = (): void => {
 };
 
 const equipItem = (location: string): void => {
+  if (props.blockActions === true) return;
+
   const equip: CharacterEquip = {
     characterIdentity: {
       id: props.item.identity.characterId,
@@ -257,6 +271,8 @@ const equipItem = (location: string): void => {
 };
 
 const sellItem = (): void => {
+  if (props.blockActions === true) return;
+
   var trade: CharacterTrade = {
     characterIdentity: {
       id: props.item.identity.characterId,
@@ -304,6 +320,8 @@ const sellItem = (): void => {
 };
 
 const buyItem = () => {
+  if (props.blockActions === true) return;
+
   const trade: CharacterTrade = {
     characterIdentity: {
       id: characterId.value,

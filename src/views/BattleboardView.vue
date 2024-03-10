@@ -19,11 +19,11 @@
           :sound="Sounds.SoundButtonClick"
         ></AvButton>
         <AvButton
-          @click="gotoSibling('disband')"
+          @click="gotoSibling('manage')"
           :size="'large'"
-          :source="'ico_party_disband'"
-          :title="'Disband a fellowship'"
-          :name="'Disband'"
+          :source="'ico_party_view'"
+          :title="'View fellowships'"
+          :name="'View'"
           :sound="Sounds.SoundButtonClick"
         ></AvButton>
       </div>
@@ -35,10 +35,10 @@
         v-if="text === 'join'"
         :gotoSibling="gotoSibling"
       ></BattleboardJoin>
-      <BattleboardDisband
-        v-if="text === 'disband'"
+      <BattleboardManage
+        v-if="text === 'manage'"
         :gotoSibling="gotoSibling"
-      ></BattleboardDisband>
+      ></BattleboardManage>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@
 import { ref, onMounted, inject } from "vue";
 import BattleboardCreate from "@/components/battleboard/BattleboardCreate.vue";
 import BattleboardJoin from "@/components/battleboard/BattleboardJoin.vue";
-import BattleboardDisband from "@/components/battleboard/BattleboardDisband.vue";
+import BattleboardManage from "@/components/battleboard/BattleboardManage.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { Sounds } from "@/dtos/Enums";
 
