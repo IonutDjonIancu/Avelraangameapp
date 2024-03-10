@@ -164,7 +164,7 @@
 <script setup lang="ts">
 import { defineProps, computed, ref, inject, defineEmits } from "vue";
 import { Character } from "@/dtos/Dtos";
-import { Emits } from "@/dtos/Enums";
+import { Emits, Sounds } from "@/dtos/Enums";
 
 const updateAvSound: any = inject("updateAvSound");
 const emit = defineEmits([Emits.OnCardClick]);
@@ -282,7 +282,7 @@ const toggleBottomIcons = (): void => {
 
 const wasClicked = () => {
   emit(Emits.OnCardClick, props.character.identity.id);
-  updateAvSound("button_click", 1);
+  updateAvSound(Sounds.SoundButtonClick, 1);
 };
 
 const getEntityLevelBorderClass = () => {

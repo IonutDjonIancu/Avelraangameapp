@@ -16,7 +16,7 @@
         :source="'ico_back_arrow'"
         :title="'Back to home'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
       <AvButton
         @click="createPlayer"
@@ -24,7 +24,7 @@
         :source="'ico_create_player_submit'"
         :title="'Creates this player'"
         :name="'Submit'"
-        :sound="'click'"
+        :sound="Sounds.SoundButtonClick"
       ></AvButton>
     </div>
   </form>
@@ -35,6 +35,7 @@ import { defineProps, ref, inject, onMounted, defineEmits } from "vue";
 import { HttpService } from "@/services/HttpService";
 import { Authenticator, PlayerData, Players, SetQrCode } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
+import { Sounds } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 const emit = defineEmits(["on-player-create"]);

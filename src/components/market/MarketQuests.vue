@@ -18,49 +18,62 @@
               ></AvCharacterCard>
             </div>
           </div>
-          <div class="row">
+          <div>
             <p v-if="character" class="my0 text-xsmall text-center">
-              Provs. {{ character.inventory.provisions }}
+              Provisions {{ character.inventory.provisions }}
             </p>
           </div>
         </div>
       </div>
       <!-- QUESTS -->
       <div
-        v-if="quests !== null && quests.length > 0 && character"
-        class="column"
+        v-if="
+          selectedCharIndex !== null &&
+          character.status.gameplay.battleboardId !== ''
+        "
       >
-        <div class="row">
-          <p class="text-bold my0">
-            Quests available at {{ location.position.location }},
-            {{ location.position.land }}
-          </p>
+        <div
+          v-if="quests !== null && quests.length > 0 && character"
+          class="column"
+        >
+          <div class="row">
+            <p class="text-bold my0">
+              Quests available at {{ location.position.location }},
+              {{ location.position.land }}
+            </p>
+          </div>
+          <div class="row">
+            <ul class="my0">
+              <li v-for="(quest, index) in quests" :key="index" class="my2">
+                <i
+                  @click="acceptQuest()"
+                  title="Accept quest"
+                  class="fa-solid fa-lg fa-thumbs-up mx2"
+                ></i>
+                <span :title="`${quest.description}`" class="description">
+                  {{ quest.fame }} |
+                </span>
+                <span class="text-xsmall"> rewards </span>
+                <i
+                  :title="`rewards: ${quest.reward}`"
+                  :class="getQuestRewardIcon(quest.reward)"
+                ></i>
+                <i
+                  v-if="quest.isRepeatable"
+                  title="This quest can be repeated"
+                  class="fa-solid fa-arrow-rotate-left mx1"
+                ></i>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="row">
-          <ul class="my0">
-            <li v-for="(quest, index) in quests" :key="index" class="my2">
-              <i
-                @click="acceptQuest()"
-                title="Accept quest"
-                class="fa-solid fa-lg fa-thumbs-up"
-              ></i>
-              {{ quest.fame }} |
-              <span :title="`${quest.description}`" class="description"
-                >description</span
-              >
-              | rewards
-              <i
-                :title="`rewards: ${quest.reward}`"
-                :class="getQuestRewardIcon(quest.reward)"
-              ></i>
-              <i
-                v-if="quest.isRepeatable"
-                title="This quest can be repeated"
-                class="fa-solid fa-arrow-rotate-left mx1"
-              ></i>
-            </li>
-          </ul>
-        </div>
+      </div>
+      <div
+        v-if="character && character.status.gameplay.battleboardId == ''"
+        class="my3"
+      >
+        This character has no warparty, create or join a warparty before
+        questing.
       </div>
     </div>
     <div v-else class="my3">You have no characters that can do quests.</div>
@@ -71,7 +84,7 @@
         :source="'ico_back_arrow'"
         :title="'Back to market'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
     </div>
   </div>
@@ -84,7 +97,7 @@ import { Character, Player, Location, Quest } from "@/dtos/Dtos";
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 

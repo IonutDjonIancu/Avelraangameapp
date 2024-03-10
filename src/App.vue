@@ -19,13 +19,16 @@
         <router-link v-if="playerProfile" to="/travel" class="av-nav-item"
           >| Travel</router-link
         >
+        <router-link v-if="playerProfile" to="/battleboard" class="av-nav-item"
+          >| Fellowship</router-link
+        >
         <div v-if="!playerProfile" style="color: #859c71">
           * you will have to login first in order to see the rest of the content
         </div>
       </div>
 
       <!-- RIGHT SIDE CONTENTS -->
-      <div class="row row-center">
+      <div class="row row-center pointer">
         <span @click="seePlayer" class="av-nav-item text-xsmall">
           {{
             playerProfile
@@ -85,7 +88,7 @@ const updateAvImage = (value: string) => {
 };
 
 const seePlayer = () => {
-  console.log(store.state);
+  console.info(store.state); // the only console log allowed until the game is finished
 };
 
 provide("updateAvMusic", updateAvMusic);
@@ -269,6 +272,11 @@ input {
   color: #2c3e50;
 }
 
+.text-bold-green {
+  font-weight: bold;
+  color: #859c71;
+}
+
 .text-center {
   text-align: center;
 }
@@ -287,6 +295,10 @@ input {
 
 .text-large {
   font-size: large;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .image-lvl-1 {

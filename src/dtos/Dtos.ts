@@ -219,6 +219,28 @@ export interface CharacterTravelResponse {
   result: string;
 }
 
+export interface BattleboardActor {
+  mainActor: CharacterIdentity;
+  wantsToBeGood?: boolean;
+  battleboardId?: string;
+  targetId?: string;
+  questId?: string;
+}
+
+export interface Battleboard {
+  id: string;
+  lastActionResult: string;
+  isInCombat: boolean;
+  canLvlUp: boolean;
+  roundNr: number;
+  goodGuyPartyLeadId: string;
+  goodGuys: Character[];
+  badGuyPartyLeadId: string;
+  badGuys: Character[];
+  battleOrder: string[];
+  quest: Quest;
+}
+
 export interface Item {
   identity: ItemIdentity;
   inventoryLocations: string[];

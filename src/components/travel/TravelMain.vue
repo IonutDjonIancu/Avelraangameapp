@@ -215,10 +215,10 @@
           <AvButton
             @click="travel()"
             :size="'large'"
-            :source="'ico_login_player_submit'"
+            :source="'ico_travel'"
             :title="'Travel'"
             :name="'Travel'"
-            :sound="'click'"
+            :sound="Sounds.SoundButtonClick"
           ></AvButton>
         </div>
       </div>
@@ -240,7 +240,7 @@ import {
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvMusic: any = inject("updateAvMusic");
@@ -330,7 +330,6 @@ const getAllLocations = (): void => {
     })
     .then((res: Location[]) => {
       allLocations.value = res;
-      console.log(res);
 
       res.forEach((loc) => {
         regions.value.add(loc.position.region);
@@ -365,8 +364,6 @@ const travel = (): void => {
     },
   };
 
-  console.log(data);
-
   HttpService.httpPut("Character/TravelToLocation", data)
     .then((s) => {
       if (s.ok) {
@@ -376,7 +373,6 @@ const travel = (): void => {
       }
     })
     .then((travelResponse: CharacterTravelResponse) => {
-      console.log(travelResponse);
       store.commit(StoreData.UpdateCharacter, travelResponse.character);
       clearDestination();
       updateAvText(travelResponse.result);

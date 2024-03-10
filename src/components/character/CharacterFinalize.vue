@@ -74,7 +74,7 @@
       :source="`ico_character_create_finalize`"
       :title="'Save and go back to character sheets'"
       :name="'Save'"
-      :sound="'click'"
+      :sound="Sounds.SoundButtonClick"
     ></AvButton>
   </div>
 </template>
@@ -83,7 +83,7 @@
 import { defineProps, onMounted, inject, ref, computed } from "vue";
 import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 import { Character, CharacterData, Player } from "@/dtos/Dtos";
 import AvButton from "@/components/small/AvButton.vue";
 

@@ -31,7 +31,7 @@
         :source="'ico_back_arrow'"
         :title="'Back to townhall'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
     </div>
   </div>
@@ -43,6 +43,7 @@ import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
 import AvCharacterCardSmall from "@/components/small/AvCharacterCardSmall.vue";
 import { CharacterLadder, Ladder } from "@/dtos/Dtos";
+import { Sounds } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 const characters = ref<CharacterLadder[]>(null);

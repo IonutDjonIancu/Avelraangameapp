@@ -80,7 +80,7 @@
         :source="'ico_back_arrow'"
         :title="'Back to market'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
     </div>
   </div>
@@ -98,7 +98,7 @@ import {
 import AvCharacterCard from "@/components/small/AvCharacterCard.vue";
 import AvButton from "@/components/small/AvButton.vue";
 import { HttpService } from "@/services/HttpService";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvSound: any = inject("updateAvSound");
@@ -169,15 +169,6 @@ const selectedMerc = (index: number): string => {
 
 const selectMerc = (index: number): void => {
   selectedMercIndex.value = index;
-  const number = Math.floor(Math.random() * 10 + 1);
-
-  if (number <= 4) {
-    updateAvSound("acknowledge_1", 0.8);
-  } else if (number > 4 && number <= 7) {
-    updateAvSound("acknowledge_2", 0.8);
-  } else {
-    updateAvSound("acknowledge_3", 0.8);
-  }
 };
 
 const hireMercenary = (): void => {
@@ -202,7 +193,7 @@ const hireMercenary = (): void => {
     })
     .then((character: Character) => {
       selectedMercIndex.value = null;
-      updateAvSound("item_buy", 1);
+      updateAvSound(Sounds.SoundItemBuy, 1);
       store.commit(StoreData.UpdateCharacter, character);
       store.commit(StoreData.RemoveLocationMercenary, data.mercenaryId);
 

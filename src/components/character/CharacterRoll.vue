@@ -30,7 +30,7 @@
         :source="`ico_back_arrow`"
         :title="'Go to Character'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
       <AvButton
         @click="rollCharacter($event)"
@@ -38,7 +38,7 @@
         :source="`ico_d20_gold`"
         :title="'Roll for new character stats'"
         :name="'Roll'"
-        :sound="'click'"
+        :sound="Sounds.SoundButtonClick"
       ></AvButton>
       <div :class="entityLevel + statPts + skillPts < 10 ? 'disabled' : ''">
         <AvButton
@@ -47,7 +47,7 @@
           :source="`ico_character_create_roll`"
           :title="'Continue to character traits'"
           :name="'Proceed'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
       </div>
     </div>
@@ -60,7 +60,7 @@ import { useStore } from "vuex";
 import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
 import { CharacterStub } from "@/dtos/Dtos";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 const updateAvImage: any = inject("updateAvImage");
@@ -86,7 +86,7 @@ const props = defineProps({
 
 const rollCharacter = (event: Event): void => {
   if (!event.isTrusted) {
-    console.log("script detected");
+    console.warn("script detected");
     return;
   }
 
@@ -103,7 +103,7 @@ const rollCharacter = (event: Event): void => {
     })
     .then((char: CharacterStub) => {
       if (char.entityLevel > 1) {
-        updateAvSound("sword_far", 1);
+        updateAvSound(Sounds.SoundSwordFar, 1);
       }
 
       entityLevel.value = char.entityLevel;

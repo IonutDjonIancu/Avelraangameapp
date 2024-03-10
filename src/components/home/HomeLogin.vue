@@ -36,7 +36,7 @@
           :source="'ico_back_arrow'"
           :title="'Back to home'"
           :name="'Back'"
-          :sound="'back'"
+          :sound="Sounds.SoundButtonClickBack"
         ></AvButton>
         <AvButton
           @click.prevent="loginPlayer"
@@ -44,7 +44,7 @@
           :source="'ico_login_player_submit'"
           :title="'Creates this player'"
           :name="'Submit'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
       </div>
     </form>
@@ -57,7 +57,7 @@ import store from "@/store";
 import { HttpService } from "@/services/HttpService";
 import AvButton from "@/components/small/AvButton.vue";
 import { Player, PlayerLogin } from "@/dtos/Dtos";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 
 const updateAvText: any = inject("updateAvText");
 
@@ -98,13 +98,6 @@ const loginPlayer = (): void => {
         );
 
         HttpService.getPlayer().then((player: Player) => {
-          console.log(
-            ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> PLAYER DATA UPDATED >>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-          );
-          console.log(player);
-          console.log(
-            "<<<<<<<<<<<<<<<<<<<<<<<<<<<<< PLAYER DATA UPDATED <<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-          );
           store.commit(StoreData.SetPlayerProfile, player);
           name.value = "";
           code.value = "";

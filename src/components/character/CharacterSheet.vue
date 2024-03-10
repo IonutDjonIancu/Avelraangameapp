@@ -179,11 +179,12 @@
         <ul>
           <li class="list-header">Gameplay</li>
           <li title="Is character on a battleboard?">
-            {{
-              character.status.gameplay.battleboardId.length > 0
-                ? "in party"
-                : "traveling alone"
-            }}
+            <span
+              v-if="character.status.gameplay.battleboardId !== ''"
+              class="text-bold"
+              >in warparty</span
+            >
+            <span v-else class="text-small">no warparty</span>
           </li>
           <li title="Is character an NPC?">
             {{ character.status.gameplay.isNpc ? "NPC" : "playable character" }}
@@ -285,7 +286,7 @@
         :source="`ico_back_arrow`"
         :title="'Go to Character'"
         :name="'Back'"
-        :sound="'back'"
+        :sound="Sounds.SoundButtonClickBack"
       ></AvButton>
       <AvButton
         @click="deleteCharacter"
@@ -293,7 +294,7 @@
         :source="`ico_character_delete`"
         :title="'Delete character'"
         :name="'Delete'"
-        :sound="'click'"
+        :sound="Sounds.SoundButtonClick"
       ></AvButton>
     </div>
   </div>
@@ -307,7 +308,7 @@ import AvButton from "@/components/small/AvButton.vue";
 import AvItemCard from "@/components/small/AvItemCard.vue";
 import CharacterLevelup from "@/components/character/CharacterLevelup.vue";
 import { Character, Player, CharacterData } from "@/dtos/Dtos";
-import { StoreData } from "@/dtos/Enums";
+import { Sounds, StoreData } from "@/dtos/Enums";
 import AvCharacterCard from "../small/AvCharacterCard.vue";
 
 const updateAvImage: any = inject("updateAvImage");

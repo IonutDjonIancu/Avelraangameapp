@@ -3,8 +3,10 @@
     <!-- BUTTON SMALL -->
     <div v-if="!isHovered" :class="`img-small item-level_${item.level}`">
       <img style="width: 20px; height: 20px" :src="getComputedImage" />
-      <span class="mini-text harm">{{ props.item.sheet.assets.harm }}</span>
-      <span class="mini-text defense">{{
+      <span v-if="showHoverStats" class="mini-text harm">{{
+        props.item.sheet.assets.harm
+      }}</span>
+      <span v-if="showHoverStats" class="mini-text defense">{{
         props.item.sheet.assets.defense
       }}</span>
     </div>
@@ -142,7 +144,7 @@ import {
   Player,
   Location,
 } from "@/dtos/Dtos";
-import { InventoryLocations, StoreData } from "@/dtos/Enums";
+import { InventoryLocations, Sounds, StoreData } from "@/dtos/Enums";
 import { HttpService } from "@/services/HttpService";
 
 const emptyGuid = "00000000-0000-0000-0000-000000000000";
@@ -191,6 +193,16 @@ const props = defineProps({
     type: Object as () => Item,
     require: false,
   },
+  showHoverStats: {
+    type: Boolean,
+    require: false,
+    default: true,
+  },
+  blockActions: {
+    type: Boolean,
+    require: false,
+    default: false,
+  },
 });
 
 const onHover = (value: boolean): void => {
@@ -229,6 +241,8 @@ const equipRanged = (): void => {
 };
 
 const equipItem = (location: string): void => {
+  if (props.blockActions === true) return;
+
   const equip: CharacterEquip = {
     characterIdentity: {
       id: props.item.identity.characterId,
@@ -248,7 +262,7 @@ const equipItem = (location: string): void => {
     })
     .then((character: Character) => {
       store.commit(StoreData.UpdateCharacter, character);
-      updateAvSound("item_wear", 1);
+      updateAvSound(Sounds.SoundItemWear, 1);
     })
     .catch((err) => {
       updateAvText(err.message);
@@ -257,6 +271,8 @@ const equipItem = (location: string): void => {
 };
 
 const sellItem = (): void => {
+  if (props.blockActions === true) return;
+
   var trade: CharacterTrade = {
     characterIdentity: {
       id: props.item.identity.characterId,
@@ -295,7 +311,7 @@ const sellItem = (): void => {
           return;
         });
 
-      updateAvSound("item_sell", 1);
+      updateAvSound(Sounds.SoundItemSell, 1);
     })
     .catch((err) => {
       updateAvText(err.message);
@@ -304,6 +320,8 @@ const sellItem = (): void => {
 };
 
 const buyItem = () => {
+  if (props.blockActions === true) return;
+
   const trade: CharacterTrade = {
     characterIdentity: {
       id: characterId.value,
@@ -322,7 +340,7 @@ const buyItem = () => {
       }
     })
     .then((character: Character) => {
-      updateAvSound("item_buy", 1);
+      updateAvSound(Sounds.SoundItemBuy, 1);
       store.commit(StoreData.UpdateCharacter, character);
       store.commit(StoreData.RemoveLocationItem, trade.itemId);
     })

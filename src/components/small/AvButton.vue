@@ -46,11 +46,7 @@ const props = defineProps({
 });
 
 const playSound = (value: string): void => {
-  if (value === "click") {
-    updateAvSound("button_click", 1);
-  } else {
-    updateAvSound("button_click_back", 1);
-  }
+  updateAvSound(value, 1);
 };
 </script>
 

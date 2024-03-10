@@ -32,7 +32,7 @@ const playSound = (): void => {
 
   const name = props.avSoundName.split(".")[0];
   const audio: Howl = new Howl({
-    src: require(`@/assets/sound_${name}.mp3`),
+    src: require(`@/assets/${name}.mp3`),
     volume: props.avSoundVolume,
     loop: false,
   });

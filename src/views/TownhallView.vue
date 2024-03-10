@@ -8,7 +8,7 @@
           :source="'ico_char_worth'"
           :title="'Townhall of heroes and their worth'"
           :name="'Heroes'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
         <AvButton
           @click="gotoSibling('wealth')"
@@ -16,19 +16,17 @@
           :source="'ico_char_wealth'"
           :title="'Townhall of nobles and their wealth'"
           :name="'Nobles'"
-          :sound="'click'"
+          :sound="Sounds.SoundButtonClick"
         ></AvButton>
       </div>
-      <div class="column">
-        <TownhallWealth
-          v-if="text === 'wealth'"
-          :gotoSibling="gotoSibling"
-        ></TownhallWealth>
-        <TownhallWorth
-          v-if="text === 'worth'"
-          :gotoSibling="gotoSibling"
-        ></TownhallWorth>
-      </div>
+      <TownhallWealth
+        v-if="text === 'wealth'"
+        :gotoSibling="gotoSibling"
+      ></TownhallWealth>
+      <TownhallWorth
+        v-if="text === 'worth'"
+        :gotoSibling="gotoSibling"
+      ></TownhallWorth>
     </div>
   </div>
 </template>
@@ -38,6 +36,7 @@ import { ref, onMounted, inject } from "vue";
 import TownhallWealth from "@/components/townhall/TownhallWealth.vue";
 import TownhallWorth from "@/components/townhall/TownhallWorth.vue";
 import AvButton from "@/components/small/AvButton.vue";
+import { Sounds } from "@/dtos/Enums";
 
 const text = ref<string>("");
 
@@ -51,7 +50,7 @@ const gotoSibling = (value: string) => {
 
 onMounted(() => {
   updateAvImage("img_townhall");
-  updateAvSound("townhall", 0.2);
+  updateAvSound(Sounds.SoundTownhall, 0.2);
   updateAvText("Behold the statues of those worthy of tales and songs.");
 });
 </script>
